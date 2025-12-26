@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>About | Automania</title>
+    
+    <style>
+        :root {
+            --apple-grey: #86868b; --apple-black: #1d1d1f; --apple-blue: #0071e3; --sky-blue: #00AEEF; --bg-color: #fbfbfd; --glass-card: rgba(255, 255, 255, 0.75);
+            --brand-gradient: linear-gradient(135deg, #0071e3, #00AEEF);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+        body { background-color: var(--bg-color); color: var(--apple-black); overflow-x: hidden; min-height: 100vh; }
+
+        .ambient-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 0; background: #ffffff; overflow: hidden; }
+        .blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.6; animation: float 20s infinite alternate; }
+        .blob-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: rgba(0, 174, 239, 0.15); }
+        .blob-2 { bottom: -10%; right: -10%; width: 60vw; height: 60vw; background: rgba(29, 29, 31, 0.05); animation-delay: -5s; }
+        .blob-3 { top: 40%; left: 40%; width: 30vw; height: 30vw; background: rgba(0, 113, 227, 0.1); animation-delay: -10s; }
+        @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, 50px) scale(1.1); } }
+
+        nav {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 980px;
+            display: flex; justify-content: space-between; align-items: center; padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.8); backdrop-filter: saturate(180%) blur(20px);
+            border: 1px solid rgba(255,255,255,0.5); border-radius: 100px; z-index: 100; box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        .nav-brand { display: flex; flex-direction: column; line-height: 1.1; }
+        .brand-name { font-weight: 600; font-size: 1.1rem; }
+        .brand-sub { font-size: 0.65rem; opacity: 0.5; text-transform: uppercase; }
+        .nav-links { display: flex; gap: 20px; align-items: center; }
+        .nav-item { text-decoration: none; color: var(--apple-black); font-size: 0.9rem; font-weight: 500; opacity: 0.8; transition: 0.2s; }
+        .nav-item:hover { opacity: 1; color: var(--apple-blue); }
+        .nav-btn { background: var(--apple-black); color: white; padding: 8px 20px; border-radius: 30px; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: 0.2s; }
+        .nav-btn:hover { transform: scale(1.05); }
+        .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; }
+        .bar { width: 25px; height: 2px; background: #000; }
+
+        .mobile-menu { position: fixed; top: 0; right: -100%; width: 70%; height: 100vh; background: rgba(255,255,255,0.95); backdrop-filter: blur(40px); z-index: 99; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 30px; transition: right 0.4s; }
+        .mobile-menu.active { right: 0; }
+        .mobile-link { text-decoration: none; color: #000; font-size: 1.4rem; font-weight: 600; }
+
+        .content-layer { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 160px 24px 100px 24px; }
+        .header-section { text-align: center; margin-bottom: 80px; }
+        h1 { font-size: 4.5rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 24px; }
+        .subtitle { font-size: 1.6rem; color: var(--apple-grey); max-width: 700px; margin: 0 auto; font-weight: 400; line-height: 1.4; }
+        .highlight-text { background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; }
+
+        .bento-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .card { background: var(--glass-card); border: 1px solid rgba(255,255,255,0.8); border-radius: 24px; padding: 40px; transition: 0.3s; opacity: 0; transform: translateY(20px); animation: fadeUp 0.8s forwards; }
+        .card:hover { transform: translateY(-5px); background: rgba(255,255,255,0.95); }
+        .span-2 { grid-column: span 2; } .span-3 { grid-column: span 3; }
+        .icon-box { width: 50px; height: 50px; background: rgba(0,174,239,0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; color: var(--sky-blue); }
+        svg { width: 24px; height: 24px; stroke-width: 2; }
+        .card h3 { font-size: 1.4rem; font-weight: 600; margin-bottom: 12px; }
+        .card p { font-size: 1.05rem; color: var(--apple-grey); line-height: 1.5; }
+
+        .founder-container { display: flex; align-items: center; gap: 40px; }
+        .founder-img { width: 160px; height: 160px; border-radius: 50%; object-fit: cover; border: 4px solid #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.1); flex-shrink: 0; }
+        .role { font-size: 0.85rem; font-weight: 700; color: var(--sky-blue); text-transform: uppercase; margin-bottom: 6px; display: block; }
+        .founder-name { font-size: 2rem; font-weight: 700; margin-bottom: 15px; }
+        .quote { font-size: 1.15rem; font-style: italic; color: var(--apple-grey); }
+        
+        .d-1 { animation-delay: 0.1s; } .d-2 { animation-delay: 0.2s; } .d-3 { animation-delay: 0.3s; } .d-4 { animation-delay: 0.4s; }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 1024px) {
+            nav { width: 95%; padding: 10px 20px; } .nav-links { display: none; } .hamburger { display: flex; } .nav-btn { display: block; }
+            h1 { font-size: 3rem; } .bento-grid { grid-template-columns: 1fr; } .span-2, .span-3 { grid-column: span 1; }
+            .founder-container { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="ambient-bg"><div class="blob blob-1"></div><div class="blob blob-2"></div><div class="blob blob-3"></div></div>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html" class="mobile-link" onclick="toggleMenu()">Home</a>
+        <a href="about.html" class="mobile-link" onclick="toggleMenu()">About</a>
+        <a href="web.html" class="mobile-link" onclick="toggleMenu()">Web</a>
+        <a href="automation.html" class="mobile-link" onclick="toggleMenu()">Automation</a>
+        <a href="dashboard.html" class="mobile-link" onclick="toggleMenu()">Dashboard</a>
+        <a href="contact.html" class="mobile-link" style="color: var(--sky-blue);" onclick="toggleMenu()">Contact Us</a>
+    </div>
+
+    <nav>
+        <div class="nav-brand"><span class="brand-name">Automania</span><span class="brand-sub">LUMA Ecosystem</span></div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-item">Home</a>
+            <a href="about.html" class="nav-item" style="color:var(--apple-blue);">About</a>
+            <a href="web.html" class="nav-item">Web</a>
+            <a href="automation.html" class="nav-item">Automation</a>
+            <a href="dashboard.html" class="nav-item">Dashboard</a>
+        </div>
+        <a href="contact.html" class="nav-btn">Contact</a>
+        <div class="hamburger" onclick="toggleMenu()"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+    </nav>
+
+    <div class="content-layer">
+        <div class="header-section">
+            <h1>We Don't Just Build.<br><span class="highlight-text">We Diagnose.</span></h1>
+            <p class="subtitle">Automania is a systems engineering firm that speaks the language of code. We are future ready.</p>
+        </div>
+        <div class="bento-grid">
+            <div class="card span-2 d-1">
+                <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 5.84-2.25 8.25A22 22 0 0 1 15 12z"></path><path d="M9 9 5 5"></path><path d="M15 15l4 4"></path></svg></div>
+                <h3>Future Ready</h3>
+                <p>We leverage up-to-date tools—from AI agents to 3D web environments—to ensure your business isn't just running, but evolving. We don't chase trends; we implement standards that will last.</p>
+            </div>
+            <div class="card d-2">
+                <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"></rect><rect x="2" y="16" width="6" height="6" rx="1"></rect><rect x="9" y="2" width="6" height="6" rx="1"></rect><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"></path><path d="M12 12V8"></path></svg></div>
+                <h3>Systems Thinking</h3>
+                <p>We view your business as an ecosystem. We diagnose real case solutions that scale efficiently without breaking your workflow.</p>
+            </div>
+            <div class="card d-3">
+                <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg></div>
+                <h3>Digital Scale</h3>
+                <p>Uplifting businesses by automating the mundane. We build the digital infrastructure that allows you to grow exponentially.</p>
+            </div>
+            <div class="card span-3 d-4">
+                <div class="founder-container">
+                    <img src="profile.jpg" alt="Brian Maphumulo" class="founder-img">
+                    <div class="founder-info">
+                        <span class="role">Founder & Lead Solutions Architect</span>
+                        <h3 class="founder-name">Brian Maphumulo</h3>
+                        <p class="quote">"My background in Industrial Engineering taught me that efficiency is an art form. Automania is the canvas where we paint that efficiency with code."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('active'); }</script>
+</body>
+</html>
