@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Contact | Automania</title>
+    
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.12.28/build/spline-viewer.js"></script>
+    
+    <style>
+        :root {
+            --apple-grey: #86868b; --apple-black: #1d1d1f; --apple-blue: #0071e3; --sky-blue: #00AEEF; --system-bg: #ffffff; --glass-bg: rgba(255, 255, 255, 0.65);
+            --brand-gradient: linear-gradient(135deg, #0071e3, #00AEEF);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+        body { background-color: var(--system-bg); color: var(--apple-black); overflow: hidden; height: 100vh; width: 100%; }
+
+        #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.8s ease, visibility 0.8s ease; }
+        #loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .spinner { width: 40px; height: 40px; border: 3px solid rgba(0, 0, 0, 0.1); border-radius: 50%; border-top-color: var(--sky-blue); animation: spin 1s ease-in-out infinite; margin-bottom: 20px; }
+        .loading-text { font-size: 0.9rem; color: var(--apple-grey); font-weight: 500; letter-spacing: 0.02em; animation: pulse 2s infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } } @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        .canvas-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+        .interface-layer { position: relative; z-index: 2; pointer-events: none; height: 100vh; display: flex; flex-direction: column; }
+        .active-element { pointer-events: auto; }
+
+        nav { display: flex; justify-content: flex-start; align-items: center; padding: 20px 8%; height: 80px; width: 100%; }
+        .brand { font-weight: 600; font-size: 1.2rem; letter-spacing: -0.01em; }
+        .nav-back { text-decoration: none; color: var(--apple-black); font-size: 0.9rem; margin-right: 20px; opacity: 0.6; transition: 0.2s; display: flex; align-items: center; }
+        .nav-back:hover { opacity: 1; color: var(--apple-blue); }
+        .nav-back svg { width: 16px; height: 16px; margin-right: 6px; stroke-width: 2.5; }
+
+        .main-content { flex-grow: 1; display: flex; align-items: center; padding: 0 8%; }
+        .contact-stack { width: 100%; max-width: 460px; opacity: 0; transform: translateY(20px); animation: fadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; animation-delay: 0.2s; text-align: left; }
+        
+        h1 { font-size: 3rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 15px; }
+        .accent-blue { background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; } 
+        .sub-grey { color: var(--apple-grey); }
+        .contact-message { font-size: 1.05rem; color: var(--apple-grey); line-height: 1.5; margin-bottom: 35px; max-width: 400px; }
+        .glass-list { display: flex; flex-direction: column; gap: 12px; }
+        .contact-row { background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); border: 1px solid rgba(255, 255, 255, 0.6); border-radius: 18px; padding: 20px 25px; transition: 0.3s; cursor: pointer; display: flex; align-items: center; justify-content: space-between; text-decoration: none; }
+        .contact-row:hover { background: rgba(255, 255, 255, 0.85); transform: scale(1.01); }
+        .row-info { display: flex; flex-direction: column; }
+        .row-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--apple-grey); margin-bottom: 4px; font-weight: 600; }
+        .row-value { font-size: 1.1rem; font-weight: 600; color: var(--apple-black); }
+        .row-icon { width: 36px; height: 36px; background: rgba(0, 174, 239, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--sky-blue); }
+        svg { width: 18px; height: 18px; stroke-width: 2.5; }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 768px) {
+            body { overflow-y: auto; height: auto; } .canvas-wrapper { position: fixed; } .interface-layer { height: auto; min-height: 100vh; }
+            .main-content { padding: 60px 20px; align-items: flex-start; } h1 { font-size: 2.4rem; } .contact-message { font-size: 1rem; } .contact-row { padding: 18px 20px; } .row-value { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div id="loader"><div class="spinner"></div><div class="loading-text">Initializing Environment...</div></div>
+    <div class="canvas-wrapper"><spline-viewer id="spline" logo="false" hint="false" url="https://prod.spline.design/DT4aNg6qbPnbQfzv/scene.splinecode"></spline-viewer></div>
+
+    <div class="interface-layer" id="uiLayer">
+        <nav class="active-element">
+            <a href="index.html" class="nav-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg> Home</a>
+            <div class="brand">Automania</div>
+        </nav>
+        <div class="main-content">
+            <div class="contact-stack active-element">
+                <h1><span class="sub-grey">Ready to</span><br><span class="accent-blue">Connect?</span></h1>
+                <p class="contact-message">Reach out to our team with your project details. We'll analyze your needs and get back to you with a strategic path forward.</p>
+                <div class="glass-list">
+                    <a href="mailto:AndileBrian25@Outlook.com" class="contact-row">
+                        <div class="row-info"><span class="row-label">Email</span><span class="row-value">AndileBrian25@Outlook.com</span></div>
+                        <div class="row-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></div>
+                    </a>
+                    <a href="tel:+27616520417" class="contact-row">
+                        <div class="row-info"><span class="row-label">Direct Line</span><span class="row-value">+27 61 652 0417</span></div>
+                        <div class="row-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></div>
+                    </a>
+                    <div class="contact-row">
+                        <div class="row-info"><span class="row-label">Headquarters</span><span class="row-value">Johannesburg, South Africa</span></div>
+                        <div class="row-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const viewer = document.getElementById('spline'); const loader = document.getElementById('loader'); const ui = document.getElementById('uiLayer');
+        function hideLoader() { loader.classList.add('hidden'); ui.classList.add('loaded'); }
+        viewer.addEventListener('load', () => { 
+            if (viewer.shadowRoot) { const style = document.createElement('style'); style.textContent = '#logo { display: none !important; }'; viewer.shadowRoot.appendChild(style); }
+            setTimeout(hideLoader, 500); 
+        });
+        setTimeout(() => { if (!loader.classList.contains('hidden')) { hideLoader(); } }, 4000);
+    </script>
+</body>
+</html>
