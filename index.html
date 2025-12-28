@@ -1,203 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Automania | Solutions That Work</title>
-    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.12.28/build/spline-viewer.js"></script>
-    <style>
-        :root {
-            --apple-black: #1d1d1f; --apple-blue: #0071e3; --sky-blue: #00AEEF; --system-bg: #ffffff;
-            --glass: rgba(255, 255, 255, 0.65);
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
-        body { background: var(--system-bg); color: var(--apple-black); overflow-x: hidden; }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Andile Maphumulo | Portfolio</title>
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    
+    <canvas id="bg"></canvas>
 
-        /* 3D Background - Starts Hidden for Speed */
-        .canvas-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 1; opacity: 0; transition: opacity 1.5s ease; }
-        .canvas-wrapper.loaded { opacity: 1; }
-        .interface-layer { position: relative; z-index: 2; }
+    <nav class="navbar">
+        <div class="logo">Andile Maphumulo</div>
+        <ul class="nav-links">
+            <li class="hide-mobile"><a href="#home">Home</a></li>
+            <li class="hide-mobile"><a href="#about">About</a></li>
+            <li class="hide-mobile"><a href="#projects">Work</a></li>
+            <li class="hide-mobile"><a href="#contact">Contact</a></li>
+            <li class="menu-icon" onclick="toggleSidebar()">
+                <svg xmlns="http://www.w3.org/2000/svg" height="28" viewBox="0 96 960 960" width="28" fill="#ffffff">
+                    <path d="M120 816v-60h720v60H120Zm0-210v-60h720v60H120Zm0-210v-60h720v60H120Z"/>
+                </svg>
+            </li>
+        </ul>
+    </nav>
 
-        /* --- PREMIUM NAVIGATION --- */
-        nav {
-            position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 1000px;
-            display: flex; justify-content: space-between; align-items: center; padding: 12px 24px;
-            background: rgba(255,255,255,0.7); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px);
-            border: 1px solid rgba(255,255,255,0.5); border-radius: 100px; z-index: 100; box-shadow: 0 10px 40px rgba(0,0,0,0.05);
-        }
-        .nav-left { display: flex; align-items: center; gap: 15px; }
-        .brand-name { font-weight: 600; font-size: 1.1rem; letter-spacing: -0.01em; }
-        .brand-sub { font-size: 0.65rem; opacity: 0.5; text-transform: uppercase; display: block; }
-        
-        .nav-links { display: flex; gap: 25px; align-items: center; }
-        .nav-item { text-decoration: none; color: var(--apple-black); font-size: 0.9rem; font-weight: 500; opacity: 0.7; transition: 0.2s; }
-        .nav-item:hover { opacity: 1; color: var(--apple-blue); }
-        .nav-btn { background: var(--apple-black); color: white; padding: 10px 22px; border-radius: 30px; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: transform 0.2s; }
-        .nav-btn:hover { transform: scale(1.05); }
-
-        /* Hamburger */
-        .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; z-index: 101; }
-        .bar { width: 22px; height: 2px; background: #1d1d1f; border-radius: 2px; transition: 0.3s; }
-        
-        /* PREMIUM MOBILE MENU OVERLAY */
-        .mobile-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-            background: rgba(255,255,255,0.92); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-            z-index: 99; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 40px;
-            opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
-        }
-        .mobile-overlay.active { opacity: 1; pointer-events: auto; }
-        
-        .mobile-link {
-            text-decoration: none; color: #1d1d1f; font-size: 2.5rem; font-weight: 700; letter-spacing: -0.02em;
-            opacity: 0; transform: translateY(30px); transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        /* Staggered Animation */
-        .mobile-overlay.active .mobile-link:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
-        .mobile-overlay.active .mobile-link:nth-child(2) { transition-delay: 0.15s; opacity: 1; transform: translateY(0); }
-        .mobile-overlay.active .mobile-link:nth-child(3) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
-        .mobile-overlay.active .mobile-link:nth-child(4) { transition-delay: 0.25s; opacity: 1; transform: translateY(0); }
-        .mobile-overlay.active .mobile-link:nth-child(5) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
-        .mobile-overlay.active .mobile-link:nth-child(6) { transition-delay: 0.35s; opacity: 1; transform: translateY(0); }
-
-        /* HERO */
-        .hero { height: 90vh; display: flex; flex-direction: column; justify-content: center; padding-left: 10%; margin-top: 60px; }
-        .hero-content { max-width: 500px; }
-        .hero h1 { font-size: 5.5rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; }
-        .sub-grey { color: #86868b; display: block; }
-        .accent-blue { color: var(--sky-blue); }
-        .hero-desc { font-size: 1.4rem; line-height: 1.5; color: #86868b; margin-top: 20px; }
-
-        /* SERVICES */
-        .services-wrapper { padding: 120px 10%; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(to bottom, transparent, #f5f5f7); gap: 60px; opacity: 0; transform: translateY(30px); transition: 1s ease; }
-        .services-wrapper.visible { opacity: 1; transform: translateY(0); }
-        .services-list { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 550px; }
-
-        .service-tile {
-            background: rgba(255,255,255,0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.5);
-            border-radius: 24px; padding: 28px 34px; cursor: pointer; transition: 0.3s ease; text-decoration: none; color: inherit;
-        }
-        .service-tile:hover { transform: scale(1.02); background: rgba(255,255,255,0.8); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        .service-tile h3 { font-size: 1.5rem; font-weight: 600; display: flex; justify-content: space-between; }
-        .service-desc { margin-top: 8px; font-size: 1.05rem; color: #86868b; }
-        .arrow { opacity: 0.3; transition: 0.3s; } .service-tile:hover .arrow { opacity: 1; transform: translateX(5px); }
-
-        .right-keywords { text-align: right; display: flex; flex-direction: column; gap: 10px; }
-        .keyword { font-size: 3.5rem; font-weight: 700; color: var(--sky-blue); letter-spacing: -0.02em; }
-
-        /* CTA */
-        .action-area { padding: 40px 0 100px; display: flex; justify-content: center; background: #f5f5f7; }
-        .btn-learn { background: var(--apple-blue); color: white; padding: 16px 40px; border-radius: 50px; text-decoration: none; font-size: 1.1rem; transition: 0.3s; }
-        .btn-learn:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(0,113,227,0.3); }
-
-        @media (max-width: 1024px) {
-            nav { width: 95%; padding: 12px 20px; top: 10px; }
-            .nav-links, .nav-btn { display: none; } .hamburger { display: flex; }
-            .hero { padding: 120px 24px 0; height: auto; min-height: 80vh; }
-            .hero-content { background: rgba(255,255,255,0.4); backdrop-filter: blur(20px); padding: 24px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.3); }
-            .hero h1 { font-size: 3.2rem; } .hero-desc { font-size: 1.1rem; }
-            .services-wrapper { flex-direction: column; padding: 80px 24px; }
-            .right-keywords { text-align: center; order: -1; margin-bottom: 40px; } .keyword { font-size: 2.5rem; }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="canvas-wrapper">
-        <spline-viewer id="spline" logo="false" hint="false" url="https://prod.spline.design/NTqp7NNVAo9-hZXG/scene.splinecode"></spline-viewer>
-    </div>
-
-    <div class="mobile-overlay" id="mobileMenu">
-        <a href="index.html" class="mobile-link" onclick="toggleMenu()">Home</a>
-        <a href="about.html" class="mobile-link" onclick="toggleMenu()">About</a>
-        <a href="web.html" class="mobile-link" onclick="toggleMenu()">Web</a>
-        <a href="automation.html" class="mobile-link" onclick="toggleMenu()">Automation</a>
-        <a href="dashboard.html" class="mobile-link" onclick="toggleMenu()">Dashboard</a>
-        <a href="contact.html" class="mobile-link" style="color:var(--apple-blue)" onclick="toggleMenu()">Contact</a>
-        
-        <div onclick="toggleMenu()" style="position: absolute; top: 30px; right: 30px; cursor: pointer; padding: 10px;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <button class="close-btn" onclick="toggleSidebar()">&times;</button>
         </div>
-    </div>
+        <ul class="sidebar-links">
+            <li><a href="#home" onclick="toggleSidebar()">Home</a></li>
+            <li><a href="#about" onclick="toggleSidebar()">About</a></li>
+            <li><a href="#projects" onclick="toggleSidebar()">Work</a></li>
+            <li><a href="#contact" onclick="toggleSidebar()">Contact</a></li>
+        </ul>
+    </aside>
 
-    <div class="interface-layer">
-        <nav>
-            <div class="nav-left">
-                <div class="nav-brand">
-                    <span class="brand-name">Automania</span>
-                    <span class="brand-sub">LUMA Ecosystem</span>
-                </div>
-            </div>
-            <div class="nav-links">
-                <a href="#" class="nav-item" style="color:var(--apple-blue)">Home</a>
-                <a href="about.html" class="nav-item">About</a>
-                <a href="web.html" class="nav-item">Web</a>
-                <a href="automation.html" class="nav-item">Automation</a>
-                <a href="dashboard.html" class="nav-item">Dashboard</a>
-            </div>
-            <a href="contact.html" class="nav-btn">Contact</a>
-            
-            <div class="hamburger" onclick="toggleMenu()">
-                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-            </div>
-        </nav>
-
-        <main class="hero">
-            <div class="hero-content">
-                <h1><span class="sub-grey">The New Era of</span><br><span class="accent-blue">Efficiency.</span></h1>
-                <p class="hero-desc">At Automania, we don't just build systems. We offer solutions that work for you, so you don't have to.</p>
-            </div>
-        </main>
-
-        <section class="services-wrapper" id="servicesSection">
-            <div class="services-list">
-                <a href="web.html" class="service-tile">
-                    <h3>3D Interactive Web <span class="arrow">→</span></h3>
-                    <p class="service-desc">Immersive experiences that guide your customers.</p>
-                </a>
-                <a href="automation.html" class="service-tile">
-                    <h3>24/7 AI Agents <span class="arrow">→</span></h3>
-                    <p class="service-desc">Autonomous sales and support, around the clock.</p>
-                </a>
-                <a href="dashboard.html" class="service-tile">
-                    <h3>Operational Dashboards <span class="arrow">→</span></h3>
-                    <p class="service-desc">Visualize operations and control your business.</p>
-                </a>
-            </div>
-            <div class="right-keywords">
-                <span class="keyword">Design.</span>
-                <span class="keyword">Connect.</span>
-                <span class="keyword">Automate.</span>
+    <main>
+        <section id="home">
+            <div class="hero-text">
+                <h1>Industrial Engineer &<br> <span class="highlight">Digital Innovator</span></h1>
+                <p>Merging Process Optimization with Creative Technology.</p>
+                <a href="#projects" class="cta-btn">View My Work</a>
             </div>
         </section>
 
-        <div class="action-area" id="btnArea">
-            <a href="contact.html" class="btn-learn">Get Started</a>
-        </div>
-    </div>
+        <section id="about">
+            <h2>About Me</h2>
+            <div class="glass-card">
+                <p>
+                    I am an <strong>Industrial Engineering Graduate (BPIE19)</strong> and Honours Candidate from TUT, driven by a passion for efficiency and systems thinking.
+                </p>
+                <p>
+                    My experience includes Work-Integrated Learning at <strong>Gibela Rail</strong>, where I developed SOPs, optimized process bottlenecks, and implemented ergonomic safety solutions. I also hold a <strong>Six Sigma Yellow Belt</strong>.
+                </p>
+                <p>
+                    Beyond engineering, I am the founder of <strong>Automania</strong>, a digital agency where I bridge the gap between hardware and software—building 3D websites, AI-powered automation tools, and custom business intelligence dashboards.
+                </p>
+            </div>
+        </section>
+
+        <section id="projects">
+            <h2>Featured Projects</h2>
+            <div class="project-grid">
+                <div class="glass-card project">
+                    <h3>Farm Mania Dashboard</h3>
+                    <p>BI Dashboard for poultry business analytics using AI agents.</p>
+                </div>
+                <div class="glass-card project">
+                    <h3>AI Object Detector</h3>
+                    <p>Real-time object detection using Python & YOLOv8.</p>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <script>
-        // 1. Premium Mobile Menu Logic
-        function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('active'); }
-
-        // 2. Optimized 3D Loading (Instant Text, Fade-in Model)
-        const viewer = document.getElementById('spline');
-        const canvasWrapper = document.querySelector('.canvas-wrapper');
-        
-        viewer.addEventListener('load', () => { 
-            if (viewer.shadowRoot) {
-                const style = document.createElement('style');
-                style.textContent = '#logo { display: none !important; }'; 
-                viewer.shadowRoot.appendChild(style);
-            }
-            setTimeout(() => { canvasWrapper.classList.add('loaded'); }, 100);
-        });
-
-        // 3. Scroll Animations
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
-        }, { threshold: 0.1 });
-        observer.observe(document.getElementById('servicesSection'));
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+        }
     </script>
-</body>
+    
+    <script type="module" src="main.js"></script>
+
+  </body>
 </html>
