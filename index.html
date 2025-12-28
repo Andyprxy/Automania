@@ -18,7 +18,6 @@
             --system-bg: #ffffff;
             --glass-bg: rgba(255, 255, 255, 0.4);
             --nav-glass: rgba(255, 255, 255, 0.7);
-            /* Your preferred gradient */
             --brand-gradient: linear-gradient(135deg, #0071e3, #00AEEF);
         }
 
@@ -69,34 +68,40 @@
         .mobile-menu.active .mobile-link:nth-child(4) { transition-delay: 0.4s; }
         .mobile-menu.active .mobile-link:nth-child(5) { transition-delay: 0.5s; }
 
-        /* HERO & TYPOGRAPHY FIXES */
+        /* --- HERO TYPOGRAPHY UPDATES --- */
         .hero { height: 90vh; display: flex; flex-direction: column; justify-content: center; padding-left: 10%; width: 100%; margin-top: 60px; }
-        .hero-content { max-width: 600px; }
+        .hero-content { max-width: 650px; }
         
         .hero h1 { 
             font-weight: 700; 
             letter-spacing: -0.025em; 
-            line-height: 1; /* Tighter line height for the group */
+            line-height: 0.95; /* Very tight vertical spacing */
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
         }
         
+        /* Line 1 & 2 Style */
         .sub-grey { 
             color: var(--apple-grey); 
             display: block; 
-            font-size: 3.5rem; /* Slightly smaller top line */
-            margin-bottom: -10px; /* Pulls the bottom line closer */
+            font-size: 3.5rem; 
             font-weight: 600;
+            margin-bottom: 5px; /* Tiny gap between lines */
         }
-        
+
+        /* Line 3 Style (Big Gradient) */
         .highlight-text { 
-            font-size: 6rem; /* Bigger bottom line to "pop" */
+            font-size: 6.5rem; /* Massive size */
             background: var(--brand-gradient); 
             -webkit-background-clip: text; 
             -webkit-text-fill-color: transparent; 
             display: inline-block; 
             line-height: 1.1;
+            margin-top: -5px; /* Pulls it slightly closer to 'of' */
         }
         
-        .hero-desc { font-size: 1.35rem; line-height: 1.45; font-weight: 400; color: var(--apple-grey); margin-top: 1.5rem; letter-spacing: -0.01em; }
+        .hero-desc { font-size: 1.35rem; line-height: 1.45; font-weight: 400; color: var(--apple-grey); margin-top: 2rem; letter-spacing: -0.01em; max-width: 500px; }
 
         .services-wrapper {
             padding: 120px 10% 60px 10%; display: flex; justify-content: space-between; align-items: center;
@@ -130,10 +135,12 @@
             .nav-links { display: none; } .hamburger { display: flex; } .nav-btn { display: none; }
             .hero { align-items: flex-start; text-align: left; padding: 100px 24px 0 24px; height: 100vh; justify-content: flex-start; }
             .hero-content { margin-top: 80px; max-width: 100%; background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(10px); padding: 20px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); }
-            /* Mobile adjustments for the new sizes */
-            .sub-grey { font-size: 2rem; }
+            
+            /* Responsive Font Sizes */
+            .sub-grey { font-size: 2.2rem; margin-bottom: 0; }
             .highlight-text { font-size: 4rem; }
             .hero-desc { font-size: 1.1rem; }
+            
             .services-wrapper { flex-direction: column; text-align: center; }
             .right-keywords { text-align: center; order: -1; margin-bottom: 40px; } .keyword { font-size: 2.5rem; }
         }
@@ -176,7 +183,8 @@
         <main class="hero">
             <div class="hero-content">
                 <h1>
-                    <span class="sub-grey">The New Era of</span>
+                    <span class="sub-grey">The New Era</span>
+                    <span class="sub-grey">of</span>
                     <span class="highlight-text">Efficiency.</span>
                 </h1>
                 <p class="hero-desc">At Automania, we don't just build systems. We offer solutions that work for you, so you don't have to.</p>
