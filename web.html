@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Web Development | Automania</title>
+    
+    <style>
+        :root {
+            --apple-grey: #86868b; --apple-black: #1d1d1f; --apple-blue: #0071e3; --sky-blue: #00AEEF; --bg-color: #fbfbfd; --glass-card: rgba(255, 255, 255, 0.75);
+            --accent-gradient: linear-gradient(135deg, #6e45e2, #88d3ce);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+        body { background-color: var(--bg-color); color: var(--apple-black); overflow-x: hidden; min-height: 100vh; }
+        .ambient-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 0; background: radial-gradient(circle at 80% 20%, rgba(110, 69, 226, 0.08) 0%, transparent 40%), radial-gradient(circle at 20% 80%, rgba(0, 174, 239, 0.08) 0%, transparent 40%); }
+
+        nav { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 980px; display: flex; justify-content: space-between; align-items: center; padding: 12px 24px; background: rgba(255, 255, 255, 0.8); backdrop-filter: saturate(180%) blur(20px); border: 1px solid rgba(255,255,255,0.5); border-radius: 100px; z-index: 100; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+        .nav-brand { display: flex; flex-direction: column; line-height: 1.1; } .brand-name { font-weight: 600; font-size: 1.1rem; } .brand-sub { font-size: 0.65rem; opacity: 0.5; text-transform: uppercase; }
+        .nav-links { display: flex; gap: 20px; align-items: center; }
+        .nav-item { text-decoration: none; color: var(--apple-black); font-size: 0.9rem; font-weight: 500; opacity: 0.8; transition: 0.2s; } .nav-item:hover { opacity: 1; color: var(--apple-blue); }
+        .nav-btn { background: var(--apple-black); color: white; padding: 8px 20px; border-radius: 30px; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: 0.2s; } .nav-btn:hover { transform: scale(1.05); }
+        .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; } .bar { width: 25px; height: 2px; background: #000; }
+        .mobile-menu { position: fixed; top: 0; right: -100%; width: 70%; height: 100vh; background: rgba(255,255,255,0.95); backdrop-filter: blur(40px); z-index: 99; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 30px; transition: right 0.4s; } .mobile-menu.active { right: 0; } .mobile-link { text-decoration: none; color: #000; font-size: 1.4rem; font-weight: 600; }
+
+        .page-content { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 160px 24px 100px 24px; }
+        .hero-section { text-align: center; margin-bottom: 80px; }
+        h1 { font-size: 5rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 24px; }
+        .hero-subtitle { font-size: 1.8rem; color: var(--apple-grey); max-width: 750px; margin: 0 auto; font-weight: 400; line-height: 1.3; }
+        .highlight-text { background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;}
+
+        .layer-container { position: relative; width: 100%; max-width: 900px; height: 500px; margin: 0 auto 120px auto; perspective: 2000px; }
+        .layer-stack { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transform: rotateX(20deg) rotateY(0deg) rotateZ(-5deg); transition: transform 0.5s ease; }
+        .layer-container:hover .layer-stack { transform: rotateX(10deg) rotateY(0deg) rotateZ(0deg); }
+        .web-layer { position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 24px; background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: 0 20px 50px rgba(0,0,0,0.1); display: flex; flex-direction: column; padding: 20px; transition: all 0.5s ease; }
+        .layer-1 { transform: translateZ(0px) scale(0.9); opacity: 0.6; background: #f0f0f5; }
+        .layer-2 { transform: translateZ(60px) scale(0.95); background: rgba(255, 255, 255, 0.6); }
+        .layer-3 { transform: translateZ(120px); background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.8); display: flex; align-items: center; justify-content: center; }
+        .skeleton-nav { width: 100%; height: 40px; background: rgba(0,0,0,0.05); border-radius: 100px; margin-bottom: 30px; }
+        .skeleton-hero { width: 60%; height: 150px; background: rgba(0,0,0,0.05); border-radius: 20px; margin: 0 auto; }
+        .floating-badge { padding: 15px 30px; background: #fff; border-radius: 50px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); font-weight: 700; font-size: 1.2rem; color: var(--apple-black); display: flex; align-items: center; gap: 10px; }
+
+        .features-header { text-align: center; margin-bottom: 60px; } .features-header h2 { font-size: 3rem; font-weight: 700; }
+        .bento-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin-bottom: 100px; } .full-span { grid-column: span 2; }
+        .glass-card { background: var(--glass-card); border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 32px; padding: 40px; transition: 0.3s; box-shadow: 0 10px 30px rgba(0,0,0,0.02); }
+        .glass-card:hover { transform: translateY(-5px); background: rgba(255,255,255,0.95); }
+        .glass-card h3 { font-size: 1.8rem; font-weight: 700; margin-bottom: 12px; } .glass-card h4 { font-size: 1.1rem; color: var(--apple-blue); margin-bottom: 8px; text-transform: uppercase; font-weight: 700; } .glass-card p { font-size: 1.1rem; color: var(--apple-grey); line-height: 1.5; }
+        
+        .hosting-strip { background: #1d1d1f; color: white; border-radius: 30px; padding: 60px; display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 40px; text-align: center; }
+        .host-item h3 { font-size: 2.5rem; font-weight: 700; margin-bottom: 5px; } .host-item p { color: #86868b; }
+        .cta-section { text-align: center; margin: 100px 0; }
+        .web-btn { background: var(--apple-blue); color: white; padding: 18px 45px; border-radius: 40px; font-size: 1.2rem; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: 0.2s; } .web-btn:hover { transform: scale(1.05); }
+
+        .animate-block { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); } .animate-block.visible { opacity: 1; transform: translateY(0); }
+        .d-1 { transition-delay: 0.1s; } .d-2 { transition-delay: 0.2s; } .d-3 { transition-delay: 0.3s; }
+
+        @media (max-width: 1024px) {
+            nav { width: 95%; padding: 10px 20px; } .nav-links { display: none; } .hamburger { display: flex; } .nav-btn { display: block; }
+            h1 { font-size: 3.5rem; } .layer-container { height: 350px; } .layer-stack { transform: none; } .layer-1, .layer-2 { display: none; } .layer-3 { transform: none; } .bento-grid { grid-template-columns: 1fr; } .full-span { grid-column: span 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="ambient-bg"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html" class="mobile-link" onclick="toggleMenu()">Home</a>
+        <a href="about.html" class="mobile-link" onclick="toggleMenu()">About</a>
+        <a href="web.html" class="mobile-link" onclick="toggleMenu()">Web</a>
+        <a href="automation.html" class="mobile-link" onclick="toggleMenu()">Automation</a>
+        <a href="dashboard.html" class="mobile-link" onclick="toggleMenu()">Dashboard</a>
+        <a href="contact.html" class="mobile-link" style="color: var(--sky-blue);" onclick="toggleMenu()">Contact Us</a>
+    </div>
+    <nav>
+        <div class="nav-brand"><span class="brand-name">Automania</span><span class="brand-sub">LUMA Ecosystem</span></div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-item">Home</a>
+            <a href="about.html" class="nav-item">About</a>
+            <a href="web.html" class="nav-item" style="color:var(--apple-blue);">Web</a>
+            <a href="automation.html" class="nav-item">Automation</a>
+            <a href="dashboard.html" class="nav-item">Dashboard</a>
+        </div>
+        <a href="contact.html" class="nav-btn">Contact</a>
+        <div class="hamburger" onclick="toggleMenu()"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+    </nav>
+    <div class="page-content">
+        <header class="hero-section animate-block">
+            <h1>Digital <span class="highlight-text">Architecture.</span></h1>
+            <p class="hero-subtitle">We don't just build websites. We build immersive digital environments that host your brand, engage your users, and scale effortlessly.</p>
+        </header>
+        <div class="layer-container animate-block d-1">
+            <div class="layer-stack">
+                <div class="web-layer layer-1"><div class="skeleton-nav"></div><div style="font-family: monospace; color: #aaa; font-size: 0.8rem;">&lt;div class="hero"&gt;<br>&nbsp;&nbsp;&lt;h1&gt;Future Ready&lt;/h1&gt;<br>&lt;/div&gt;</div></div>
+                <div class="web-layer layer-2"><div class="skeleton-nav"></div><div class="skeleton-hero"></div></div>
+                <div class="web-layer layer-3"><div class="floating-badge"><span style="color:#28c840;">●</span> Live & Interactive</div></div>
+            </div>
+        </div>
+        <section>
+            <div class="features-header animate-block"><h2>Our Web Services</h2></div>
+            <div class="bento-grid">
+                <div class="glass-card animate-block d-1"><h4>The Foundation</h4><h3>Essential & Fast</h3><p>High-performance landing pages and portfolios. Built with clean HTML/CSS to ensure instant load times and perfect SEO scoring.</p></div>
+                <div class="glass-card animate-block d-2"><h4>The Experience</h4><h3>3D & Interactive</h3><p>We integrate Spline 3D models and WebGL interactions directly into the browser. These aren't just websites; they are experiences.</p></div>
+                <div class="glass-card full-span animate-block d-3"><h4>The Ecosystem</h4><h3>Complex Web Apps</h3><p>Full-stack solutions with CMS integration, user authentication, and database connections. Scalable architecture for growing businesses.</p></div>
+            </div>
+        </section>
+        <section class="hosting-strip animate-block">
+            <div class="host-item"><h3>99.9%</h3><p>Uptime Guarantee</p></div>
+            <div class="host-item"><h3>&lt; 1s</h3><p>Load Time</p></div>
+            <div class="host-item"><h3>SSL</h3><p>Secure Encryption</p></div>
+        </section>
+        <div class="cta-section animate-block">
+            <a href="contact.html" class="web-btn">Start Your Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+        </div>
+    </div>
+    <script>
+        function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('active'); }
+        const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.15 });
+        document.querySelectorAll('.animate-block').forEach(block => observer.observe(block));
+    </script>
+</body>
+</html>
