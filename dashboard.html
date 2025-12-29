@@ -76,10 +76,54 @@
         /* --- PAGE CONTENT --- */
         .page-content { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 160px 24px 100px 24px; }
 
-        .hero-section { text-align: center; margin-bottom: 80px; }
+        .hero-section { text-align: center; margin-bottom: 60px; }
         h1 { font-size: 5rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 24px; }
         .hero-subtitle { font-size: 1.8rem; color: var(--apple-grey); max-width: 750px; margin: 0 auto; font-weight: 400; line-height: 1.3; }
         .highlight-text { background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;}
+
+        /* --- NEW LIVE DEMO BANNER --- */
+        .demo-banner {
+            background: #1d1d1f;
+            color: white;
+            padding: 30px 40px;
+            border-radius: 24px;
+            margin: 0 auto 80px auto;
+            max-width: 900px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            flex-wrap: wrap;
+            gap: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        /* Subtle glow effect behind banner */
+        .demo-banner::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%);
+            z-index: 0; pointer-events: none;
+        }
+
+        .demo-content { z-index: 1; flex: 1; }
+        .demo-title { font-size: 1.6rem; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 12px; }
+        .live-badge { 
+            background: rgba(40, 200, 64, 0.15); color: #28c840; padding: 5px 12px; 
+            border-radius: 100px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; 
+            border: 1px solid rgba(40, 200, 64, 0.3); display: flex; align-items: center; gap: 6px;
+        }
+        .pulse-dot { width: 8px; height: 8px; background: #28c840; border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(40, 200, 64, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(40, 200, 64, 0); } 100% { box-shadow: 0 0 0 0 rgba(40, 200, 64, 0); } }
+
+        .demo-desc { font-size: 1rem; color: #a1a1a6; max-width: 500px; line-height: 1.5; }
+        
+        .live-btn { 
+            z-index: 1;
+            background: var(--apple-blue); color: white; padding: 14px 30px; 
+            border-radius: 100px; text-decoration: none; font-weight: 600; 
+            transition: all 0.3s ease; white-space: nowrap; display: flex; align-items: center; gap: 10px;
+        }
+        .live-btn:hover { background: #0077ed; transform: scale(1.05); box-shadow: 0 10px 30px rgba(0, 113, 227, 0.3); }
 
         /* --- ADVANCED DASHBOARD MOCKUP --- */
         .browser-mockup {
@@ -226,6 +270,10 @@
             .page-content { padding-top: 120px; }
             h1 { font-size: 3.5rem; } .hero-subtitle { font-size: 1.3rem; }
 
+            .demo-banner { flex-direction: column; text-align: center; }
+            .demo-title { justify-content: center; }
+            .live-badge { margin: 0 auto; }
+            
             .dash-sidebar { display: none; }
             .stats-row { flex-direction: column; }
             .dash-middle { flex-direction: column; height: auto; }
@@ -284,16 +332,28 @@
             <p class="hero-subtitle">Turn raw data streams from your agents and external sources into a command center for your business.</p>
         </header>
 
-        <div class="browser-mockup animate-block d-1">
+        <div class="demo-banner animate-block d-1">
+            <div class="demo-content">
+                <div class="demo-title">
+                    Farm Mania Demo <span class="live-badge"><div class="pulse-dot"></div> Live System</span>
+                </div>
+                <p class="demo-desc">See the real-time data from our Poultry Sales Agent. This dashboard visualizes the orders processed by the AI Agent in the Automation section.</p>
+            </div>
+            <a href="#" class="live-btn">
+                Launch Live Dashboard <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 18px; height: 18px;"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+            </a>
+        </div>
+
+        <div class="browser-mockup animate-block d-2">
             <div class="browser-header">
                 <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
             </div>
             <div class="dash-layout">
                 <div class="dash-sidebar">
                     <div class="sidebar-item active"><div class="sidebar-icon"></div> Overview</div>
-                    <div class="sidebar-item"><div class="sidebar-icon"></div> Analytics</div>
-                    <div class="sidebar-item"><div class="sidebar-icon"></div> Agents</div>
-                    <div class="sidebar-item"><div class="sidebar-icon"></div> Users</div>
+                    <div class="sidebar-item"><div class="sidebar-icon"></div> Sales</div>
+                    <div class="sidebar-item"><div class="sidebar-icon"></div> Inventory</div>
+                    <div class="sidebar-item"><div class="sidebar-icon"></div> Customers</div>
                     <div style="margin-top:auto"></div>
                     <div class="sidebar-item"><div class="sidebar-icon"></div> Settings</div>
                 </div>
@@ -306,20 +366,20 @@
                             <div class="stat-delta pos">↑ 12.5% vs last month</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-label">Agent Interactions</div>
-                            <div class="stat-val">1,204</div>
-                            <div class="stat-delta" style="color:var(--apple-blue);">• 24 Agents Active</div>
+                            <div class="stat-label">Pending Orders</div>
+                            <div class="stat-val">14</div>
+                            <div class="stat-delta" style="color:var(--apple-blue);">• Processed by AI</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-label">Avg Response</div>
-                            <div class="stat-val">0.4s</div>
-                            <div class="stat-delta pos">⚡ Instant</div>
+                            <div class="stat-label">Stock Level</div>
+                            <div class="stat-val">84%</div>
+                            <div class="stat-delta pos">Healthy</div>
                         </div>
                     </div>
 
                     <div class="dash-middle">
                         <div class="main-chart-card">
-                            <div class="stat-label">Live Activity</div>
+                            <div class="stat-label">Live Sales Activity</div>
                             <div class="grid-lines">
                                 <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
                             </div>
@@ -327,11 +387,11 @@
                         </div>
                         
                         <div class="pie-card">
-                            <div class="stat-label">Source</div>
+                            <div class="stat-label">Order Source</div>
                             <div class="donut-chart"></div>
                             <div class="pie-legend">
                                 <div class="legend-item"><div class="dot-blue"></div> WhatsApp</div>
-                                <div class="legend-item"><div class="dot-sky"></div> Web</div>
+                                <div class="legend-item"><div class="dot-sky"></div> Web Store</div>
                             </div>
                         </div>
                     </div>
@@ -341,14 +401,14 @@
                         <div class="feed-item">
                             <div class="feed-left">
                                 <div class="feed-avatar" style="background:#e3f2fd; color:#1565c0;">AI</div>
-                                <div class="feed-text">Order #2901 Confirmed via WhatsApp</div>
+                                <div class="feed-text">Order #2901: 50x Whole Chickens</div>
                             </div>
                             <div class="feed-time">2m ago</div>
                         </div>
                         <div class="feed-item">
                             <div class="feed-left">
                                 <div class="feed-avatar" style="background:#f3e5f5; color:#7b1fa2;">AI</div>
-                                <div class="feed-text">Answered FAQ: "Return Policy"</div>
+                                <div class="feed-text">Answered FAQ: "Bulk Pricing"</div>
                             </div>
                             <div class="feed-time">5m ago</div>
                         </div>
