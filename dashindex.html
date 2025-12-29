@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farm Mania | Master Command Center v1.6</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        :root { --primary: #065f46; --bg-color: #f5f5f4; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: #1f2937; }
+        
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #e7e5e4; }
+        ::-webkit-scrollbar-thumb { background: #a8a29e; border-radius: 3px; }
+        
+        .nav-item.active { background-color: #ecfccb; color: #365314; border-right: 4px solid #365314; }
+        .chart-container { position: relative; height: 280px; width: 100%; }
+        
+        .console-output { background: #1f2937; color: #10b981; font-family: 'Courier New', monospace; padding: 12px; border-radius: 6px; height: 180px; overflow-y: auto; font-size: 0.75rem; border-left: 4px solid var(--primary); }
+        .log-entry { margin-bottom: 6px; border-bottom: 1px solid #374151; padding-bottom: 4px; }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <aside class="w-64 bg-white border-r border-stone-200 flex flex-col hidden md:flex shadow-sm z-20 relative">
+        <div class="p-6 border-b border-stone-100">
+            <h1 class="text-2xl font-bold text-emerald-800 tracking-tight flex items-center gap-2"><span>🐔</span> Farm Mania</h1>
+            <p class="text-xs text-stone-500 mt-1">Master Command Center</p>
+        </div>
+        <nav class="flex-1 overflow-y-auto py-4">
+            <div class="px-6 mb-2"><p class="text-xs font-bold text-stone-400 uppercase tracking-wider">Analytics</p></div>
+            <ul class="space-y-1 mb-6">
+                <li><button onclick="app.navigate('dashboard')" id="nav-dashboard" class="nav-item active w-full text-left px-6 py-3 hover:bg-stone-50 transition-colors flex items-center gap-3 text-sm font-medium"><span>📊</span> Dashboard Overview</button></li>
+                <li><button onclick="app.navigate('sales')" id="nav-sales" class="nav-item w-full text-left px-6 py-3 hover:bg-stone-50 transition-colors flex items-center gap-3 text-sm font-medium"><span>💰</span> Sales Performance</button></li>
+            </ul>
+            <div class="px-6 mb-2"><p class="text-xs font-bold text-stone-400 uppercase tracking-wider">Operations</p></div>
+            <ul class="space-y-1">
+                <li><button onclick="app.navigate('inventory')" id="nav-inventory" class="nav-item w-full text-left px-6 py-3 hover:bg-stone-50 transition-colors flex items-center gap-3 text-sm font-medium"><span>🏷️</span> Price & Stock Manager</button></li>
+                <li><button onclick="app.navigate('customers')" id="nav-customers" class="nav-item w-full text-left px-6 py-3 hover:bg-stone-50 transition-colors flex items-center gap-3 text-sm font-medium"><span>👥</span> Customer Insights</button></li>
+            </ul>
+        </nav>
+        <div class="p-4 border-t border-stone-100 space-y-3">
+            <button onclick="app.openAdminModal()" class="w-full bg-stone-100 hover:bg-stone-200 text-stone-600 font-bold py-2 rounded border border-stone-300 transition-colors flex items-center justify-center gap-2 text-xs"><span>🔒</span> Manage Source</button>
+            <div id="sync-status" class="text-[10px] text-center text-stone-400 font-mono">Initializing...</div>
+        </div>
+        <div class="absolute bottom-1 right-2 text-[9px] text-stone-400 font-mono">v1.6 Universal</div>
+    </aside>
+
+    <div class="md:hidden fixed top-0 left-0 w-full bg-white border-b border-stone-200 z-20 px-4 py-3 flex justify-between items-center">
+        <h1 class="font-bold text-emerald-800">Farm Mania</h1>
+        <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="text-2xl">☰</button>
+    </div>
+
+    <main class="flex-1 h-screen overflow-y-auto bg-stone-50 p-4 md:p-8 pt-16 md:pt-8 relative">
+        
+        <div id="view-dashboard" class="space-y-6 animate-fade-in">
+            <header class="flex justify-between items-end">
+                <div>
+                    <h2 class="text-3xl font-bold text-stone-800">Owner's Dashboard</h2>
+                    <p class="text-stone-500 mt-2 max-w-3xl text-sm leading-relaxed">
+                        Welcome back. Here is a high-level overview of Farm Mania's performance. <span class="text-emerald-600 font-bold bg-emerald-50 px-2 py-1 rounded">● Live Data Connected</span>
+                    </p>
+                </div>
+                <button onclick="app.refreshData()" class="bg-white border border-stone-200 hover:bg-stone-50 text-stone-600 px-3 py-1.5 rounded text-sm flex items-center gap-2 shadow-sm">🔄 Force Sync</button>
+            </header>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-l-emerald-500 border border-stone-100">
+                    <p class="text-xs font-bold text-stone-400 uppercase tracking-wider">Total Revenue</p>
+                    <h3 class="text-2xl font-bold text-stone-800 mt-1" id="kpi-revenue">R0.00</h3>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-l-blue-500 border border-stone-100">
+                    <p class="text-xs font-bold text-stone-400 uppercase tracking-wider">Total Orders</p>
+                    <h3 class="text-2xl font-bold text-stone-800 mt-1" id="kpi-orders">0</h3>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-l-amber-500 border border-stone-100">
+                    <p class="text-xs font-bold text-stone-400 uppercase tracking-wider">Best Seller</p>
+                    <h3 class="text-lg font-bold text-stone-800 mt-1 truncate" id="kpi-product">-</h3>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-l-purple-500 border border-stone-100">
+                    <p class="text-xs font-bold text-stone-400 uppercase tracking-wider">Asset Value</p>
+                    <h3 class="text-2xl font-bold text-stone-800 mt-1" id="kpi-stock">R0.00</h3>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-sm border border-stone-100">
+                    <h3 class="font-bold text-lg text-stone-700 mb-4">Daily Revenue Trend</h3>
+                    <div class="chart-container"><canvas id="revenueChart"></canvas></div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100">
+                    <h3 class="font-bold text-lg text-stone-700 mb-4">Payment Methods</h3>
+                    <div class="chart-container" style="height: 250px;"><canvas id="paymentChart"></canvas></div>
+                    <div class="mt-4 text-center text-xs text-stone-400">Top Method: <strong class="text-stone-700" id="top-payment-method">-</strong></div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-stone-100 overflow-hidden">
+                <div class="px-6 py-4 border-b border-stone-100 flex justify-between items-center"><h3 class="font-bold text-stone-700">Recent Activity (Sorted Newest First)</h3></div>
+                <div class="overflow-x-auto"><table class="w-full text-sm text-left"><tbody id="table-recent"></tbody></table></div>
+            </div>
+        </div>
+
+        <div id="view-sales" class="hidden space-y-6 animate-fade-in">
+            <header><h2 class="text-3xl font-bold text-stone-800">Sales Performance</h2></header>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100"><h3 class="font-bold text-lg text-stone-700 mb-4">Sales by Product</h3><div class="chart-container"><canvas id="productSalesChart"></canvas></div></div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100"><h3 class="font-bold text-lg text-stone-700 mb-4">Peak Ordering Times</h3><div class="chart-container"><canvas id="timeOfDayChart"></canvas></div></div>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm border border-stone-100 overflow-hidden">
+                <div class="px-6 py-4 border-b border-stone-100 bg-stone-50"><h3 class="font-bold text-stone-700">Complete Sales Log</h3></div>
+                <div class="overflow-x-auto" style="max-height: 500px;">
+                    <table class="w-full text-sm text-left">
+                        <thead class="bg-white text-stone-500 uppercase text-xs border-b border-stone-100 sticky top-0"><tr><th class="px-6 py-3">Date</th><th class="px-6 py-3">Customer</th><th class="px-6 py-3">Product</th><th class="px-6 py-3 text-center">Qty</th><th class="px-6 py-3 text-right">Total</th></tr></thead>
+                        <tbody id="table-sales" class="divide-y divide-stone-100"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-inventory" class="hidden space-y-6 animate-fade-in">
+            <header><h2 class="text-3xl font-bold text-stone-800">Price & Stock Manager</h2><p class="text-stone-500 mt-1">Update inventory levels and adjust product selling prices.</p></header>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="bg-white rounded-xl shadow-sm border border-stone-100 overflow-hidden">
+                        <div class="px-6 py-4 border-b border-stone-100 bg-stone-50 flex justify-between items-center"><h3 class="font-bold text-stone-700">Current Stock</h3><span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-1 rounded">Live Pricing</span></div>
+                        <div class="overflow-x-auto"><table class="w-full text-sm text-left"><thead class="bg-white text-stone-500 uppercase text-xs border-b border-stone-100"><tr><th class="px-6 py-3">Item</th><th class="px-6 py-3 text-right">Stock</th><th class="px-6 py-3 text-right">Selling Price</th><th class="px-6 py-3 text-right">Potential Value</th></tr></thead><tbody id="table-inventory" class="divide-y divide-stone-100"></tbody></table></div>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-sm border border-stone-100 p-4"><h3 class="font-bold text-stone-700 mb-2 text-xs uppercase">System Audit Log</h3><div id="console-output" class="console-output"></div></div>
+                </div>
+                <div>
+                    <div class="bg-emerald-50 rounded-xl shadow-sm border border-emerald-100 p-6 sticky top-6">
+                        <h3 class="font-bold text-emerald-800 mb-4 border-b border-emerald-200 pb-2">📦 Manage Product</h3>
+                        <div class="space-y-4">
+                            <div><label class="block text-xs font-bold text-emerald-700 uppercase mb-1">Select Product</label><select id="restock-id" class="w-full border border-emerald-200 rounded p-2 text-sm bg-white" onchange="app.updatePriceInput()"></select></div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div><label class="block text-xs font-bold text-emerald-700 uppercase mb-1">Add Stock (+/-)</label><input type="number" id="restock-qty" value="0" class="w-full border border-emerald-200 rounded p-2 text-sm bg-white"></div>
+                                <div><label class="block text-xs font-bold text-emerald-700 uppercase mb-1">New Selling Price</label><input type="number" id="restock-cost" step="0.01" class="w-full border border-emerald-200 rounded p-2 text-sm bg-white font-bold text-emerald-900"></div>
+                            </div>
+                            <button onclick="app.handleRestock()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded shadow-sm transition-colors text-sm">Update Product</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-customers" class="hidden space-y-6 animate-fade-in">
+            <header><h2 class="text-3xl font-bold text-stone-800">Customer Insights</h2><p class="text-stone-500 mt-1">Identify top buyers and delivery hotspots.</p></header>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100"><h3 class="font-bold text-lg text-stone-700 mb-4">Top 5 Customers (by Volume)</h3><div class="chart-container"><canvas id="customerChart"></canvas></div></div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100 flex flex-col"><h3 class="font-bold text-lg text-stone-700 mb-4">Customer Directory</h3><div class="flex-1 overflow-auto custom-scrollbar" style="max-height: 300px;"><ul id="customer-list" class="space-y-3"></ul></div></div>
+            </div>
+        </div>
+    </main>
+
+    <div id="password-modal" class="fixed inset-0 bg-stone-900/80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-sm overflow-hidden text-center p-8">
+            <div class="mb-4 flex justify-center"><div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center text-2xl">🔒</div></div>
+            <h3 class="text-xl font-bold text-stone-800">Admin Access Only</h3>
+            <div class="text-sm text-stone-500 mt-2 mb-6 space-y-2">
+                <p>This section controls critical system operations.</p>
+                <p class="text-red-500 font-bold bg-red-50 py-1 rounded">Unauthorized changes may disrupt services.</p>
+                <p>Access code required.</p>
+            </div>
+            <input type="password" id="admin-pass" class="w-full border border-stone-300 rounded p-3 text-center text-lg tracking-widest mb-4 focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="••••">
+            <div class="flex gap-2">
+                <button onclick="document.getElementById('password-modal').classList.add('hidden')" class="flex-1 bg-stone-100 hover:bg-stone-200 text-stone-600 font-bold py-2 rounded text-sm">Cancel</button>
+                <button onclick="app.verifyPassword()" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded text-sm">Verify</button>
+            </div>
+            <p id="pass-error" class="text-red-500 text-xs mt-3 hidden">Incorrect Access Code</p>
+        </div>
+    </div>
+
+    <div id="sheet-modal" class="fixed inset-0 bg-stone-900/60 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden">
+            <div class="px-6 py-4 border-b border-stone-100 flex justify-between items-center bg-stone-50"><h3 class="font-bold text-stone-800">Connection Settings</h3><button onclick="document.getElementById('sheet-modal').classList.add('hidden')" class="text-stone-400 hover:text-stone-600">✕</button></div>
+            <div class="p-6 space-y-4">
+                <p class="text-sm text-stone-600">The dashboard is currently connected to:</p>
+                <input id="sheet-url-input" class="w-full border border-stone-300 rounded p-2 text-xs bg-stone-50" readonly value="https://docs.google.com/spreadsheets/d/e/2PACX-1vQu1SuogOBBMFMP5iYKO7oC561wC7O0j88cPeSwbOQ9r0vFjk67gTDdjt4C2rwyG3LhOVZUsOYEFJzA/pub?gid=0&single=true&output=csv">
+                
+                <div class="p-3 bg-emerald-50 border border-emerald-100 rounded text-xs text-emerald-800">
+                    <strong>Note:</strong> This URL is hardcoded. If you see errors, it is likely due to your browser blocking local file connections.
+                </div>
+                
+                <div class="flex gap-2 pt-2">
+                    <button onclick="app.refreshData()" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded shadow-sm text-sm">Retry Connection</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- UNIVERSAL DATE PARSER (Attempts multiple formats) ---
+        const parseMyDate = (dateStr, timeStr) => {
+            if (!dateStr) return new Date(0);
+            
+            let s = dateStr.toString().trim().replace(/['",]/g, ''); 
+            let d = new Date(0);
+            let parsed = false;
+
+            // Strategy 1: Slash format (DD/MM/YYYY or YYYY/MM/DD)
+            if (s.includes('/')) {
+                const p = s.split('/');
+                if (p.length === 3) {
+                    // Check if first part is Year (YYYY/MM/DD)
+                    if (p[0].length === 4) {
+                        d = new Date(parseInt(p[0]), parseInt(p[1]) - 1, parseInt(p[2]));
+                        parsed = true;
+                    } 
+                    // Else Check if last part is Year (DD/MM/YYYY or MM/DD/YYYY)
+                    else if (p[2].length === 4) {
+                        const n1 = parseInt(p[0]);
+                        const n2 = parseInt(p[1]);
+                        // Ambiguity Check: If first num > 12, it MUST be Day. (DD/MM/YYYY)
+                        if (n1 > 12) {
+                            d = new Date(parseInt(p[2]), n2 - 1, n1);
+                            parsed = true;
+                        } else {
+                            // Assume MM/DD/YYYY default, but if it fails, fallback
+                            // For SA, let's prioritize DD/MM/YYYY if ambiguous? 
+                            // Standard JS is MM/DD. Let's try standard JS first.
+                            let tryD = new Date(s);
+                            if (!isNaN(tryD.getTime())) { d = tryD; parsed = true; }
+                            else {
+                                // If standard failed, likely DD/MM/YYYY (e.g. 24/12/2025)
+                                d = new Date(parseInt(p[2]), n2 - 1, n1);
+                                parsed = true;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Strategy 2: Custom Text Format (10-22 Oct 2025 or 12-Dec 24 2025)
+            if (!parsed) {
+                const parts = s.split(/\s+/);
+                if (parts.length >= 3) {
+                    let year = parseInt(parts[parts.length-1]);
+                    if (year < 100) year += 2000;
+                    
+                    let month = 0, day = 0;
+                    const months = { 'jan':0,'feb':1,'mar':2,'apr':3,'may':4,'jun':5,'jul':6,'aug':7,'sep':8,'oct':9,'nov':10,'dec':11 };
+                    
+                    // Handle "12-Dec" or "10-22"
+                    if (parts[0].includes('-')) {
+                        const sub = parts[0].split('-');
+                        const p1 = sub[0];
+                        const p2 = sub[1];
+
+                        // Case: 12-Dec
+                        if (months[p2.toLowerCase()]) {
+                            month = months[p2.toLowerCase()];
+                            day = parseInt(parts[1]); // Day is next part
+                        } 
+                        // Case: 10-22 (Oct is in part[1])
+                        else {
+                            if (months[parts[1].toLowerCase()]) month = months[parts[1].toLowerCase()];
+                            else month = parseInt(p1) - 1;
+                            day = parseInt(p2);
+                        }
+                    }
+                    
+                    if (day > 0) {
+                        d = new Date(year, month, day);
+                        parsed = true;
+                    }
+                }
+            }
+
+            // Strategy 3: Default JS fallback
+            if (!parsed) {
+                let tryD = new Date(s);
+                if (!isNaN(tryD.getTime())) d = tryD;
+            }
+
+            // Add Time
+            if (timeStr) {
+                const [h, m, sec] = timeStr.split(':').map(Number);
+                d.setHours(h || 0, m || 0, sec || 0);
+            }
+            return d;
+        };
+
+        const state = {
+            orders: [],
+            inventory: [
+                { id: "INV001", name: "Combo Pack", stock: 85, cost: 525.00 },
+                { id: "INV002", name: "Whole Chicken (1.3kg)", stock: 50, cost: 65.00 },
+                { id: "INV003", name: "Whole Chicken (1.4kg)", stock: 50, cost: 70.00 },
+                { id: "INV004", name: "Whole Chicken (1.5kg)", stock: 50, cost: 75.00 },
+                { id: "INV005", name: "Whole Chicken (1.6kg)", stock: 50, cost: 80.00 },
+                { id: "INV006", name: "Whole Chicken (1.7kg)", stock: 50, cost: 85.00 },
+                { id: "INV007", name: "Whole Chicken (1.8kg)", stock: 50, cost: 90.00 },
+                { id: "INV008", name: "Whole Chicken (1.9kg)", stock: 50, cost: 95.00 },
+                { id: "INV009", name: "Whole Chicken (2.0kg)", stock: 50, cost: 100.00 },
+                { id: "INV010", name: "Whole Chicken (2.1kg)", stock: 50, cost: 105.00 },
+                { id: "INV011", name: "Whole Chicken (2.2kg)", stock: 50, cost: 110.00 },
+                { id: "INV012", name: "Live Chicken", stock: 50, cost: 30.00 },
+                { id: "INV013", name: "Chicken Hearts (kg)", stock: 50, cost: 10.00 },
+                { id: "INV014", name: "Chicken Necks (kg)", stock: 100, cost: 30.00 },
+                { id: "INV015", name: "Chicken Feet (kg)", stock: 100, cost: 25.00 },
+                { id: "INV016", name: "Gizzards (kg)", stock: 100, cost: 30.00 },
+                { id: "INV017", name: "Livers (kg)", stock: 100, cost: 30.00 },
+                { id: "INV018", name: "Mala (kg)", stock: 100, cost: 20.00 },
+                { id: "INV019", name: "Large Whole Chicken", stock: 100, cost: 100.00 }
+            ],
+            // *** HARDCODED LIVE URL ***
+            sheetUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQu1SuogOBBMFMP5iYKO7oC561wC7O0j88cPeSwbOQ9r0vFjk67gTDdjt4C2rwyG3LhOVZUsOYEFJzA/pub?gid=0&single=true&output=csv',
+            charts: {}
+        };
+
+        const formatCurrency = (val) => new Intl.NumberFormat('en-ZA', { style: 'currency', currency: 'ZAR' }).format(val);
+
+        const app = {
+            init: () => {
+                if (window.Chart) {
+                    Chart.defaults.font.family = "'Inter', sans-serif";
+                    Chart.defaults.color = '#6b7280';
+                }
+                const savedInv = localStorage.getItem('farm_mania_inventory');
+                if (savedInv) state.inventory = JSON.parse(savedInv);
+
+                app.initRestockDropdown();
+                app.log("Attempting connection to live Google Sheet...");
+                app.fetchSheetData(state.sheetUrl);
+            },
+
+            fetchSheetData: (url) => {
+                document.getElementById('sync-status').innerText = "Syncing...";
+                
+                Papa.parse(url, {
+                    download: true,
+                    header: true,
+                    skipEmptyLines: 'greedy',
+                    complete: (results) => app.processData(results),
+                    error: (err) => {
+                        console.warn("Direct connection failed. Retrying with Proxy...", err);
+                        app.log("Direct connection blocked. Attempting proxy...");
+                        const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
+                        Papa.parse(proxyUrl, {
+                            download: true,
+                            header: true,
+                            skipEmptyLines: 'greedy',
+                            complete: (results) => app.processData(results),
+                            error: (finalErr) => {
+                                console.error("Proxy failed:", finalErr);
+                                document.getElementById('sync-status').innerText = "🔴 Error";
+                                app.log("CRITICAL ERROR: Could not fetch data.");
+                            }
+                        });
+                    }
+                });
+            },
+
+            processData: (results) => {
+                app.log(`Received ${results.data.length} rows.`);
+                
+                const cleaned = results.data.map((row, idx) => {
+                    const findKey = (search) => Object.keys(row).find(k => k.toLowerCase().includes(search.toLowerCase()));
+                    
+                    const totalKey = findKey('total');
+                    if (!totalKey) return null;
+
+                    const rawTotal = row[totalKey];
+                    const total = parseFloat(rawTotal ? rawTotal.replace(/[R,\s]/g, '') : 0) || 0;
+                    if (total === 0) return null; 
+
+                    const idKey = findKey('order') || findKey('id');
+                    const nameKey = findKey('name') || findKey('cust'); 
+                    const prodKey = findKey('product') || findKey('item'); 
+                    const qtyKey = findKey('quantity') || findKey('qty');
+                    const payKey = findKey('pay') || findKey('method');
+                    
+                    const dateKey = findKey('date');
+                    const timeKey = findKey('time');
+
+                    const cleanStr = (val) => val ? val.toString().replace(/[\n\r"]/g, '').trim() : '';
+
+                    const rawDate = cleanStr(row[dateKey]);
+                    const rawTime = cleanStr(row[timeKey]); 
+
+                    // Parse Date Object
+                    const dateObj = parseMyDate(rawDate, rawTime);
+
+                    return {
+                        id: cleanStr(row[idKey]) || `ORD-${idx}`,
+                        name: cleanStr(row[nameKey]) || 'Walk-in Customer',
+                        product: cleanStr(row[prodKey]) || 'Farm Product',
+                        price: 0, 
+                        qty: parseInt(row[qtyKey]) || 1,
+                        total: total,
+                        pay: cleanStr(row[payKey]) || 'Cash',
+                        date: rawDate,
+                        time: rawTime,
+                        dateObj: dateObj // Store for sorting
+                    };
+                }).filter(o => o);
+
+                // SORT NEWEST FIRST (By Date Object)
+                cleaned.sort((a, b) => b.dateObj - a.dateObj);
+
+                if(cleaned.length > 0) {
+                    state.orders = cleaned;
+                    app.updateDashboard();
+                    app.renderSalesTable();
+                    document.getElementById('sync-status').innerHTML = "🟢 <span class='text-emerald-600 font-bold'>Live Data</span>";
+                    app.log(`Success: Loaded ${cleaned.length} orders.`);
+                    // Debug Log
+                    if (cleaned.length > 0) {
+                        app.log(`Latest Order: ${cleaned[0].date} (${cleaned[0].name})`);
+                    }
+                } else {
+                    app.log("Connected, but no valid order rows found.");
+                    document.getElementById('sync-status').innerText = "⚠️ 0 Rows";
+                }
+            },
+
+            refreshData: () => {
+                app.fetchSheetData(state.sheetUrl);
+            },
+
+            openAdminModal: () => {
+                document.getElementById('admin-pass').value = '';
+                document.getElementById('pass-error').classList.add('hidden');
+                document.getElementById('password-modal').classList.remove('hidden');
+                document.getElementById('admin-pass').focus();
+            },
+
+            verifyPassword: () => {
+                if (document.getElementById('admin-pass').value === '0000') {
+                    document.getElementById('password-modal').classList.add('hidden');
+                    document.getElementById('sheet-modal').classList.remove('hidden');
+                } else {
+                    const modal = document.getElementById('password-modal').firstElementChild;
+                    document.getElementById('pass-error').classList.remove('hidden');
+                    modal.classList.remove('shake');
+                    void modal.offsetWidth; modal.classList.add('shake');
+                }
+            },
+
+            navigate: (viewId) => {
+                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active', 'bg-stone-50', 'text-stone-800'));
+                document.getElementById('nav-'+viewId).classList.add('active');
+                ['dashboard','sales','inventory','customers'].forEach(v => document.getElementById('view-'+v).classList.add('hidden'));
+                document.getElementById('view-'+viewId).classList.remove('hidden');
+                if (viewId === 'dashboard' || viewId === 'sales' || viewId === 'customers') app.updateDashboard();
+            },
+
+            initRestockDropdown: () => {
+                const select = document.getElementById('restock-id');
+                select.innerHTML = '';
+                state.inventory.forEach(item => {
+                    const opt = document.createElement('option');
+                    opt.value = item.id;
+                    opt.innerText = item.name;
+                    select.appendChild(opt);
+                });
+                app.updatePriceInput();
+            },
+
+            updatePriceInput: () => {
+                const id = document.getElementById('restock-id').value;
+                const item = state.inventory.find(i => i.id === id);
+                if(item) document.getElementById('restock-cost').value = item.cost.toFixed(2);
+            },
+
+            handleRestock: () => {
+                const id = document.getElementById('restock-id').value;
+                const qty = parseFloat(document.getElementById('restock-qty').value);
+                const price = parseFloat(document.getElementById('restock-cost').value);
+                const item = state.inventory.find(i => i.id === id);
+                
+                if(!item) return;
+
+                const oldPrice = item.cost;
+                const oldStock = item.stock;
+                const newStock = Math.max(0, oldStock + qty);
+                item.cost = price; 
+                item.stock = newStock;
+
+                const logMsg = `Updated ${item.name}. Stock: ${oldStock} -> ${newStock}. Price: ${formatCurrency(oldPrice)} -> ${formatCurrency(price)}`;
+                localStorage.setItem('farm_mania_inventory', JSON.stringify(state.inventory));
+
+                app.renderInventoryTable();
+                app.updateDashboard(); 
+                app.log(logMsg);
+                alert("Product Updated Successfully!");
+            },
+
+            log: (msg) => {
+                const div = document.getElementById('console-output');
+                div.innerHTML = `<div class="log-entry"><span style="color:#9ca3af">[${new Date().toLocaleTimeString()}]</span> ${msg}</div>` + div.innerHTML;
+            },
+
+            renderInventoryTable: () => {
+                const tbody = document.getElementById('table-inventory');
+                tbody.innerHTML = state.inventory.map(i => `
+                    <tr class="bg-white hover:bg-stone-50 border-b border-stone-50">
+                        <td class="px-6 py-3 font-medium text-stone-800">${i.name}</td>
+                        <td class="px-6 py-3 text-right font-bold">${i.stock}</td>
+                        <td class="px-6 py-3 text-right text-stone-500">${formatCurrency(i.cost)}</td>
+                        <td class="px-6 py-3 text-right font-bold text-emerald-700">${formatCurrency(i.stock * i.cost)}</td>
+                    </tr>
+                `).join('');
+            },
+
+            renderSalesTable: () => {
+                const tbody = document.getElementById('table-sales');
+                tbody.innerHTML = state.orders.map(o => `
+                    <tr class="bg-white hover:bg-stone-50 border-b border-stone-50">
+                        <td class="px-6 py-3 text-stone-500 text-xs whitespace-nowrap">${o.date} <span class="ml-1 text-[10px] text-stone-400">(${o.time})</span></td>
+                        <td class="px-6 py-3 font-medium text-stone-800">${o.name}</td>
+                        <td class="px-6 py-3 text-stone-600">${o.product}</td>
+                        <td class="px-6 py-3 text-center">${o.qty}</td>
+                        <td class="px-6 py-3 text-right font-bold text-stone-800">R${o.total}</td>
+                    </tr>
+                `).join('');
+            },
+
+            updateDashboard: () => {
+                const totalRev = state.orders.reduce((a,b) => a + b.total, 0);
+                const stockVal = state.inventory.reduce((a,b) => a + (b.stock * b.cost), 0);
+                const counts = {}; state.orders.forEach(o => counts[o.product] = (counts[o.product] || 0) + o.qty);
+                const topProd = Object.keys(counts).sort((a,b) => counts[b] - counts[a])[0] || '-';
+                const payStats = {}; state.orders.forEach(o => payStats[o.pay] = (payStats[o.pay] || 0) + 1);
+                const topPay = Object.keys(payStats).sort((a,b) => payStats[b] - payStats[a])[0] || '-';
+                const custCounts = {}; state.orders.forEach(o => custCounts[o.name] = (custCounts[o.name] || 0) + o.total);
+                const sortedCust = Object.entries(custCounts).sort((a,b) => b[1] - a[1]).slice(0, 5);
+
+                document.getElementById('kpi-revenue').innerText = formatCurrency(totalRev);
+                document.getElementById('kpi-orders').innerText = state.orders.length;
+                document.getElementById('kpi-product').innerText = topProd;
+                document.getElementById('kpi-stock').innerText = formatCurrency(stockVal);
+                document.getElementById('top-payment-method').innerText = topPay;
+
+                document.getElementById('customer-list').innerHTML = sortedCust.map(([name, val], i) => `
+                    <li class="flex items-center justify-between p-3 bg-stone-50 rounded-lg border border-stone-100 mb-2 shadow-sm">
+                        <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center text-xs font-bold border border-emerald-200">${name.charAt(0)}</div><div><p class="text-sm font-bold text-stone-700">${name}</p><p class="text-xs text-stone-400">Rank #${i + 1}</p></div></div>
+                        <div class="text-right"><p class="text-sm font-bold text-emerald-700">${formatCurrency(val)}</p></div>
+                    </li>
+                `).join('');
+
+                // Update "Recent Activity" to only show top 5 sorted
+                document.getElementById('table-recent').innerHTML = state.orders.slice(0,5).map(o => `
+                    <tr class="bg-white hover:bg-stone-50 border-b border-stone-50">
+                        <td class="px-6 py-3 text-xs text-stone-400 font-mono">${o.id}</td>
+                        <td class="px-6 py-3 font-medium text-stone-800">${o.name}</td>
+                        <td class="px-6 py-3 text-stone-500 text-xs">${o.product}</td>
+                        <td class="px-6 py-3 text-right font-bold text-stone-800">R${o.total}</td>
+                    </tr>
+                `).join('');
+
+                app.renderCharts(counts, payStats, sortedCust);
+            },
+
+            renderCharts: (productData, payData, sortedCust) => {
+                if (!window.Chart || !document.getElementById('revenueChart')) return;
+
+                const salesByDate = {};
+                // Chronological for Chart: Oldest -> Newest
+                // Create a copy and sort Ascending (Oldest First)
+                const chronoOrders = [...state.orders].sort((a, b) => a.dateObj - b.dateObj);
+                
+                chronoOrders.forEach(o => {
+                    const key = o.dateObj.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+                    salesByDate[key] = (salesByDate[key] || 0) + o.total;
+                });
+                const labels = Object.keys(salesByDate).slice(-7);
+                const data = labels.map(k => salesByDate[k]);
+
+                ['revenue', 'payment', 'productSales', 'time', 'customer'].forEach(k => {
+                    if (state.charts[k]) { state.charts[k].destroy(); state.charts[k] = null; }
+                });
+
+                const ctxRev = document.getElementById('revenueChart').getContext('2d');
+                state.charts.revenue = new Chart(ctxRev, {
+                    type: 'line',
+                    data: { labels: labels, datasets: [{ label: 'Revenue', data: data, borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.1)', fill: true, tension: 0.3 }] },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { borderDash: [2,2] } }, x: { grid: { display: false } } } }
+                });
+
+                const ctxPay = document.getElementById('paymentChart').getContext('2d');
+                state.charts.payment = new Chart(ctxPay, { type: 'doughnut', data: { labels: Object.keys(payData), datasets: [{ data: Object.values(payData), backgroundColor: ['#f59e0b', '#3b82f6', '#10b981'], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'right' } } } });
+
+                const ctxProd = document.getElementById('productSalesChart').getContext('2d');
+                state.charts.productSales = new Chart(ctxProd, { type: 'pie', data: { labels: Object.keys(productData), datasets: [{ data: Object.values(productData), backgroundColor: ['#84cc16', '#14b8a6', '#f43f5e', '#6366f1', '#f59e0b'], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right' } } } });
+
+                const ctxTime = document.getElementById('timeOfDayChart').getContext('2d');
+                state.charts.time = new Chart(ctxTime, { type: 'bar', data: { labels: ['AM', 'PM'], datasets: [{ label: 'Orders', data: [10, 20], backgroundColor: '#6366f1', borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { x: { grid: { display: false } }, y: { beginAtZero: true } } } });
+
+                const ctxCust = document.getElementById('customerChart').getContext('2d');
+                state.charts.customer = new Chart(ctxCust, { type: 'bar', data: { labels: sortedCust.map(c => c[0]), datasets: [{ label: 'Spend', data: sortedCust.map(c => c[1]), backgroundColor: '#8b5cf6' }] }, options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y' } });
+            }
+        };
+
+        window.addEventListener('DOMContentLoaded', app.init);
+    </script>
+</body>
+</html>
