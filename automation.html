@@ -110,6 +110,61 @@
         .showcase-text h2 { font-size: 3.5rem; font-weight: 700; line-height: 1.1; margin-bottom: 20px; letter-spacing: -0.02em;}
         .showcase-text p { font-size: 1.2rem; color: var(--apple-grey); line-height: 1.6; margin-bottom: 30px; }
 
+        /* --- LIVE DEMO BUTTON (ANIMATED) --- */
+        .demo-btn-container { margin-top: 40px; position: relative; display: inline-block; }
+        
+        .demo-btn {
+            position: relative;
+            display: inline-flex; align-items: center; gap: 12px;
+            background: linear-gradient(135deg, #0071e3, #00c6ff); 
+            color: white;
+            padding: 16px 36px; border-radius: 50px;
+            text-decoration: none; font-size: 1.1rem; font-weight: 700;
+            letter-spacing: 0.02em;
+            box-shadow: 0 10px 30px rgba(0, 113, 227, 0.4);
+            transition: all 0.3s ease;
+            z-index: 2;
+            animation: breathe 3s infinite ease-in-out;
+        }
+
+        /* The Radar Ripple Effect */
+        .demo-btn::after {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 50px;
+            border: 2px solid #00AEEF;
+            z-index: -1;
+            animation: ripple 2s infinite cubic-bezier(0, 0, 0.2, 1);
+        }
+
+        .demo-btn:hover { 
+            transform: scale(1.05) translateY(-2px); 
+            box-shadow: 0 15px 40px rgba(0, 113, 227, 0.6); 
+            background: linear-gradient(135deg, #0060c2, #00a0d1);
+        }
+
+        /* The Blinking Live Dot */
+        .live-dot {
+            width: 10px; height: 10px; background: #fff; border-radius: 50%;
+            display: inline-block; box-shadow: 0 0 10px rgba(255,255,255,0.8);
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes breathe {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes ripple {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.4); opacity: 0; }
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; }
+        }
+
         /* PHONE MOCKUP */
         .device-mockup { flex: 1; display: flex; justify-content: center; position: relative; }
         .phone-frame {
@@ -286,10 +341,17 @@
             <div class="showcase-text animate-block d-1">
                 <h2>Always On. <br>Always Selling.</h2>
                 <p>Imagine a sales agent that never sleeps, never misses a DM, and knows your product catalog by heart. Our agents manage your social media platforms, turning casual inquiries into confirmed orders, 24/7.</p>
-                <div style="display: flex; gap: 15px; justify-content: flex-start;">
+                <div style="display: flex; gap: 15px; justify-content: flex-start; flex-wrap: wrap;">
                      <span style="padding: 8px 16px; background: rgba(0,174,239,0.1); color: var(--sky-blue); border-radius: 20px; font-weight: 600; font-size: 0.9rem;">WhatsApp</span>
                      <span style="padding: 8px 16px; background: rgba(0,174,239,0.1); color: var(--sky-blue); border-radius: 20px; font-weight: 600; font-size: 0.9rem;">Instagram</span>
                      <span style="padding: 8px 16px; background: rgba(0,174,239,0.1); color: var(--sky-blue); border-radius: 20px; font-weight: 600; font-size: 0.9rem;">Web Chat</span>
+                </div>
+
+                <div class="demo-btn-container">
+                    <a href="agent.html" class="demo-btn">
+                        <span class="live-dot"></span>
+                        Test Live Demo
+                    </a>
                 </div>
             </div>
 
