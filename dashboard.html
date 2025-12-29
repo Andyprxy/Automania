@@ -81,49 +81,73 @@
         .hero-subtitle { font-size: 1.8rem; color: var(--apple-grey); max-width: 750px; margin: 0 auto; font-weight: 400; line-height: 1.3; }
         .highlight-text { background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;}
 
-        /* --- NEW LIVE DEMO BANNER (UPDATED STYLE) --- */
+        /* --- UPDATED PREMIUM DEMO BANNER --- */
         .demo-banner {
-            /* Premium Grey Gradient + Glass Effect */
-            background: linear-gradient(135deg, rgba(240, 240, 245, 0.8) 0%, rgba(255, 255, 255, 0.9) 100%);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            
-            color: var(--apple-black); /* Dark text for light background */
-            padding: 30px 40px;
-            border-radius: 24px;
-            margin: 0 auto 100px auto; /* Margin bottom to separate from features */
-            max-width: 900px;
+            position: relative;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 1);
+            border-radius: 30px;
+            padding: 45px 50px;
+            margin: 0 auto 100px auto;
+            max-width: 1000px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08); /* Softer shadow */
-            flex-wrap: wrap;
-            gap: 20px;
-            position: relative;
+            gap: 30px;
+            /* Premium Glow & Depth */
+            box-shadow: 
+                0 30px 80px -10px rgba(0, 113, 227, 0.15),
+                0 0 0 1px rgba(0, 113, 227, 0.05);
             overflow: hidden;
+            z-index: 10;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        
+        .demo-banner:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 40px 100px -10px rgba(0, 113, 227, 0.25),
+                0 0 0 1px rgba(0, 113, 227, 0.15);
+        }
+
+        /* Accent Gradient Bar on Left */
+        .demo-banner::before {
+            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 6px;
+            background: var(--brand-gradient);
+        }
+
+        /* Abstract Background Glow */
+        .demo-bg-glow {
+            position: absolute; top: -50%; right: -10%; width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(0, 174, 239, 0.08) 0%, transparent 70%);
+            z-index: 0; pointer-events: none;
         }
 
         .demo-content { z-index: 1; flex: 1; }
-        .demo-title { font-size: 1.6rem; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 12px; }
+        .demo-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 15px; color: var(--apple-black); }
         
         .live-badge { 
-            background: rgba(40, 200, 64, 0.1); color: #28c840; padding: 5px 12px; 
+            background: rgba(40, 200, 64, 0.1); color: #28c840; padding: 6px 14px; 
             border-radius: 100px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; 
-            border: 1px solid rgba(40, 200, 64, 0.3); display: flex; align-items: center; gap: 6px;
+            border: 1px solid rgba(40, 200, 64, 0.3); display: flex; align-items: center; gap: 6px; letter-spacing: 0.05em;
         }
         .pulse-dot { width: 8px; height: 8px; background: #28c840; border-radius: 50%; animation: pulse 2s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(40, 200, 64, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(40, 200, 64, 0); } 100% { box-shadow: 0 0 0 0 rgba(40, 200, 64, 0); } }
 
-        .demo-desc { font-size: 1rem; color: var(--apple-grey); max-width: 500px; line-height: 1.5; }
+        .demo-desc { font-size: 1.05rem; color: var(--apple-grey); max-width: 550px; line-height: 1.6; font-weight: 400; }
         
+        /* High-Visibility Button */
         .live-btn { 
             z-index: 1;
-            background: var(--apple-black); color: white; padding: 14px 30px; 
-            border-radius: 100px; text-decoration: none; font-weight: 600; 
+            background: var(--apple-blue); /* Brand Blue for visibility */
+            color: white; padding: 16px 36px; 
+            border-radius: 100px; text-decoration: none; font-weight: 600; font-size: 1.05rem;
             transition: all 0.3s ease; white-space: nowrap; display: flex; align-items: center; gap: 10px;
+            box-shadow: 0 10px 25px rgba(0, 113, 227, 0.3);
         }
-        .live-btn:hover { background: #000; transform: scale(1.05); box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+        .live-btn:hover { background: #0077ed; transform: scale(1.05); box-shadow: 0 15px 35px rgba(0, 113, 227, 0.4); }
 
         /* --- ADVANCED DASHBOARD MOCKUP --- */
         .browser-mockup {
@@ -389,14 +413,14 @@
                         <div class="feed-item">
                             <div class="feed-left">
                                 <div class="feed-avatar" style="background:#e3f2fd; color:#1565c0;">AI</div>
-                                <div class="feed-text">Order #2901: 50x Whole Chickens</div>
+                                <div class="feed-text">Order #2901 Confirmed via WhatsApp</div>
                             </div>
                             <div class="feed-time">2m ago</div>
                         </div>
                         <div class="feed-item">
                             <div class="feed-left">
                                 <div class="feed-avatar" style="background:#f3e5f5; color:#7b1fa2;">AI</div>
-                                <div class="feed-text">Answered FAQ: "Bulk Pricing"</div>
+                                <div class="feed-text">Answered FAQ: "Return Policy"</div>
                             </div>
                             <div class="feed-time">5m ago</div>
                         </div>
@@ -406,6 +430,7 @@
         </div>
 
         <div class="demo-banner animate-block d-2">
+            <div class="demo-bg-glow"></div>
             <div class="demo-content">
                 <div class="demo-title">
                     Farm Mania Demo <span class="live-badge"><div class="pulse-dot"></div> Live System</span>
