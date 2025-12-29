@@ -81,53 +81,53 @@
         .hero-subtitle { font-size: 1.8rem; color: var(--apple-grey); max-width: 750px; margin: 0 auto; font-weight: 400; line-height: 1.3; }
         .highlight-text { background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;}
 
-        /* --- NEW LIVE DEMO BANNER --- */
+        /* --- NEW LIVE DEMO BANNER (UPDATED STYLE) --- */
         .demo-banner {
-            background: #1d1d1f;
-            color: white;
+            /* Premium Grey Gradient + Glass Effect */
+            background: linear-gradient(135deg, rgba(240, 240, 245, 0.8) 0%, rgba(255, 255, 255, 0.9) 100%);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            
+            color: var(--apple-black); /* Dark text for light background */
             padding: 30px 40px;
             border-radius: 24px;
-            margin: 0 auto 80px auto;
+            margin: 0 auto 100px auto; /* Margin bottom to separate from features */
             max-width: 900px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08); /* Softer shadow */
             flex-wrap: wrap;
             gap: 20px;
             position: relative;
             overflow: hidden;
         }
-        /* Subtle glow effect behind banner */
-        .demo-banner::before {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%);
-            z-index: 0; pointer-events: none;
-        }
 
         .demo-content { z-index: 1; flex: 1; }
         .demo-title { font-size: 1.6rem; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 12px; }
+        
         .live-badge { 
-            background: rgba(40, 200, 64, 0.15); color: #28c840; padding: 5px 12px; 
+            background: rgba(40, 200, 64, 0.1); color: #28c840; padding: 5px 12px; 
             border-radius: 100px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; 
             border: 1px solid rgba(40, 200, 64, 0.3); display: flex; align-items: center; gap: 6px;
         }
         .pulse-dot { width: 8px; height: 8px; background: #28c840; border-radius: 50%; animation: pulse 2s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(40, 200, 64, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(40, 200, 64, 0); } 100% { box-shadow: 0 0 0 0 rgba(40, 200, 64, 0); } }
 
-        .demo-desc { font-size: 1rem; color: #a1a1a6; max-width: 500px; line-height: 1.5; }
+        .demo-desc { font-size: 1rem; color: var(--apple-grey); max-width: 500px; line-height: 1.5; }
         
         .live-btn { 
             z-index: 1;
-            background: var(--apple-blue); color: white; padding: 14px 30px; 
+            background: var(--apple-black); color: white; padding: 14px 30px; 
             border-radius: 100px; text-decoration: none; font-weight: 600; 
             transition: all 0.3s ease; white-space: nowrap; display: flex; align-items: center; gap: 10px;
         }
-        .live-btn:hover { background: #0077ed; transform: scale(1.05); box-shadow: 0 10px 30px rgba(0, 113, 227, 0.3); }
+        .live-btn:hover { background: #000; transform: scale(1.05); box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
 
         /* --- ADVANCED DASHBOARD MOCKUP --- */
         .browser-mockup {
-            width: 100%; max-width: 1100px; margin: 0 auto 150px auto;
+            width: 100%; max-width: 1100px; margin: 0 auto 60px auto;
             background: #fff; border-radius: 24px;
             box-shadow: 0 40px 80px -20px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05);
             overflow: hidden; position: relative;
@@ -332,19 +332,7 @@
             <p class="hero-subtitle">Turn raw data streams from your agents and external sources into a command center for your business.</p>
         </header>
 
-        <div class="demo-banner animate-block d-1">
-            <div class="demo-content">
-                <div class="demo-title">
-                    Farm Mania Demo <span class="live-badge"><div class="pulse-dot"></div> Live System</span>
-                </div>
-                <p class="demo-desc">See the real-time data from our Poultry Sales Agent. This dashboard visualizes the orders processed by the AI Agent in the Automation section.</p>
-            </div>
-            <a href="#" class="live-btn">
-                Launch Live Dashboard <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 18px; height: 18px;"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-            </a>
-        </div>
-
-        <div class="browser-mockup animate-block d-2">
+        <div class="browser-mockup animate-block d-1">
             <div class="browser-header">
                 <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
             </div>
@@ -415,6 +403,18 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="demo-banner animate-block d-2">
+            <div class="demo-content">
+                <div class="demo-title">
+                    Farm Mania Demo <span class="live-badge"><div class="pulse-dot"></div> Live System</span>
+                </div>
+                <p class="demo-desc">See the real-time data from our Poultry Sales Agent. This dashboard visualizes the orders processed by the AI Agent in the Automation section.</p>
+            </div>
+            <a href="https://andyprxy.github.io/ManiaDashborad/" class="live-btn" target="_blank">
+                Launch Live Dashboard <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 18px; height: 18px;"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+            </a>
         </div>
 
         <section>
