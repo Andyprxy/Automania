@@ -11,13 +11,13 @@
             --apple-black: #1d1d1f;
             --apple-blue: #0071e3;
             --sky-blue: #00AEEF;
-            --bg-color: #fbfbfd;
-            --glass-card: rgba(255, 255, 255, 0.65);
-            --brand-gradient: linear-gradient(135deg, #0071e3, #00AEEF);
+            --bg-color: #f5f5f7;
+            --glass-card: rgba(255, 255, 255, 0.72);
+            --brand-gradient: linear-gradient(135deg, #0071e3, #00c6ff);
         }
 
         /* RESET & TYPOGRAPHY */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
         
         body { 
             background-color: var(--bg-color); 
@@ -28,55 +28,59 @@
 
         /* AMBIENT BACKGROUND */
         .ambient-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 0; background: #ffffff; overflow: hidden;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 0; 
+            background: #fbfbfd; overflow: hidden;
         }
-        .blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.6; animation: float 20s infinite alternate; }
-        .blob-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: rgba(0, 174, 239, 0.15); }
-        .blob-2 { bottom: -10%; right: -10%; width: 60vw; height: 60vw; background: rgba(29, 29, 31, 0.05); animation-delay: -5s; }
-        .blob-3 { top: 40%; left: 40%; width: 30vw; height: 30vw; background: rgba(0, 113, 227, 0.1); animation-delay: -10s; }
-        @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, 50px) scale(1.1); } }
+        .blob { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.5; animation: float 25s infinite alternate ease-in-out; }
+        .blob-1 { top: -10%; left: -10%; width: 60vw; height: 60vw; background: rgba(0, 113, 227, 0.12); }
+        .blob-2 { bottom: -10%; right: -10%; width: 70vw; height: 70vw; background: rgba(200, 200, 255, 0.1); animation-delay: -5s; }
+        .blob-3 { top: 40%; left: 30%; width: 40vw; height: 40vw; background: rgba(0, 174, 239, 0.08); animation-delay: -10s; }
+        @keyframes float { 
+            0% { transform: translate(0, 0) scale(1); } 
+            100% { transform: translate(40px, 60px) scale(1.05); } 
+        }
 
         /* NAVIGATION */
         nav {
             position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 1000px;
-            display: flex; justify-content: space-between; align-items: center; padding: 12px 24px;
-            background: rgba(255, 255, 255, 0.75); backdrop-filter: saturate(180%) blur(20px);
-            border: 1px solid rgba(255,255,255,0.5); border-radius: 100px; 
-            z-index: 100; box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            display: flex; justify-content: space-between; align-items: center; padding: 14px 24px;
+            background: rgba(255, 255, 255, 0.8); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border: 1px solid rgba(255,255,255,0.6); border-radius: 100px; 
+            z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,0.04); transition: top 0.3s ease;
         }
         
         .nav-left { display: flex; align-items: center; gap: 15px; }
-        .mobile-back { display: none; text-decoration: none; color: var(--apple-black); font-size: 0.95rem; font-weight: 600; align-items: center; gap: 5px; opacity: 0.8; }
+        .mobile-back { display: none; text-decoration: none; color: var(--apple-black); font-size: 0.95rem; font-weight: 500; align-items: center; gap: 5px; opacity: 0.8; transition: opacity 0.2s; }
+        .mobile-back:hover { opacity: 1; }
         
         .nav-brand { display: flex; flex-direction: column; line-height: 1.1; }
         .brand-name { font-weight: 600; font-size: 1.1rem; letter-spacing: -0.01em; }
         .brand-sub { font-size: 0.65rem; opacity: 0.5; text-transform: uppercase; letter-spacing: 0.05em; }
 
-        .nav-links { display: flex; gap: 25px; align-items: center; }
+        .nav-links { display: flex; gap: 28px; align-items: center; }
         .nav-item { text-decoration: none; color: var(--apple-black); font-size: 0.9rem; font-weight: 500; opacity: 0.7; transition: all 0.2s; }
         .nav-item:hover { opacity: 1; color: var(--apple-blue); }
         
-        .nav-btn { background: var(--apple-black); color: white; padding: 10px 22px; border-radius: 30px; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: transform 0.2s; }
-        .nav-btn:hover { transform: scale(1.05); }
+        .nav-btn { background: var(--apple-black); color: white; padding: 10px 24px; border-radius: 30px; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: transform 0.2s; }
+        .nav-btn:hover { transform: scale(1.03); background: #000; }
 
         .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; z-index: 101; }
-        .bar { width: 22px; height: 2px; background-color: var(--apple-black); transition: 0.3s; }
+        .bar { width: 22px; height: 2px; background-color: var(--apple-black); transition: 0.3s; border-radius: 2px; }
 
         /* --- PREMIUM FROSTED SIDEBAR --- */
         .mobile-menu {
             position: fixed; top: 0; right: -320px; width: 280px; height: 100vh;
-            background: rgba(255, 255, 255, 0.65); backdrop-filter: saturate(180%) blur(30px); -webkit-backdrop-filter: saturate(180%) blur(30px);
-            z-index: 99; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding-left: 40px; gap: 25px;
-            box-shadow: -10px 0 40px rgba(0,0,0,0.05); border-left: 1px solid rgba(255,255,255,0.3);
-            transition: right 0.5s cubic-bezier(0.16, 1, 0.3, 1); pointer-events: auto;
+            background: rgba(255, 255, 255, 0.8); backdrop-filter: saturate(180%) blur(30px); -webkit-backdrop-filter: saturate(180%) blur(30px);
+            z-index: 99; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding-left: 40px; gap: 30px;
+            box-shadow: -10px 0 40px rgba(0,0,0,0.05); border-left: 1px solid rgba(255,255,255,0.5);
+            transition: right 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); pointer-events: auto;
         }
         .mobile-menu.active { right: 0; }
         .mobile-link { 
-            text-decoration: none; color: var(--apple-black); font-size: 1.25rem; font-weight: 500; 
-            opacity: 0; transform: translateX(20px); transition: 0.4s ease; letter-spacing: -0.01em;
+            text-decoration: none; color: var(--apple-black); font-size: 1.4rem; font-weight: 600; 
+            opacity: 0; transform: translateX(20px); transition: 0.4s ease; letter-spacing: -0.02em;
         }
         .mobile-menu.active .mobile-link { opacity: 1; transform: translateX(0); }
-        /* Staggered Animation */
         .mobile-menu.active .mobile-link:nth-child(1) { transition-delay: 0.1s; } 
         .mobile-menu.active .mobile-link:nth-child(2) { transition-delay: 0.15s; }
         .mobile-menu.active .mobile-link:nth-child(3) { transition-delay: 0.2s; }
@@ -88,91 +92,115 @@
         .content-layer {
             position: relative; z-index: 1;
             max-width: 1100px; margin: 0 auto;
-            padding: 160px 24px 100px 24px;
+            padding: 180px 24px 100px 24px;
         }
 
-        .header-section { text-align: center; margin-bottom: 80px; }
-        h1 { font-size: 4.5rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 24px; }
-        .subtitle { font-size: 1.6rem; color: var(--apple-grey); max-width: 700px; margin: 0 auto; font-weight: 400; line-height: 1.4; }
+        .header-section { text-align: center; margin-bottom: 100px; }
+        
+        .mission-tag {
+            display: inline-block; background: rgba(0, 113, 227, 0.08); color: var(--apple-blue);
+            padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 24px;
+        }
+
+        /* FIXED "g" CLIPPING: Increased line-height and added padding */
+        h1 { 
+            font-size: 5rem; font-weight: 700; letter-spacing: -0.03em; 
+            line-height: 1.15; /* Increased from 1.05 to show descenders */
+            margin-bottom: 24px; padding-bottom: 10px; /* Extra safety padding */
+            color: var(--apple-black);
+        }
+        
+        .subtitle { font-size: 1.7rem; color: var(--apple-grey); max-width: 800px; margin: 0 auto; font-weight: 400; line-height: 1.4; letter-spacing: -0.01em; }
         
         .highlight-text { 
             background: var(--brand-gradient); 
             -webkit-background-clip: text; 
             -webkit-text-fill-color: transparent; 
             display: inline-block; 
+            padding-bottom: 5px; /* Ensures the gradient covers the full 'g' */
         }
 
         /* BENTO GRID */
         .bento-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
+            gap: 30px;
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 30px;
+            background: var(--glass-card);
+            backdrop-filter: saturate(180%) blur(25px);
+            -webkit-backdrop-filter: saturate(180%) blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 32px;
             padding: 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+            display: flex; flex-direction: column; justify-content: flex-start;
+            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease;
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.05);
             opacity: 0; transform: translateY(20px);
-            animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: fadeUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
         }
 
-        .card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.06); background: rgba(255,255,255,0.85); }
+        .card:hover { transform: translateY(-5px) scale(1.01); box-shadow: 0 20px 50px -10px rgba(0,0,0,0.1); background: rgba(255,255,255,0.85); }
 
         .span-2 { grid-column: span 2; }
         .span-3 { grid-column: span 3; }
 
         .icon-box {
-            width: 50px; height: 50px;
-            background: rgba(0, 174, 239, 0.1);
-            border-radius: 14px;
+            width: 56px; height: 56px;
+            background: linear-gradient(135deg, rgba(0, 113, 227, 0.1), rgba(0, 174, 239, 0.05));
+            border-radius: 18px;
             display: flex; align-items: center; justify-content: center;
             margin-bottom: 24px;
-            color: var(--sky-blue);
+            color: var(--apple-blue);
         }
-        svg { width: 24px; height: 24px; stroke-width: 2; }
+        svg { width: 28px; height: 28px; stroke-width: 1.5; }
 
-        .card h3 { font-size: 1.4rem; font-weight: 600; margin-bottom: 12px; letter-spacing: -0.01em; }
-        .card p { font-size: 1.05rem; color: var(--apple-grey); line-height: 1.5; font-weight: 400; }
+        .card h3 { font-size: 1.5rem; font-weight: 600; margin-bottom: 12px; letter-spacing: -0.02em; }
+        .card p { font-size: 1.1rem; color: var(--apple-grey); line-height: 1.55; font-weight: 400; letter-spacing: -0.01em; }
 
         /* FOUNDER SECTION */
         .founder-container {
-            display: flex;
-            align-items: center;
-            gap: 40px;
-            width: 100%;
+            display: flex; align-items: center; gap: 50px; width: 100%;
         }
 
         .founder-img {
-            width: 160px; height: 160px; min-width: 160px; flex-shrink: 0;
+            width: 180px; height: 180px; min-width: 180px; flex-shrink: 0;
             border-radius: 50%; object-fit: cover;
-            border: 4px solid #ffffff; box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border: 4px solid #fff; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
 
         .founder-info { flex: 1; }
 
         .role { 
-            font-size: 0.85rem; font-weight: 700; color: var(--sky-blue); 
-            letter-spacing: 0.05em; text-transform: uppercase; 
-            margin-bottom: 6px; display: block; 
+            font-size: 0.8rem; font-weight: 700; color: var(--apple-blue); 
+            letter-spacing: 0.08em; text-transform: uppercase; 
+            margin-bottom: 10px; display: block; 
         }
 
         .founder-name {
-            font-size: 2rem; font-weight: 700; margin-bottom: 15px; 
-            letter-spacing: -0.02em; color: var(--apple-black);
+            font-size: 2.4rem; font-weight: 700; margin-bottom: 10px; 
+            letter-spacing: -0.03em; color: var(--apple-black);
+        }
+        
+        /* Skills Tags */
+        .skills-row { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .skill-tag {
+            font-size: 0.75rem; font-weight: 600; color: var(--apple-grey);
+            background: rgba(0,0,0,0.04); padding: 4px 10px; border-radius: 8px;
         }
 
         .quote { 
             font-size: 1.15rem; font-weight: 400; font-style: italic; 
-            color: var(--apple-grey); line-height: 1.5;
+            color: var(--apple-grey); line-height: 1.6; position: relative;
+        }
+        .quote::before { content: "“"; position: absolute; left: -25px; color: #e5e5e5; font-size: 4rem; top: -20px; font-family: serif; line-height: 1; }
+
+        /* PHILOSOPHY STRIP */
+        .philosophy {
+            margin-top: 30px; text-align: center; color: var(--apple-grey); font-size: 0.9rem; letter-spacing: 0.05em; text-transform: uppercase; opacity: 0.6;
         }
 
         .d-1 { animation-delay: 0.1s; }
@@ -187,17 +215,19 @@
             nav { width: 95%; top: 10px; padding: 12px 20px; }
             .nav-links, .nav-btn { display: none; }
             .hamburger { display: flex; }
-            .mobile-back { display: flex; } /* Show Back Button */
+            .mobile-back { display: flex; } 
             
             .header-section { margin-bottom: 60px; }
-            h1 { font-size: 3rem; }
-            .subtitle { font-size: 1.2rem; }
+            h1 { font-size: 3.2rem; line-height: 1.1; }
+            .subtitle { font-size: 1.25rem; }
 
             .bento-grid { grid-template-columns: 1fr; }
             .span-2, .span-3 { grid-column: span 1; }
             
-            .founder-container { flex-direction: column; text-align: center; gap: 20px; }
-            .founder-img { margin: 0 auto; }
+            .founder-container { flex-direction: column; text-align: center; gap: 25px; }
+            .founder-img { margin: 0 auto; width: 150px; height: 150px; min-width: 150px; }
+            .skills-row { justify-content: center; }
+            .quote::before { display: none; }
         }
     </style>
 </head>
@@ -252,8 +282,9 @@
     <div class="content-layer">
         
         <div class="header-section">
+            <span class="mission-tag">Our Mission</span>
             <h1>We Don't Just Build.<br><span class="highlight-text">We Diagnose.</span></h1>
-            <p class="subtitle">Automania is a systems engineering firm that speaks the language of code. We are future ready.</p>
+            <p class="subtitle">We believe that true automation isn't about replacing humans—it's about removing friction. Automania is a systems engineering firm that speaks the language of code.</p>
         </div>
 
         <div class="bento-grid">
@@ -262,8 +293,8 @@
                 <div class="icon-box">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 5.84-2.25 8.25A22 22 0 0 1 15 12z"></path><path d="M9 9 5 5"></path><path d="M15 15l4 4"></path></svg>
                 </div>
-                <h3>Future Ready</h3>
-                <p>We leverage up to date tools, from AI agents to 3D web environments; to ensure your business isn't just running, but evolving. We don't chase trends; we implement standards that will last.</p>
+                <h3>Tailored Architecture</h3>
+                <p>Off-the-shelf solutions often fail because they ignore context. We analyze your specific operational bottlenecks—from inventory lag to customer communication—and engineer custom digital infrastructure that fits your business like a glove.</p>
             </div>
 
             <div class="card d-2">
@@ -271,15 +302,15 @@
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"></rect><rect x="2" y="16" width="6" height="6" rx="1"></rect><rect x="9" y="2" width="6" height="6" rx="1"></rect><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"></path><path d="M12 12V8"></path></svg>
                 </div>
                 <h3>Systems Thinking</h3>
-                <p>We view your business as an ecosystem. We diagnose real case solutions that scale efficiently without breaking your workflow.</p>
+                <p>We view your business as a living ecosystem. We don't just patch holes; we diagnose root causes to implement solutions that scale efficiently without breaking your workflow.</p>
             </div>
 
             <div class="card d-3">
                 <div class="icon-box">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>
                 </div>
-                <h3>Digital Scale</h3>
-                <p>Uplifting businesses by automating the mundane. We build the digital infrastructure that allows you to grow exponentially.</p>
+                <h3>Data-Driven Growth</h3>
+                <p>Gut feelings are good; data is better. By automating the mundane, we unlock the digital insights that allow you to make decisions based on real-time facts, not guesses.</p>
             </div>
 
             <div class="card span-3 d-4">
@@ -289,11 +320,20 @@
                     <div class="founder-info">
                         <span class="role">Founder & Lead Solutions Architect</span>
                         <h3 class="founder-name">Brian Maphumulo</h3>
-                        <p class="quote">"My background in Industrial Engineering taught me that efficiency is an art form. Automania is the canvas where we paint that efficiency with code."</p>
+                        <div class="skills-row">
+                            <span class="skill-tag">Industrial Engineering</span>
+                            <span class="skill-tag">Full-Stack Dev</span>
+                            <span class="skill-tag">AI Integration</span>
+                        </div>
+                        <p class="quote">"My background in Industrial Engineering taught me that efficiency is an art form. Automania is the canvas where we paint that efficiency with code. We are not just building software; we are building the engine for your future growth."</p>
                     </div>
                 </div>
             </div>
 
+        </div>
+
+        <div class="philosophy">
+            Design • Connect • Automate
         </div>
     </div>
 
@@ -306,4 +346,3 @@
 
 </body>
 </html>
-
