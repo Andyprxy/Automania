@@ -95,7 +95,7 @@
             padding: 180px 24px 100px 24px;
         }
 
-        .header-section { text-align: center; margin-bottom: 100px; }
+        .header-section { text-align: center; margin-bottom: 80px; }
         
         .mission-tag {
             display: inline-block; background: rgba(0, 113, 227, 0.08); color: var(--apple-blue);
@@ -103,11 +103,10 @@
             text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 24px;
         }
 
-        /* FIXED "g" CLIPPING: Increased line-height and added padding */
         h1 { 
             font-size: 5rem; font-weight: 700; letter-spacing: -0.03em; 
-            line-height: 1.15; /* Increased from 1.05 to show descenders */
-            margin-bottom: 24px; padding-bottom: 10px; /* Extra safety padding */
+            line-height: 1.15; 
+            margin-bottom: 24px; padding-bottom: 10px;
             color: var(--apple-black);
         }
         
@@ -118,7 +117,7 @@
             -webkit-background-clip: text; 
             -webkit-text-fill-color: transparent; 
             display: inline-block; 
-            padding-bottom: 5px; /* Ensures the gradient covers the full 'g' */
+            padding-bottom: 5px; 
         }
 
         /* BENTO GRID */
@@ -289,31 +288,7 @@
 
         <div class="bento-grid">
             
-            <div class="card span-2 d-1">
-                <div class="icon-box">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 5.84-2.25 8.25A22 22 0 0 1 15 12z"></path><path d="M9 9 5 5"></path><path d="M15 15l4 4"></path></svg>
-                </div>
-                <h3>Tailored Architecture</h3>
-                <p>Off the shelf solutions often fail because they ignore context. We analyze your specific operational bottlenecks, from inventory lag to customer communication, and engineer custom digital infrastructure that fits your business like a glove.</p>
-            </div>
-
-            <div class="card d-2">
-                <div class="icon-box">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"></rect><rect x="2" y="16" width="6" height="6" rx="1"></rect><rect x="9" y="2" width="6" height="6" rx="1"></rect><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"></path><path d="M12 12V8"></path></svg>
-                </div>
-                <h3>Systems Thinking</h3>
-                <p>We view your business as a living ecosystem. We don't just patch holes; we diagnose root causes to implement solutions that scale efficiently without breaking your workflow.</p>
-            </div>
-
-            <div class="card d-3">
-                <div class="icon-box">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>
-                </div>
-                <h3>Data-Driven Growth</h3>
-                <p>Gut feelings are good; data is better. By automating the mundane, we unlock the digital insights that allow you to make decisions based on real-time facts, not guesses.</p>
-            </div>
-
-            <div class="card span-3 d-4">
+            <div class="card span-3 d-1">
                 <div class="founder-container">
                     <img src="profile.jpg" alt="Brian Maphumulo" class="founder-img">
                     
@@ -328,6 +303,30 @@
                         <p class="quote">"My background in Industrial Engineering taught me that efficiency is an art form. Automania is the canvas where we paint that efficiency with code. We are not just building software; we are building the engine for your future growth."</p>
                     </div>
                 </div>
+            </div>
+
+            <div class="card span-2 d-2">
+                <div class="icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 5.84-2.25 8.25A22 22 0 0 1 15 12z"></path><path d="M9 9 5 5"></path><path d="M15 15l4 4"></path></svg>
+                </div>
+                <h3>Tailored Architecture</h3>
+                <p>Off the shelf solutions often fail because they ignore context. We analyze your specific operational bottlenecks, from inventory lag to customer communication, and engineer custom digital infrastructure that fits your business like a glove.</p>
+            </div>
+
+            <div class="card d-3">
+                <div class="icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"></rect><rect x="2" y="16" width="6" height="6" rx="1"></rect><rect x="9" y="2" width="6" height="6" rx="1"></rect><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"></path><path d="M12 12V8"></path></svg>
+                </div>
+                <h3>Systems Thinking</h3>
+                <p>We view your business as a living ecosystem. We don't just patch holes; we diagnose root causes to implement solutions that scale efficiently without breaking your workflow.</p>
+            </div>
+
+            <div class="card d-4">
+                <div class="icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>
+                </div>
+                <h3>Data-Driven Growth</h3>
+                <p>Gut feelings are good; data is better. By automating the mundane, we unlock the digital insights that allow you to make decisions based on real-time facts, not guesses.</p>
             </div>
 
         </div>
@@ -346,4 +345,3 @@
 
 </body>
 </html>
-
