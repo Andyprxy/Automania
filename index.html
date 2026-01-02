@@ -7,8 +7,6 @@
     <title>Automania | AI Automation & Digital Agency</title>
     <meta name="description" content="Automania is a premier digital agency specializing in Business Process Automation, AI Solutions, and 3D Web Experiences.">
     
-    <meta name="google-site-verification" content="T3t27t0-Uq7h0UgxY3fGCLVNZRCFrSyyH3fP2w-xPYE" />
-    
     <link rel="icon" type="image/jpeg" href="favicon.jpg">
     <script type="module" src="https://unpkg.com/@splinetool/viewer@1.12.28/build/spline-viewer.js"></script>
     
@@ -48,23 +46,22 @@
 
         .nav-btn { background: var(--apple-black); color: white; padding: 8px 20px; border-radius: 30px; text-decoration: none; font-size: 0.9rem; font-weight: 500; }
 
-        /* HERO SECTION (With Frosted Glass for Mobile) */
+        /* HERO SECTION */
         .hero { height: 90vh; display: flex; flex-direction: column; justify-content: center; padding-left: 10%; width: 100%; margin-top: 60px; }
         .hero-content { max-width: 650px; padding: 20px; border-radius: 24px; }
-        .hero h1 { font-weight: 700; letter-spacing: -0.025em; line-height: 0.95; display: flex; flex-direction: column; align-items: flex-start; }
-        .sub-grey { color: var(--apple-grey); display: block; font-size: 3.5rem; font-weight: 600; margin-bottom: 5px; }
-        .highlight-text { font-size: 6.5rem; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; line-height: 1.1; margin-top: -5px; }
-        .hero-desc { font-size: 1.35rem; line-height: 1.45; font-weight: 400; color: var(--apple-grey); margin-top: 2rem; letter-spacing: -0.01em; max-width: 500px; }
+        .sub-grey { color: var(--apple-grey); font-size: 3.5rem; font-weight: 600; display: block; }
+        .highlight-text { font-size: 6.5rem; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; }
+        .hero-desc { font-size: 1.35rem; color: var(--apple-grey); margin-top: 2rem; max-width: 500px; }
 
-        /* CHAT TRIGGER PLACEMENT (Centered for Mobile) */
-        .chat-trigger-container { width: 100%; display: flex; justify-content: center; padding: 20px 10%; z-index: 20; }
+        /* CHAT TRIGGER */
+        .chat-trigger-container { width: 100%; display: flex; justify-content: center; padding: 40px 0; z-index: 20; }
         .chat-trigger {
             padding: 14px 36px;
             background: var(--chat-gradient); 
             border-radius: 100px; 
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             cursor: pointer; box-shadow: 0 15px 35px rgba(94, 92, 230, 0.3); 
-            pointer-events: auto; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: auto; transition: 0.4s;
             animation: radiate 3s infinite;
         }
         .chat-trigger .main-text { color: white; font-size: 1.15rem; font-weight: 700; }
@@ -89,12 +86,20 @@
             border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 22px; padding: 24px 32px;
             cursor: pointer; transition: 0.3s; text-decoration: none; color: inherit; display: block;
         }
-        .service-tile h3 { font-size: 1.4rem; font-weight: 600; letter-spacing: -0.01em; display: flex; justify-content: space-between; align-items: center; }
-        .service-desc { margin-top: 8px; font-size: 1.05rem; color: var(--apple-grey); line-height: 1.4; }
+        .keyword { font-size: 3.2rem; font-weight: 600; color: var(--sky-blue); display: block; text-align: right; line-height: 1.1; }
 
-        /* KEYWORDS */
-        .right-keywords { display: flex; flex-direction: column; text-align: right; gap: 15px; position: relative; }
-        .keyword { font-size: 3.2rem; font-weight: 600; color: var(--sky-blue); letter-spacing: -0.02em; line-height: 1.1; }
+        /* ACTION AREA (Aligned Right for PC) */
+        .action-area { 
+            width: 100%; 
+            display: flex; 
+            justify-content: flex-end; /* PC Right Alignment */
+            padding: 40px 10% 100px 10%; 
+            background: #f5f5f7; 
+            opacity: 0; 
+            transition: 1s ease 0.5s; 
+        }
+        .action-area.visible { opacity: 1; }
+        .btn-learn { background: var(--apple-blue); color: white; padding: 14px 34px; border-radius: 980px; text-decoration: none; font-size: 1.05rem; }
 
         /* CHAT WINDOW */
         .chat-window {
@@ -104,22 +109,18 @@
             transform: translateY(30px) scale(0.9); opacity: 0; pointer-events: none; transition: 0.5s; z-index: 1000; overflow: hidden;
         }
         .chat-window.active { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
-        .minimize-btn { width: 30px; height: 30px; border-radius: 50%; background: rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
         @media (max-width: 1024px) {
             .nav-links { display: none; }
             .hero { padding: 100px 24px 0 24px; height: auto; min-height: 80vh; }
-            .hero-content { 
-                background: rgba(255, 255, 255, 0.4); 
-                backdrop-filter: blur(20px); 
-                -webkit-backdrop-filter: blur(20px);
-                border: 1px solid rgba(255, 255, 255, 0.3);
-                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            }
+            /* Frosted Hero Readability */
+            .hero-content { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.3); }
             .sub-grey { font-size: 2.2rem; }
             .highlight-text { font-size: 4rem; }
+            /* Mobile Center Alignment */
+            .action-area { justify-content: center; padding: 40px 24px 100px 24px; }
             .services-wrapper { flex-direction: column; padding: 20px 24px; text-align: center; }
-            .right-keywords { text-align: center; margin-bottom: 40px; }
+            .keyword { text-align: center; }
             .chat-window { width: calc(100% - 40px); bottom: 20px; right: 20px; }
         }
     </style>
@@ -133,8 +134,7 @@
     <div class="interface-layer">
         <nav class="active-element">
             <div class="nav-brand">
-                <span class="brand-name">Automania</span>
-                <span class="brand-sub">LUMA Ecosystem</span>
+                <span style="font-weight:600;">Automania</span>
             </div>
             <div class="nav-links">
                 <a href="index.html" class="nav-item" style="color:var(--apple-blue);">Home</a> 
@@ -150,7 +150,6 @@
             <div class="hero-content">
                 <h1>
                     <span class="sub-grey">The New Era</span>
-                    <span class="sub-grey">of</span>
                     <span class="highlight-text">Efficiency.</span>
                 </h1>
                 <p class="hero-desc">At Automania, we don't just build systems. We offer solutions that work for you, so you don't have to.</p>
@@ -168,18 +167,17 @@
             <div class="services-list">
                 <a href="web.html" class="service-tile">
                     <h3>3D Interactive Web →</h3>
-                    <p class="service-desc">Immersive web experiences that guide your customers automatically.</p>
+                    <p>Immersive web experiences built with Spline.</p>
                 </a>
                 <a href="automation.html" class="service-tile">
                     <h3>24/7 AI Agents →</h3>
-                    <p class="service-desc">Deploy autonomous agents to manage sales and support around the clock.</p>
+                    <p>Autonomous agents for sales and support.</p>
                 </a>
                 <a href="dashboard.html" class="service-tile">
                     <h3>Operational Dashboards →</h3>
-                    <p class="service-desc">Visualize your operations and control your business from one place.</p>
+                    <p>Visualize operations and control your business.</p>
                 </a>
             </div>
-
             <div class="right-keywords">
                 <span class="keyword">Design.</span>
                 <span class="keyword">Connect.</span>
@@ -193,17 +191,17 @@
     </div>
 
     <div class="chat-window" id="chatWindow">
-        <div class="chat-header" style="padding: 22px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.05);">
+        <div class="chat-header" style="padding: 22px; display: flex; justify-content: space-between; border-bottom: 1px solid rgba(0,0,0,0.05);">
             <span style="font-weight: 600;">Automania Concierge</span>
-            <div class="minimize-btn active-element" onclick="toggleChat()">
+            <div class="minimize-btn active-element" onclick="toggleChat()" style="cursor: pointer;">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </div>
         </div>
-        <div class="chat-messages" id="chatMsgs" style="flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; scrollbar-width: none;">
-            <div class="msg bot">Welcome. I am the Automania AI. How can I assist you today?</div>
+        <div class="chat-messages" id="chatMsgs" style="flex:1; overflow-y:auto; padding:20px; display:flex; flex-direction:column; gap:15px; scrollbar-width:none;">
+            <div class="msg bot" style="background:rgba(0,0,0,0.05); padding:12px; border-radius:18px;">Welcome. I am the Automania AI. How can I help?</div>
         </div>
-        <div class="chat-input-area active-element" style="padding: 15px 20px; background: rgba(255,255,255,0.5); border-top: 1px solid rgba(0,0,0,0.05); display: flex; gap: 10px;">
-            <input type="text" id="chatInput" placeholder="Ask anything..." onkeypress="if(event.key === 'Enter') sendMessage()" style="flex: 1; border-radius: 20px; padding: 10px 15px; border: 1px solid rgba(0,0,0,0.1); outline: none;">
+        <div class="chat-input-area active-element" style="padding:15px 20px; display:flex; gap:10px; border-top:1px solid rgba(0,0,0,0.05);">
+            <input type="text" id="chatInput" placeholder="Ask anything..." onkeypress="if(event.key === 'Enter') sendMessage()" style="flex:1; border-radius:20px; padding:10px 15px; border:1px solid rgba(0,0,0,0.1);">
             <button onclick="sendMessage()" style="background:none; border:none; color:var(--apple-blue); cursor:pointer; font-weight:600;">Send</button>
         </div>
     </div>
@@ -218,7 +216,9 @@
             if (!message) return;
 
             const userDiv = document.createElement('div');
-            userDiv.className = 'msg user'; userDiv.innerText = message;
+            userDiv.className = 'msg user'; 
+            userDiv.style = "background:var(--apple-blue); color:white; align-self:flex-end; padding:12px; border-radius:18px;";
+            userDiv.innerText = message;
             container.appendChild(userDiv); input.value = '';
 
             try {
@@ -228,7 +228,9 @@
                 });
                 const data = await response.json();
                 const botDiv = document.createElement('div');
-                botDiv.className = 'msg bot'; botDiv.innerText = data.output || data.message;
+                botDiv.className = 'msg bot'; 
+                botDiv.style = "background:rgba(0,0,0,0.05); align-self:flex-start; padding:12px; border-radius:18px;";
+                botDiv.innerText = data.output || data.message;
                 container.appendChild(botDiv); container.scrollTop = container.scrollHeight;
             } catch (err) { console.error("Chat Error:", err); }
         }
@@ -237,6 +239,7 @@
             entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
         }, { threshold: 0.1 });
         observer.observe(document.getElementById('servicesSection'));
+        observer.observe(document.getElementById('btnArea'));
     </script>
 </body>
 </html>
