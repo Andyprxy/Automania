@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automania | Profile Initialized</title>
+    <style>
+        :root {
+            --bg: #000000;
+            --glass: rgba(255, 255, 255, 0.05);
+            --accent: #32D74B; /* Secure Green */
+            --border: rgba(255, 255, 255, 0.1);
+        }
+        body { 
+            margin: 0; font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
+            background: var(--bg); color: white; height: 100vh; 
+            display: flex; align-items: center; justify-content: center; 
+        }
+
+        .container {
+            width: 90%; max-width: 500px; text-align: center;
+            padding: 40px; background: var(--glass); 
+            border: 1px solid var(--border); border-radius: 32px;
+            backdrop-filter: blur(20px);
+        }
+
+        /* Logo Icon */
+        .status-icon {
+            width: 70px; height: 70px; margin: 0 auto 30px;
+            background: rgba(50, 215, 75, 0.1); border-radius: 20px;
+            display: flex; align-items: center; justify-content: center;
+            border: 1px solid var(--accent); color: var(--accent);
+            font-size: 32px; font-weight: bold;
+            box-shadow: 0 0 30px rgba(50, 215, 75, 0.2);
+        }
+
+        h1 { font-size: 28px; margin-bottom: 15px; letter-spacing: -1px; }
+        p { color: #86868b; line-height: 1.6; font-size: 16px; margin-bottom: 30px; }
+
+        /* Instructions Box */
+        .instruction-card {
+            background: rgba(0, 0, 0, 0.4); border: 1px solid var(--border);
+            border-radius: 20px; padding: 25px; margin-bottom: 35px;
+            text-align: left;
+        }
+        .step { display: flex; gap: 15px; margin-bottom: 20px; }
+        .step:last-child { margin-bottom: 0; }
+        .step-num { 
+            width: 24px; height: 24px; background: var(--accent); 
+            color: black; border-radius: 50%; font-size: 12px; 
+            font-weight: bold; display: flex; align-items: center; 
+            justify-content: center; flex-shrink: 0;
+        }
+        .step-text b { color: white; display: block; margin-bottom: 4px; }
+        .step-text span { color: #666; font-size: 14px; }
+
+        /* Button */
+        .btn-login {
+            display: block; width: 100%; padding: 18px;
+            background: white; color: black; text-decoration: none;
+            border-radius: 14px; font-weight: 600; transition: 0.3s;
+        }
+        .btn-login:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(255,255,255,0.1); }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="status-icon">A</div>
+        
+        <h1>Profile Initialized</h1>
+        <p>Your agent credentials have been generated and synced with the Automania network.</p>
+
+        <div class="instruction-card">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-text">
+                    <b>Check Your Inbox</b>
+                    <span>We sent a secure message to your registered email address.</span>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-text">
+                    <b>Secure Your Agent ID</b>
+                    <span>Find your unique ID in the email. You will use this as your permanent access key.</span>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-text">
+                    <b>Restore Session</b>
+                    <span>Return to the login screen and use your ID to unlock the dashboard.</span>
+                </div>
+            </div>
+        </div>
+
+        <a href="login.html" class="btn-login">Proceed to Login</a>
+    </div>
+
+</body>
+</html>
