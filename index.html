@@ -58,6 +58,7 @@
         .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; z-index: 101; }
         .bar { width: 22px; height: 2px; background-color: var(--apple-black); transition: 0.3s; }
 
+        /* MOBILE MENU */
         .mobile-menu {
             position: fixed; top: 0; right: -320px; width: 280px; height: 100vh;
             background: rgba(255, 255, 255, 0.65); backdrop-filter: saturate(180%) blur(30px); -webkit-backdrop-filter: saturate(180%) blur(30px);
@@ -72,15 +73,15 @@
         }
         .mobile-menu.active .mobile-link { opacity: 1; transform: translateX(0); }
 
-        /* HERO TYPOGRAPHY */
+        /* HERO SECTION */
         .hero { height: 90vh; display: flex; flex-direction: column; justify-content: center; padding-left: 10%; width: 100%; margin-top: 60px; }
         .hero-content { max-width: 650px; }
-        
         .hero h1 { font-weight: 700; letter-spacing: -0.025em; line-height: 0.95; display: flex; flex-direction: column; align-items: flex-start; }
         .sub-grey { color: var(--apple-grey); display: block; font-size: 3.5rem; font-weight: 600; margin-bottom: 5px; }
         .highlight-text { font-size: 6.5rem; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; line-height: 1.1; margin-top: -5px; }
         .hero-desc { font-size: 1.35rem; line-height: 1.45; font-weight: 400; color: var(--apple-grey); margin-top: 2rem; letter-spacing: -0.01em; max-width: 500px; }
 
+        /* SERVICES SECTION */
         .services-wrapper {
             padding: 120px 10% 60px 10%; display: flex; justify-content: space-between; align-items: center;
             background: linear-gradient(to bottom, transparent, #f5f5f7); gap: 60px;
@@ -88,7 +89,6 @@
         }
         .services-wrapper.visible { opacity: 1; transform: translateY(0); }
         .services-list { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 550px; }
-
         .service-tile {
             background: var(--glass-bg); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
             border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 22px; padding: 24px 32px;
@@ -96,64 +96,70 @@
         }
         .service-tile:hover { transform: scale(1.02); background: rgba(255,255,255,0.6); }
         .service-tile h3 { font-size: 1.4rem; font-weight: 600; letter-spacing: -0.01em; display: flex; justify-content: space-between; align-items: center; }
-        
-        .action-area { width: 100%; display: flex; justify-content: center; padding: 40px 0 100px 0; background: #f5f5f7; opacity: 0; transition: opacity 1s ease 0.5s; }
-        .action-area.visible { opacity: 1; }
-        .btn-learn { background: var(--apple-blue); color: white; padding: 14px 34px; border-radius: 980px; text-decoration: none; font-size: 1.05rem; font-weight: 400; transition: all 0.3s ease; }
-        
+        .service-desc { margin-top: 8px; font-size: 1.05rem; color: var(--apple-grey); line-height: 1.4; }
+
+        /* KEYWORDS & CHAT TRIGGER */
         .right-keywords { display: flex; flex-direction: column; text-align: right; gap: 15px; position: relative; }
         .keyword { font-size: 3.2rem; font-weight: 600; color: var(--sky-blue); letter-spacing: -0.02em; line-height: 1.1; }
 
         /* --- PREMIUM CHAT AGENT DESIGN --- */
         .chat-trigger {
-            position: absolute; top: -80px; right: 0; width: 60px; height: 60px;
-            background: var(--apple-black); border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.15); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: 10; pointer-events: auto;
+            position: absolute; top: -70px; right: 0; padding: 12px 24px;
+            background: var(--apple-black); border-radius: 100px; display: flex; align-items: center; gap: 12px;
+            cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 10; pointer-events: auto; border: 1px solid rgba(255,255,255,0.1);
         }
-        .chat-trigger:hover { transform: scale(1.1) translateY(-5px); background: #000; }
-        .chat-trigger svg { width: 28px; height: 28px; fill: white; }
+        .chat-trigger:hover { transform: scale(1.05) translateY(-5px); background: #000; box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
+        .chat-trigger span { color: white; font-size: 0.95rem; font-weight: 500; letter-spacing: -0.01em; white-space: nowrap; }
+        .chat-trigger svg { width: 20px; height: 20px; fill: white; }
+
+        .notification-dot {
+            width: 8px; height: 8px; background: var(--apple-blue); border-radius: 50%;
+            position: absolute; top: 8px; right: 12px; animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 113, 227, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(0, 113, 227, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 113, 227, 0); }
+        }
 
         .chat-window {
-            position: fixed; bottom: 100px; right: 30px; width: 350px; height: 500px;
-            background: var(--chat-glass); backdrop-filter: blur(40px) saturate(180%); -webkit-backdrop-filter: blur(40px) saturate(180%);
-            border: 1px solid rgba(255,255,255,0.4); border-radius: 28px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.15); display: flex; flex-direction: column;
-            transform: translateY(20px) scale(0.95); opacity: 0; pointer-events: none; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: 1000; overflow: hidden;
+            position: fixed; bottom: 100px; right: 30px; width: 380px; height: 550px;
+            background: var(--chat-glass); backdrop-filter: blur(50px) saturate(200%); -webkit-backdrop-filter: blur(50px) saturate(200%);
+            border: 1px solid rgba(255,255,255,0.5); border-radius: 32px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2); display: flex; flex-direction: column;
+            transform: translateY(30px) scale(0.9); opacity: 0; pointer-events: none; 
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); z-index: 1000; overflow: hidden;
         }
         .chat-window.active { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
 
-        .chat-header { padding: 20px; background: rgba(255,255,255,0.2); border-bottom: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; gap: 12px; }
-        .agent-status { width: 10px; height: 10px; background: #32D74B; border-radius: 50%; box-shadow: 0 0 10px #32D74B; }
-        .chat-header span { font-weight: 600; font-size: 0.95rem; }
+        .chat-header { padding: 22px; background: rgba(255,255,255,0.3); border-bottom: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: space-between; }
+        .header-info { display: flex; align-items: center; gap: 12px; }
+        .agent-status { width: 10px; height: 10px; background: #32D74B; border-radius: 50%; }
+        .minimize-btn { width: 30px; height: 30px; border-radius: 50%; background: rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; }
+        .minimize-btn:hover { background: rgba(0,0,0,0.1); transform: scale(1.1); }
 
-        .chat-messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; scrollbar-width: none; }
-        .chat-messages::-webkit-scrollbar { display: none; }
-        
-        .msg { max-width: 80%; padding: 12px 16px; border-radius: 18px; font-size: 0.9rem; line-height: 1.4; position: relative; animation: msgFade 0.3s ease; }
+        .chat-messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+        .msg { max-width: 80%; padding: 12px 16px; border-radius: 18px; font-size: 0.9rem; line-height: 1.4; animation: msgFade 0.3s ease; }
         @keyframes msgFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .msg.bot { background: rgba(255,255,255,0.5); align-self: flex-start; border-bottom-left-radius: 4px; color: var(--apple-black); border: 1px solid rgba(255,255,255,0.3); }
+        .msg.bot { background: rgba(255,255,255,0.5); align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid rgba(255,255,255,0.3); }
         .msg.user { background: var(--apple-blue); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
 
-        .chat-input-area { padding: 15px 20px; background: rgba(255,255,255,0.3); border-top: 1px solid rgba(255,255,255,0.2); display: flex; gap: 10px; align-items: center; }
-        .chat-input-area input { flex: 1; background: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.4); border-radius: 20px; padding: 10px 15px; outline: none; font-size: 0.9rem; transition: 0.3s; }
-        .chat-input-area input:focus { background: white; border-color: var(--apple-blue); }
-        .send-btn { background: none; border: none; cursor: pointer; color: var(--apple-blue); font-weight: 600; padding: 5px; transition: 0.2s; }
-        .send-btn:hover { transform: scale(1.1); }
+        .chat-input-area { padding: 15px 20px; background: rgba(255,255,255,0.3); border-top: 1px solid rgba(255,255,255,0.2); display: flex; gap: 10px; }
+        .chat-input-area input { flex: 1; background: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.4); border-radius: 20px; padding: 10px 15px; outline: none; }
+
+        .action-area { width: 100%; display: flex; justify-content: center; padding: 40px 0 100px 0; background: #f5f5f7; opacity: 0; transition: opacity 1s ease 0.5s; }
+        .action-area.visible { opacity: 1; }
+        .btn-learn { background: var(--apple-blue); color: white; padding: 14px 34px; border-radius: 980px; text-decoration: none; font-size: 1.05rem; transition: all 0.3s ease; }
 
         @media (max-width: 1024px) {
-            nav { width: 95%; top: 10px; padding: 10px 20px; }
+            nav { width: 95%; top: 10px; }
             .nav-links { display: none; } .hamburger { display: flex; }
-            .hero { padding: 100px 24px 0 24px; height: 100vh; justify-content: flex-start; }
-            .hero-content { margin-top: 80px; max-width: 100%; background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(10px); padding: 20px; border-radius: 20px; }
+            .hero { padding: 100px 24px 0 24px; }
             .sub-grey { font-size: 2.2rem; } .highlight-text { font-size: 4rem; }
             .services-wrapper { flex-direction: column; text-align: center; }
-            .right-keywords { text-align: center; order: -1; margin-bottom: 40px; } 
-            .keyword { font-size: 2.5rem; }
-            .chat-trigger { position: fixed; bottom: 20px; right: 20px; top: auto; width: 55px; height: 55px; }
-            .chat-window { width: calc(100% - 40px); height: 70vh; bottom: 85px; right: 20px; }
+            .chat-trigger { position: fixed; bottom: 30px; right: 20px; top: auto; }
+            .chat-window { width: calc(100% - 40px); height: 75vh; bottom: 100px; right: 20px; }
         }
     </style>
 </head>
@@ -165,17 +171,20 @@
 
     <div class="chat-window" id="chatWindow">
         <div class="chat-header">
-            <div class="agent-status"></div>
-            <span>Automania Agent</span>
+            <div class="header-info">
+                <div class="agent-status"></div>
+                <span style="font-weight: 600;">Automania Concierge</span>
+            </div>
+            <div class="minimize-btn active-element" onclick="toggleChat()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
         </div>
         <div class="chat-messages" id="chatMsgs">
-            <div class="msg bot">Welcome to the Protocol. How can I assist with your efficiency today?</div>
+            <div class="msg bot">System Initialized. How can I help you navigate the Automania ecosystem?</div>
         </div>
         <div class="chat-input-area active-element">
-            <input type="text" id="chatInput" placeholder="Type a command..." onkeypress="if(event.key === 'Enter') sendMessage()">
-            <button class="send-btn" onclick="sendMessage()">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-            </button>
+            <input type="text" id="chatInput" placeholder="Ask anything..." onkeypress="if(event.key === 'Enter') sendMessage()">
+            <button onclick="sendMessage()" style="background:none; border:none; color:var(--apple-blue); cursor:pointer; font-weight:600;">Send</button>
         </div>
     </div>
 
@@ -224,12 +233,10 @@
                     <h3>3D Interactive Web <span class="arrow-icon">→</span></h3>
                     <p class="service-desc">Immersive web experiences that guide your customers automatically.</p>
                 </a>
-
                 <a href="automation.html" class="service-tile">
                     <h3>24/7 AI Agents <span class="arrow-icon">→</span></h3>
                     <p class="service-desc">Deploy autonomous agents to manage sales and support around the clock.</p>
                 </a>
-
                 <a href="dashboard.html" class="service-tile">
                     <h3>Operational Dashboards <span class="arrow-icon">→</span></h3>
                     <p class="service-desc">Visualize your operations and control your business from one place.</p>
@@ -238,7 +245,9 @@
 
             <div class="right-keywords">
                 <div class="chat-trigger active-element" onclick="toggleChat()">
+                    <div class="notification-dot"></div>
                     <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    <span>Chat with our AI Agent</span>
                 </div>
                 
                 <span class="keyword">Design.</span>
@@ -260,10 +269,8 @@
             const input = document.getElementById('chatInput');
             const container = document.getElementById('chatMsgs');
             const message = input.value.trim();
-            
             if (!message) return;
 
-            // Add User Message
             const userDiv = document.createElement('div');
             userDiv.className = 'msg user';
             userDiv.innerText = message;
@@ -277,19 +284,13 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ message: message })
                 });
-
                 const data = await response.json();
-                
-                // Add Bot Message
                 const botDiv = document.createElement('div');
                 botDiv.className = 'msg bot';
-                botDiv.innerText = data.output || data.message || "I'm processing your request. One moment.";
+                botDiv.innerText = data.output || data.message || "I am analyzing your request...";
                 container.appendChild(botDiv);
                 container.scrollTop = container.scrollHeight;
-
-            } catch (err) {
-                console.error("Chat Error:", err);
-            }
+            } catch (err) { console.error("Chat Error:", err); }
         }
 
         const observer = new IntersectionObserver((entries) => {
@@ -297,15 +298,6 @@
         }, { threshold: 0.1 });
         observer.observe(document.getElementById('servicesSection'));
         observer.observe(document.getElementById('btnArea'));
-
-        const viewer = document.getElementById('spline');
-        viewer.addEventListener('load', () => { 
-            if (viewer.shadowRoot) {
-                const style = document.createElement('style');
-                style.textContent = '#logo { display: none !important; }'; 
-                viewer.shadowRoot.appendChild(style);
-            }
-        });
     </script>
 </body>
 </html>
