@@ -42,17 +42,13 @@
             z-index: 100; transition: all 0.3s ease;
         }
 
-        .nav-brand { display: flex; flex-direction: column; line-height: 1.1; }
-        .brand-name { font-weight: 600; font-size: 1.1rem; letter-spacing: -0.01em; }
-        .brand-sub { font-size: 0.65rem; opacity: 0.5; text-transform: uppercase; letter-spacing: 0.05em; }
-
         .nav-links { display: flex; gap: 20px; align-items: center; }
         .nav-item { text-decoration: none; color: var(--apple-black); font-size: 0.9rem; font-weight: 500; opacity: 0.8; transition: 0.2s; }
         .nav-item:hover { opacity: 1; color: var(--apple-blue); }
 
         .nav-btn { background: var(--apple-black); color: white; padding: 8px 20px; border-radius: 30px; text-decoration: none; font-size: 0.9rem; font-weight: 500; }
 
-        /* HERO SECTION */
+        /* HERO SECTION (With Frosted Glass for Mobile) */
         .hero { height: 90vh; display: flex; flex-direction: column; justify-content: center; padding-left: 10%; width: 100%; margin-top: 60px; }
         .hero-content { max-width: 650px; padding: 20px; border-radius: 24px; }
         .hero h1 { font-weight: 700; letter-spacing: -0.025em; line-height: 0.95; display: flex; flex-direction: column; align-items: flex-start; }
@@ -60,20 +56,8 @@
         .highlight-text { font-size: 6.5rem; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; line-height: 1.1; margin-top: -5px; }
         .hero-desc { font-size: 1.35rem; line-height: 1.45; font-weight: 400; color: var(--apple-grey); margin-top: 2rem; letter-spacing: -0.01em; max-width: 500px; }
 
-        /* MOBILE MENU */
-        .mobile-menu {
-            position: fixed; top: 0; right: -320px; width: 280px; height: 100vh;
-            background: rgba(255, 255, 255, 0.65); backdrop-filter: saturate(180%) blur(30px); -webkit-backdrop-filter: saturate(180%) blur(30px);
-            z-index: 99; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding-left: 40px; gap: 25px;
-            box-shadow: -10px 0 40px rgba(0,0,0,0.05); border-left: 1px solid rgba(255,255,255,0.3);
-            transition: right 0.5s cubic-bezier(0.16, 1, 0.3, 1); pointer-events: auto;
-        }
-        .mobile-menu.active { right: 0; }
-        .mobile-link { text-decoration: none; color: var(--apple-black); font-size: 1.25rem; font-weight: 500; opacity: 0; transition: 0.4s; }
-        .mobile-menu.active .mobile-link { opacity: 1; }
-
-        /* --- CHAT TRIGGER (Blue-to-Purple Gradient) --- */
-        .chat-trigger-container { width: 100%; display: flex; justify-content: center; padding: 40px 0; z-index: 20; }
+        /* CHAT TRIGGER PLACEMENT (Centered for Mobile) */
+        .chat-trigger-container { width: 100%; display: flex; justify-content: center; padding: 20px 10%; z-index: 20; }
         .chat-trigger {
             padding: 14px 36px;
             background: var(--chat-gradient); 
@@ -92,9 +76,9 @@
             100% { box-shadow: 0 0 0 0 rgba(94, 92, 230, 0); }
         }
 
-        /* SERVICES */
+        /* SERVICES SECTION */
         .services-wrapper {
-            padding: 20px 10% 60px 10%; display: flex; justify-content: space-between; align-items: center;
+            padding: 40px 10% 60px 10%; display: flex; justify-content: space-between; align-items: center;
             background: linear-gradient(to bottom, transparent, #f5f5f7); gap: 60px;
             opacity: 0; transform: translateY(30px); transition: all 1s;
         }
@@ -105,6 +89,12 @@
             border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 22px; padding: 24px 32px;
             cursor: pointer; transition: 0.3s; text-decoration: none; color: inherit; display: block;
         }
+        .service-tile h3 { font-size: 1.4rem; font-weight: 600; letter-spacing: -0.01em; display: flex; justify-content: space-between; align-items: center; }
+        .service-desc { margin-top: 8px; font-size: 1.05rem; color: var(--apple-grey); line-height: 1.4; }
+
+        /* KEYWORDS */
+        .right-keywords { display: flex; flex-direction: column; text-align: right; gap: 15px; position: relative; }
+        .keyword { font-size: 3.2rem; font-weight: 600; color: var(--sky-blue); letter-spacing: -0.02em; line-height: 1.1; }
 
         /* CHAT WINDOW */
         .chat-window {
@@ -119,10 +109,17 @@
         @media (max-width: 1024px) {
             .nav-links { display: none; }
             .hero { padding: 100px 24px 0 24px; height: auto; min-height: 80vh; }
-            .hero-content { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.3); }
+            .hero-content { 
+                background: rgba(255, 255, 255, 0.4); 
+                backdrop-filter: blur(20px); 
+                -webkit-backdrop-filter: blur(20px);
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            }
             .sub-grey { font-size: 2.2rem; }
             .highlight-text { font-size: 4rem; }
-            .services-wrapper { flex-direction: column; padding: 20px 24px; }
+            .services-wrapper { flex-direction: column; padding: 20px 24px; text-align: center; }
+            .right-keywords { text-align: center; margin-bottom: 40px; }
             .chat-window { width: calc(100% - 40px); bottom: 20px; right: 20px; }
         }
     </style>
@@ -131,15 +128,6 @@
 
     <div class="canvas-wrapper">
         <spline-viewer id="spline" logo="false" hint="false" url="https://prod.spline.design/NTqp7NNVAo9-hZXG/scene.splinecode"></spline-viewer>
-    </div>
-
-    <div class="mobile-menu" id="mobileMenu">
-        <a href="index.html" class="mobile-link" style="color:var(--apple-blue);" onclick="toggleMenu()">Home</a>
-        <a href="about.html" class="mobile-link" onclick="toggleMenu()">About</a>
-        <a href="web.html" class="mobile-link" onclick="toggleMenu()">Web</a>
-        <a href="automation.html" class="mobile-link" onclick="toggleMenu()">Automation</a>
-        <a href="dashboard.html" class="mobile-link" onclick="toggleMenu()">Dashboard</a>
-        <a href="contact.html" class="mobile-link" onclick="toggleMenu()">Contact Us</a>
     </div>
 
     <div class="interface-layer">
@@ -156,9 +144,6 @@
                 <a href="dashboard.html" class="nav-item">Dashboard</a>
             </div>
             <a href="contact.html" class="nav-btn active-element">Contact</a>
-            <div class="hamburger active-element" onclick="toggleMenu()">
-                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-            </div>
         </nav>
 
         <main class="hero">
@@ -181,5 +166,77 @@
 
         <section class="services-wrapper active-element" id="servicesSection">
             <div class="services-list">
-                <a href="web.html" class="service-tile"><h3>3D Interactive Web →</h3><p>Immersive experiences that guide customers automatically.</p></a>
-                <a href="automation.html" class="service-tile
+                <a href="web.html" class="service-tile">
+                    <h3>3D Interactive Web →</h3>
+                    <p class="service-desc">Immersive web experiences that guide your customers automatically.</p>
+                </a>
+                <a href="automation.html" class="service-tile">
+                    <h3>24/7 AI Agents →</h3>
+                    <p class="service-desc">Deploy autonomous agents to manage sales and support around the clock.</p>
+                </a>
+                <a href="dashboard.html" class="service-tile">
+                    <h3>Operational Dashboards →</h3>
+                    <p class="service-desc">Visualize your operations and control your business from one place.</p>
+                </a>
+            </div>
+
+            <div class="right-keywords">
+                <span class="keyword">Design.</span>
+                <span class="keyword">Connect.</span>
+                <span class="keyword">Automate.</span>
+            </div>
+        </section>
+
+        <div class="action-area active-element" id="btnArea">
+            <a href="contact.html" class="btn-learn">Get Started</a>
+        </div>
+    </div>
+
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header" style="padding: 22px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.05);">
+            <span style="font-weight: 600;">Automania Concierge</span>
+            <div class="minimize-btn active-element" onclick="toggleChat()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+        </div>
+        <div class="chat-messages" id="chatMsgs" style="flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; scrollbar-width: none;">
+            <div class="msg bot">Welcome. I am the Automania AI. How can I assist you today?</div>
+        </div>
+        <div class="chat-input-area active-element" style="padding: 15px 20px; background: rgba(255,255,255,0.5); border-top: 1px solid rgba(0,0,0,0.05); display: flex; gap: 10px;">
+            <input type="text" id="chatInput" placeholder="Ask anything..." onkeypress="if(event.key === 'Enter') sendMessage()" style="flex: 1; border-radius: 20px; padding: 10px 15px; border: 1px solid rgba(0,0,0,0.1); outline: none;">
+            <button onclick="sendMessage()" style="background:none; border:none; color:var(--apple-blue); cursor:pointer; font-weight:600;">Send</button>
+        </div>
+    </div>
+
+    <script>
+        function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
+
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const container = document.getElementById('chatMsgs');
+            const message = input.value.trim();
+            if (!message) return;
+
+            const userDiv = document.createElement('div');
+            userDiv.className = 'msg user'; userDiv.innerText = message;
+            container.appendChild(userDiv); input.value = '';
+
+            try {
+                const response = await fetch('https://my-n8n-server-npma.onrender.com/webhook/edd91e75-933c-457d-a8c3-6d4598d9d1c9', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message, sessionId: 'prod_user' })
+                });
+                const data = await response.json();
+                const botDiv = document.createElement('div');
+                botDiv.className = 'msg bot'; botDiv.innerText = data.output || data.message;
+                container.appendChild(botDiv); container.scrollTop = container.scrollHeight;
+            } catch (err) { console.error("Chat Error:", err); }
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+        }, { threshold: 0.1 });
+        observer.observe(document.getElementById('servicesSection'));
+    </script>
+</body>
+</html>
