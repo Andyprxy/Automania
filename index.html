@@ -19,11 +19,13 @@
             --apple-grey: #86868b; 
             --apple-black: #1d1d1f;
             --apple-blue: #0071e3;
+            --apple-purple: #5e5ce6;
             --sky-blue: #00AEEF;
             --system-bg: #ffffff;
             --glass-bg: rgba(255, 255, 255, 0.4);
             --nav-glass: rgba(255, 255, 255, 0.7);
             --brand-gradient: linear-gradient(135deg, #0071e3, #00AEEF);
+            --chat-gradient: linear-gradient(135deg, #0071e3 0%, #5e5ce6 100%);
             --chat-glass: rgba(255, 255, 255, 0.75);
         }
 
@@ -35,7 +37,7 @@
         .interface-layer { position: relative; z-index: 2; pointer-events: none; }
         .active-element { pointer-events: auto; }
 
-        /* NAVIGATION */
+        /* --- NAVIGATION (Restored) --- */
         nav {
             position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 980px;
             display: flex; justify-content: space-between; align-items: center; padding: 12px 24px;
@@ -58,7 +60,7 @@
         .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; z-index: 101; }
         .bar { width: 22px; height: 2px; background-color: var(--apple-black); transition: 0.3s; }
 
-        /* MOBILE MENU */
+        /* --- MOBILE MENU --- */
         .mobile-menu {
             position: fixed; top: 0; right: -320px; width: 280px; height: 100vh;
             background: rgba(255, 255, 255, 0.65); backdrop-filter: saturate(180%) blur(30px); -webkit-backdrop-filter: saturate(180%) blur(30px);
@@ -67,99 +69,70 @@
             transition: right 0.5s cubic-bezier(0.16, 1, 0.3, 1); pointer-events: auto;
         }
         .mobile-menu.active { right: 0; }
-        .mobile-link { 
-            text-decoration: none; color: var(--apple-black); font-size: 1.25rem; font-weight: 500; 
-            opacity: 0; transform: translateX(20px); transition: 0.4s ease; letter-spacing: -0.01em;
-        }
+        .mobile-link { text-decoration: none; color: var(--apple-black); font-size: 1.25rem; font-weight: 500; opacity: 0; transform: translateX(20px); transition: 0.4s ease; }
         .mobile-menu.active .mobile-link { opacity: 1; transform: translateX(0); }
 
-        /* HERO SECTION */
+        /* --- HERO --- */
         .hero { height: 90vh; display: flex; flex-direction: column; justify-content: center; padding-left: 10%; width: 100%; margin-top: 60px; }
         .hero-content { max-width: 650px; }
-        .hero h1 { font-weight: 700; letter-spacing: -0.025em; line-height: 0.95; display: flex; flex-direction: column; align-items: flex-start; }
-        .sub-grey { color: var(--apple-grey); display: block; font-size: 3.5rem; font-weight: 600; margin-bottom: 5px; }
-        .highlight-text { font-size: 6.5rem; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; line-height: 1.1; margin-top: -5px; }
-        .hero-desc { font-size: 1.35rem; line-height: 1.45; font-weight: 400; color: var(--apple-grey); margin-top: 2rem; letter-spacing: -0.01em; max-width: 500px; }
+        .sub-grey { color: var(--apple-grey); font-size: 3.5rem; font-weight: 600; display: block; }
+        .highlight-text { font-size: 6.5rem; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-desc { font-size: 1.35rem; color: var(--apple-grey); margin-top: 2rem; max-width: 500px; }
 
-        /* SERVICES SECTION */
-        .services-wrapper {
-            padding: 120px 10% 60px 10%; display: flex; justify-content: space-between; align-items: center;
-            background: linear-gradient(to bottom, transparent, #f5f5f7); gap: 60px;
-            opacity: 0; transform: translateY(30px); transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        /* --- SERVICES --- */
+        .services-wrapper { padding: 120px 10% 60px 10%; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(to bottom, transparent, #f5f5f7); gap: 60px; opacity: 0; transform: translateY(30px); transition: all 1s; }
         .services-wrapper.visible { opacity: 1; transform: translateY(0); }
-        .services-list { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 550px; }
-        .service-tile {
-            background: var(--glass-bg); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 22px; padding: 24px 32px;
-            cursor: pointer; transition: all 0.3s ease; text-decoration: none; color: inherit; display: block;
-        }
+        .service-tile { background: var(--glass-bg); backdrop-filter: blur(30px); border-radius: 22px; padding: 24px 32px; cursor: pointer; transition: 0.3s; text-decoration: none; color: inherit; display: block; margin-bottom: 20px; }
         .service-tile:hover { transform: scale(1.02); background: rgba(255,255,255,0.6); }
-        .service-tile h3 { font-size: 1.4rem; font-weight: 600; letter-spacing: -0.01em; display: flex; justify-content: space-between; align-items: center; }
-        .service-desc { margin-top: 8px; font-size: 1.05rem; color: var(--apple-grey); line-height: 1.4; }
 
-        /* KEYWORDS & CHAT TRIGGER */
+        /* --- PREMIUM CHAT AGENT (Updated) --- */
         .right-keywords { display: flex; flex-direction: column; text-align: right; gap: 15px; position: relative; }
-        .keyword { font-size: 3.2rem; font-weight: 600; color: var(--sky-blue); letter-spacing: -0.02em; line-height: 1.1; }
+        .keyword { font-size: 3.2rem; font-weight: 600; color: var(--sky-blue); }
 
-        /* --- PREMIUM CHAT AGENT DESIGN --- */
         .chat-trigger {
-            position: absolute; top: -70px; right: 0; padding: 12px 24px;
-            background: var(--apple-black); border-radius: 100px; display: flex; align-items: center; gap: 12px;
-            cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: 10; pointer-events: auto; border: 1px solid rgba(255,255,255,0.1);
+            position: absolute; top: -120px; right: 0; padding: 14px 28px;
+            background: var(--chat-gradient); border-radius: 100px; display: flex; align-items: center; gap: 12px;
+            cursor: pointer; box-shadow: 0 15px 35px rgba(94, 92, 230, 0.3); z-index: 20; pointer-events: auto;
+            animation: radiate 3s infinite;
         }
-        .chat-trigger:hover { transform: scale(1.05) translateY(-5px); background: #000; box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
-        .chat-trigger span { color: white; font-size: 0.95rem; font-weight: 500; letter-spacing: -0.01em; white-space: nowrap; }
-        .chat-trigger svg { width: 20px; height: 20px; fill: white; }
 
-        .notification-dot {
-            width: 8px; height: 8px; background: var(--apple-blue); border-radius: 50%;
-            position: absolute; top: 8px; right: 12px; animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 113, 227, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(0, 113, 227, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 113, 227, 0); }
-        }
+        @keyframes radiate { 0% { box-shadow: 0 0 0 0 rgba(94, 92, 230, 0.6); } 70% { box-shadow: 0 0 0 20px rgba(94, 92, 230, 0); } 100% { box-shadow: 0 0 0 0 rgba(94, 92, 230, 0); } }
 
         .chat-window {
             position: fixed; bottom: 100px; right: 30px; width: 380px; height: 550px;
-            background: var(--chat-glass); backdrop-filter: blur(50px) saturate(200%); -webkit-backdrop-filter: blur(50px) saturate(200%);
-            border: 1px solid rgba(255,255,255,0.5); border-radius: 32px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.2); display: flex; flex-direction: column;
-            transform: translateY(30px) scale(0.9); opacity: 0; pointer-events: none; 
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); z-index: 1000; overflow: hidden;
+            background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(50px) saturate(200%); border: 1px solid rgba(255,255,255,0.5); border-radius: 32px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.15); display: flex; flex-direction: column;
+            transform: translateY(30px) scale(0.9); opacity: 0; pointer-events: none; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); z-index: 1000;
         }
         .chat-window.active { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
 
-        .chat-header { padding: 22px; background: rgba(255,255,255,0.3); border-bottom: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: space-between; }
-        .header-info { display: flex; align-items: center; gap: 12px; }
-        .agent-status { width: 10px; height: 10px; background: #32D74B; border-radius: 50%; }
+        .chat-header { padding: 22px; background: rgba(255,255,255,0.2); border-bottom: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: space-between; }
+        .agent-status { width: 10px; height: 10px; background: #32D74B; border-radius: 50%; box-shadow: 0 0 8px #32D74B; }
+        
+        /* NEW: Minimize Button */
         .minimize-btn { width: 30px; height: 30px; border-radius: 50%; background: rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; }
-        .minimize-btn:hover { background: rgba(0,0,0,0.1); transform: scale(1.1); }
+        .minimize-btn:hover { background: rgba(0,0,0,0.1); }
 
-        .chat-messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
-        .msg { max-width: 80%; padding: 12px 16px; border-radius: 18px; font-size: 0.9rem; line-height: 1.4; animation: msgFade 0.3s ease; }
+        .chat-messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; scrollbar-width: none; }
+        .msg { max-width: 80%; padding: 12px 16px; border-radius: 18px; font-size: 0.9rem; animation: msgFade 0.3s ease; }
         @keyframes msgFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .msg.bot { background: rgba(255,255,255,0.5); align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid rgba(255,255,255,0.3); }
+        .msg.bot { background: rgba(255,255,255,0.6); align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid rgba(255,255,255,0.3); }
         .msg.user { background: var(--apple-blue); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
 
         .chat-input-area { padding: 15px 20px; background: rgba(255,255,255,0.3); border-top: 1px solid rgba(255,255,255,0.2); display: flex; gap: 10px; }
-        .chat-input-area input { flex: 1; background: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.4); border-radius: 20px; padding: 10px 15px; outline: none; }
+        .chat-input-area input { flex: 1; background: rgba(255,255,255,0.5); border-radius: 20px; padding: 10px 15px; outline: none; border: 1px solid rgba(255,255,255,0.4); }
 
-        .action-area { width: 100%; display: flex; justify-content: center; padding: 40px 0 100px 0; background: #f5f5f7; opacity: 0; transition: opacity 1s ease 0.5s; }
+        .action-area { width: 100%; display: flex; justify-content: center; padding: 40px 0 100px 0; background: #f5f5f7; opacity: 0; transition: 1s; }
         .action-area.visible { opacity: 1; }
-        .btn-learn { background: var(--apple-blue); color: white; padding: 14px 34px; border-radius: 980px; text-decoration: none; font-size: 1.05rem; transition: all 0.3s ease; }
+        .btn-learn { background: var(--apple-blue); color: white; padding: 14px 34px; border-radius: 980px; text-decoration: none; font-size: 1.05rem; }
 
         @media (max-width: 1024px) {
-            nav { width: 95%; top: 10px; }
             .nav-links { display: none; } .hamburger { display: flex; }
             .hero { padding: 100px 24px 0 24px; }
             .sub-grey { font-size: 2.2rem; } .highlight-text { font-size: 4rem; }
-            .services-wrapper { flex-direction: column; text-align: center; }
+            .services-wrapper { flex-direction: column; }
             .chat-trigger { position: fixed; bottom: 30px; right: 20px; top: auto; }
-            .chat-window { width: calc(100% - 40px); height: 75vh; bottom: 100px; right: 20px; }
+            .chat-window { width: calc(100% - 40px); height: 75vh; bottom: 85px; right: 20px; }
         }
     </style>
 </head>
@@ -167,25 +140,6 @@
 
     <div class="canvas-wrapper">
         <spline-viewer id="spline" logo="false" hint="false" url="https://prod.spline.design/NTqp7NNVAo9-hZXG/scene.splinecode"></spline-viewer>
-    </div>
-
-    <div class="chat-window" id="chatWindow">
-        <div class="chat-header">
-            <div class="header-info">
-                <div class="agent-status"></div>
-                <span style="font-weight: 600;">Automania Concierge</span>
-            </div>
-            <div class="minimize-btn active-element" onclick="toggleChat()">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-            </div>
-        </div>
-        <div class="chat-messages" id="chatMsgs">
-            <div class="msg bot">System Initialized. How can I help you navigate the Automania ecosystem?</div>
-        </div>
-        <div class="chat-input-area active-element">
-            <input type="text" id="chatInput" placeholder="Ask anything..." onkeypress="if(event.key === 'Enter') sendMessage()">
-            <button onclick="sendMessage()" style="background:none; border:none; color:var(--apple-blue); cursor:pointer; font-weight:600;">Send</button>
-        </div>
     </div>
 
     <div class="mobile-menu" id="mobileMenu">
@@ -210,7 +164,7 @@
                 <a href="automation.html" class="nav-item">Automation</a>
                 <a href="dashboard.html" class="nav-item">Dashboard</a>
             </div>
-            <a href="contact.html" class="nav-btn">Contact</a>
+            <a href="contact.html" class="nav-btn active-element">Contact</a>
             <div class="hamburger active-element" onclick="toggleMenu()">
                 <div class="bar"></div><div class="bar"></div><div class="bar"></div>
             </div>
@@ -220,7 +174,6 @@
             <div class="hero-content">
                 <h1>
                     <span class="sub-grey">The New Era</span>
-                    <span class="sub-grey">of</span>
                     <span class="highlight-text">Efficiency.</span>
                 </h1>
                 <p class="hero-desc">At Automania, we don't just build systems. We offer solutions that work for you, so you don't have to.</p>
@@ -229,35 +182,39 @@
 
         <section class="services-wrapper active-element" id="servicesSection">
             <div class="services-list">
-                <a href="web.html" class="service-tile">
-                    <h3>3D Interactive Web <span class="arrow-icon">→</span></h3>
-                    <p class="service-desc">Immersive web experiences that guide your customers automatically.</p>
-                </a>
-                <a href="automation.html" class="service-tile">
-                    <h3>24/7 AI Agents <span class="arrow-icon">→</span></h3>
-                    <p class="service-desc">Deploy autonomous agents to manage sales and support around the clock.</p>
-                </a>
-                <a href="dashboard.html" class="service-tile">
-                    <h3>Operational Dashboards <span class="arrow-icon">→</span></h3>
-                    <p class="service-desc">Visualize your operations and control your business from one place.</p>
-                </a>
+                <a href="web.html" class="service-tile"><h3>3D Interactive Web →</h3><p>Immersive experiences that guide customers automatically.</p></a>
+                <a href="automation.html" class="service-tile"><h3>24/7 AI Agents →</h3><p>Autonomous agents for sales and support.</p></a>
+                <a href="dashboard.html" class="service-tile"><h3>Operational Dashboards →</h3><p>Real-time control centers for your data.</p></a>
             </div>
 
             <div class="right-keywords">
                 <div class="chat-trigger active-element" onclick="toggleChat()">
-                    <div class="notification-dot"></div>
-                    <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                    <span>Chat with our AI Agent</span>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    <span>Chat with AI Concierge</span>
                 </div>
-                
                 <span class="keyword">Design.</span>
                 <span class="keyword">Connect.</span>
                 <span class="keyword">Automate.</span>
             </div>
         </section>
 
-        <div class="action-area active-element" id="btnArea">
-            <a href="contact.html" class="btn-learn">Get Started</a>
+        <div class="action-area active-element" id="btnArea"><a href="contact.html" class="btn-learn">Get Started</a></div>
+    </div>
+
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div class="agent-status"></div>
+                <span style="font-weight: 600;">Automania Concierge</span>
+            </div>
+            <div class="minimize-btn active-element" onclick="toggleChat()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+        </div>
+        <div class="chat-messages" id="chatMsgs"><div class="msg bot">I am the Automania AI. How can I help you today?</div></div>
+        <div class="chat-input-area active-element">
+            <input type="text" id="chatInput" placeholder="Ask anything..." onkeypress="if(event.key === 'Enter') sendMessage()">
+            <button onclick="sendMessage()" style="background:none; border:none; color:var(--apple-blue); cursor:pointer; font-weight:600;">Send</button>
         </div>
     </div>
 
@@ -271,33 +228,38 @@
             const message = input.value.trim();
             if (!message) return;
 
+            let sessionId = localStorage.getItem('chat_session') || 'sess_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('chat_session', sessionId);
+
             const userDiv = document.createElement('div');
-            userDiv.className = 'msg user';
-            userDiv.innerText = message;
-            container.appendChild(userDiv);
-            input.value = '';
-            container.scrollTop = container.scrollHeight;
+            userDiv.className = 'msg user'; userDiv.innerText = message;
+            container.appendChild(userDiv); input.value = ''; container.scrollTop = container.scrollHeight;
 
             try {
-                const response = await fetch('https://my-n8n-server-npma.onrender.com/webhook-test/edd91e75-933c-457d-a8c3-6d4598d9d1c9', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: message })
+                const response = await fetch('https://my-n8n-server-npma.onrender.com/webhook/edd91e75-933c-457d-a8c3-6d4598d9d1c9', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message, sessionId })
                 });
                 const data = await response.json();
                 const botDiv = document.createElement('div');
-                botDiv.className = 'msg bot';
-                botDiv.innerText = data.output || data.message || "I am analyzing your request...";
-                container.appendChild(botDiv);
-                container.scrollTop = container.scrollHeight;
+                botDiv.className = 'msg bot'; botDiv.innerText = data.output || data.message || "I'm analyzing that...";
+                container.appendChild(botDiv); container.scrollTop = container.scrollHeight;
             } catch (err) { console.error("Chat Error:", err); }
         }
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
         }, { threshold: 0.1 });
-        observer.observe(document.getElementById('servicesSection'));
-        observer.observe(document.getElementById('btnArea'));
+        observer.observe(document.getElementById('servicesSection')); observer.observe(document.getElementById('btnArea'));
+
+        const viewer = document.getElementById('spline');
+        viewer.addEventListener('load', () => { 
+            if (viewer.shadowRoot) {
+                const style = document.createElement('style');
+                style.textContent = '#logo { display: none !important; }'; 
+                viewer.shadowRoot.appendChild(style);
+            }
+        });
     </script>
 </body>
 </html>
