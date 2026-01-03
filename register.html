@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Automania | Apply for Access</title>
+    <style>
+        :root {
+            --bg-color: #000000;
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --accent-color: #32D74B; /* Green for Register */
+            --text-primary: #ffffff;
+            --text-secondary: #86868b;
+        }
+        body { 
+            margin: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; 
+            background-color: var(--bg-color); color: var(--text-primary); 
+            height: 100vh; display: flex; flex-direction: column; 
+            align-items: center; justify-content: center; 
+        }
+        
+        .glass-card {
+            width: 85%; max-width: 400px; background: var(--glass-bg);
+            backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border); border-radius: 24px; padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        h2 { margin-top: 0; font-size: 24px; margin-bottom: 10px; text-align: center; }
+        .sub-text { text-align: center; color: var(--text-secondary); font-size: 14px; margin-bottom: 25px; }
+        
+        label { display: block; color: var(--text-secondary); font-size: 12px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        input {
+            width: 100%; padding: 16px; background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border); border-radius: 12px;
+            color: white; font-size: 16px; box-sizing: border-box; outline: none; margin-bottom: 20px;
+        }
+        input:focus { border-color: var(--accent-color); background: rgba(0,0,0,0.5); }
+        
+        .btn-submit {
+            width: 100%; padding: 16px; background: white;
+            color: black; border: none; border-radius: 12px;
+            font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s;
+        }
+        .btn-submit:hover { background: #eee; transform: scale(1.02); }
+        
+        .login-link { text-align: center; margin-top: 20px; font-size: 14px; color: var(--text-secondary); }
+        .login-link a { color: var(--text-primary); text-decoration: none; }
+
+        .back-link { 
+            position: absolute; top: 40px; left: 20px; 
+            color: var(--text-secondary); text-decoration: none; font-size: 15px; 
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="back-link">← Back</a>
+
+    <div class="glass-card">
+        <h2>Join Protocol</h2>
+        <p class="sub-text">Initialize your Automania Agent Profile.</p>
+        
+        <form id="registration-form">
+            <label>Full Name</label>
+            <input type="text" id="full_name" placeholder="John Doe" required>
+
+            <label>Email Address</label>
+            <input type="email" id="email" placeholder="john@example.com" required>
+            
+            <button type="submit" id="submit-btn" class="btn-submit">Generate Agent ID</button>
+        </form>
+
+        <div class="login-link">
+            Already have an Agent ID? <a href="login.html">Login here</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('registration-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('submit-btn');
+            const nameInput = document.getElementById('full_name').value;
+            const emailInput = document.getElementById('email').value;
+
+            btn.innerText = "Processing...";
+            btn.disabled = true;
+            btn.style.opacity = "0.7";
+
+            try {
+                // Production URL for Registration
+                const response = await fetch('https://my-n8n-server-npma.onrender.com/webhook/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        full_name: nameInput, 
+                        email: emailInput 
+                    })
+                });
+
+                // Check for successful 200 OK response
+                if (response.ok) {
+                    window.location.href = 'approved.html';
+                } else {
+                    throw new Error("Server Error");
+                }
+            } catch (error) {
+                console.error(error);
+                alert("System Error: Could not connect to Automania Servers.");
+                btn.disabled = false;
+                btn.innerText = "Try Again";
+                btn.style.opacity = "1";
+            }
+        });
+    </script>
+
+</body>
+</html>
