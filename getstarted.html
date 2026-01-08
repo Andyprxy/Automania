@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Get Started | LUMA Ecosystem</title>
+    <title>Get Started | Automania</title>
     
     <link rel="icon" type="image/jpeg" href="favicon.jpg">
     <script type="module" src="https://unpkg.com/@splinetool/viewer@1.12.28/build/spline-viewer.js"></script>
@@ -12,12 +12,20 @@
         :root {
             --apple-grey: #86868b; 
             --apple-black: #1d1d1f;
-            --apple-blue: #0071e3;
             --system-bg: #ffffff;
-            --brand-gradient: linear-gradient(135deg, #0071e3, #00AEEF);
+            /* The Automania Vibe */
+            --brand-gradient: linear-gradient(135deg, #0071e3 0%, #00c6fb 100%);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif; -webkit-font-smoothing: antialiased; }
+        /* Apple Font Stack Preference */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            -webkit-font-smoothing: antialiased; 
+            -moz-osx-font-smoothing: grayscale;
+        }
         
         body { background-color: var(--system-bg); color: var(--apple-black); overflow: hidden; height: 100vh; display: flex; align-items: center; justify-content: center; }
 
@@ -26,58 +34,105 @@
         .gateway-card {
             position: relative;
             z-index: 2;
-            width: 90%;
-            max-width: 500px;
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(30px) saturate(180%);
-            -webkit-backdrop-filter: blur(30px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 32px;
+            width: 88%;
+            max-width: 460px;
+            /* Ultra-clean glass effect */
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 36px; /* slightly rounder */
             padding: 50px 40px;
             text-align: center;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
-            animation: cardFade 1s ease;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.12);
+            animation: cardFade 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
-        @keyframes cardFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes cardFade { from { opacity: 0; transform: translateY(30px); scale: 0.98; } to { opacity: 1; transform: translateY(0); scale: 1; } }
 
-        .logo-sub { font-size: 0.75rem; font-weight: 600; color: var(--apple-blue); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; display: block; }
+        /* The "Vibly" Label */
+        .logo-sub { 
+            font-size: 0.75rem; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            letter-spacing: 0.2em; /* Wide spacing for premium feel */
+            margin-bottom: 12px; 
+            display: inline-block;
+            
+            /* Gradient Text Magic */
+            background: var(--brand-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
         
-        h1 { font-size: 2.5rem; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 15px; color: var(--apple-black); line-height: 1.1; }
+        h1 { 
+            font-size: 2.75rem; 
+            font-weight: 700; 
+            letter-spacing: -0.045em; /* Tight Apple header tracking */
+            margin-bottom: 12px; 
+            color: var(--apple-black); 
+            line-height: 1.05; 
+        }
         
-        .instruction { font-size: 1.1rem; color: var(--apple-grey); line-height: 1.5; margin-bottom: 40px; }
+        .instruction { 
+            font-size: 1.05rem; 
+            font-weight: 400;
+            color: var(--apple-grey); 
+            line-height: 1.45; 
+            margin-bottom: 45px;
+            letter-spacing: -0.01em;
+        }
 
-        .btn-group { display: flex; flex-direction: column; gap: 15px; }
+        .btn-group { display: flex; flex-direction: column; gap: 14px; }
 
         .btn {
-            padding: 16px;
-            border-radius: 18px;
+            padding: 18px;
+            border-radius: 20px;
             text-decoration: none;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            display: block;
+            font-size: 1.05rem;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
+        /* Pricing Button */
         .btn-primary {
             background: var(--apple-black);
             color: white;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        .btn-primary:hover { transform: scale(1.02); background: #000; }
+        .btn-primary:hover { 
+            transform: scale(1.02); 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15); 
+        }
 
+        /* Admin Button */
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.4);
             color: var(--apple-black);
-            border: 1px solid rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.08);
+            font-size: 0.95rem; 
         }
-        .btn-secondary:hover { background: rgba(255, 255, 255, 0.8); transform: scale(1.02); }
+        .btn-secondary:hover { 
+            background: rgba(255, 255, 255, 0.8); 
+            transform: scale(1.02); 
+            border-color: rgba(0,0,0,0.15);
+        }
 
-        .footer-note { margin-top: 30px; font-size: 0.8rem; color: var(--apple-grey); }
+        .footer-note { 
+            margin-top: 35px; 
+            font-size: 0.7rem; 
+            color: #98989d; 
+            font-weight: 500;
+        }
 
         @media (max-width: 600px) {
-            .gateway-card { padding: 40px 25px; }
-            h1 { font-size: 2rem; }
+            .gateway-card { padding: 40px 25px; width: 92%; }
+            h1 { font-size: 2.2rem; }
         }
     </style>
 </head>
@@ -88,18 +143,21 @@
     </div>
 
     <div class="gateway-card">
-        <span class="logo-sub">Automania LUMA</span>
-        <h1>Enter the New Era.</h1>
+        <span class="logo-sub">Automania Gateway</span>
+        
+        <h1>Select Access.</h1>
+        
         <p class="instruction">
-            Welcome to the Protocol. To access your custom dashboards and AI management tools, please authenticate with your credentials.
+            Choose your destination within the ecosystem.
         </p>
 
         <div class="btn-group">
-            <a href="login.html" class="btn btn-primary">Login to Ecosystem</a>
-            <a href="register.html" class="btn btn-secondary">Create Agent Account</a>
+            <a href="pricing.html" class="btn btn-primary">See Pricing & Plans</a>
+            
+            <a href="admin-login.html" class="btn btn-secondary">Admin Command Centre</a>
         </div>
 
-        <p class="footer-note">By entering, you agree to the Automania Operational Guidelines.</p>
+        <p class="footer-note">Secure connection established.</p>
     </div>
 
 </body>
