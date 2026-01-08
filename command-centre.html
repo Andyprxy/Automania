@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automania | Command Center</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/jpeg" href="favicon.jpg">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        background: '#020617', // Slate 950
+                        surface: '#0f172a', // Slate 900
+                        primary: '#3b82f6', // Blue 500
+                        secondary: '#06b6d4', // Cyan 500
+                    },
+                    animation: { 'fade-up': 'fadeUp 0.8s ease-out forwards' },
+                    keyframes: {
+                        fadeUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #020617; color: white; overflow-x: hidden; }
+
+        /* Subtle Grid Pattern */
+        .bg-grid-pattern {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+            mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+        }
+
+        /* Glassmorphism Utilities */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .glass-panel:hover {
+            border-color: rgba(59, 130, 246, 0.3);
+            background: rgba(15, 23, 42, 0.8);
+            transform: translateY(-2px);
+        }
+
+        /* Updated Blue Gradient Text */
+        .gradient-text {
+            background: linear-gradient(to right, #60a5fa, #22d3ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-background min-h-screen relative">
+
+    <div class="fixed inset-0 bg-grid-pattern pointer-events-none z-0"></div>
+
+    <nav class="fixed top-0 w-full z-50 glass-panel border-b border-white/5 !bg-opacity-80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center">
+                        <i data-lucide="zap" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <span class="font-bold text-xl tracking-tight">Automania<span class="text-blue-500">.Admin</span></span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button class="p-2 rounded-full hover:bg-white/5 text-gray-400 hover:text-white transition-colors">
+                        <i data-lucide="bell" class="w-5 h-5"></i>
+                    </button>
+                    <div class="w-8 h-8 rounded-full bg-slate-700 border border-slate-600 overflow-hidden cursor-pointer">
+                        <img src="profile.jpg" alt="Admin" class="w-full h-full object-cover" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="relative z-10 pt-32 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        
+        <div class="mb-12">
+            <p class="text-blue-400 text-sm font-semibold uppercase tracking-widest mb-4 opacity-0 animate-[fadeUp_0.8s_ease-out_0.1s_forwards]">
+                Master Admin Console
+            </p>
+            <h1 class="text-5xl md:text-7xl font-bold leading-tight mb-6 tracking-tight">
+                <span class="block text-slate-400 opacity-0 animate-[fadeUp_0.8s_ease-out_0.2s_forwards]">Command</span>
+                <span class="block gradient-text opacity-0 animate-[fadeUp_0.8s_ease-out_0.4s_forwards]">Ecosystem.</span>
+            </h1>
+            <p class="text-lg text-slate-400 max-w-2xl opacity-0 animate-[fadeUp_0.8s_ease-out_0.5s_forwards]">
+                Centralized mission control for Automania assets. Manage n8n instances, visualize lead funnels, and monitor infrastructure.
+            </p>
+        </div>
+
+        <div class="flex flex-wrap gap-3 mb-12 opacity-0 animate-[fadeUp_0.8s_ease-out_0.6s_forwards]">
+            <button class="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-medium transition-colors shadow-lg shadow-blue-500/20">
+                <i data-lucide="plus" class="w-4 h-4"></i> New Workflow
+            </button>
+            <button class="flex items-center gap-2 px-4 py-2 glass-panel hover:bg-white/5 text-slate-300 rounded-lg font-medium transition-colors">
+                <i data-lucide="refresh-cw" class="w-4 h-4"></i> Sync Assets
+            </button>
+            <button class="flex items-center gap-2 px-4 py-2 glass-panel hover:bg-white/5 text-slate-300 rounded-lg font-medium transition-colors">
+                <i data-lucide="shield" class="w-4 h-4"></i> Security Scan
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-16 opacity-0 animate-[fadeUp_0.8s_ease-out_0.7s_forwards]">
+            <div class="glass-panel p-6 rounded-xl relative group">
+                <div class="absolute top-6 right-6 p-2 bg-blue-500/10 rounded-lg text-blue-400 group-hover:text-white group-hover:bg-blue-500 transition-colors">
+                    <i data-lucide="activity" class="w-5 h-5"></i>
+                </div>
+                <p class="text-sm text-slate-400 font-medium mb-1">System Uptime</p>
+                <h3 class="text-2xl font-bold text-white mb-2">99.9%</h3>
+                <span class="text-emerald-400 text-xs flex items-center gap-1"><i data-lucide="check-circle" class="w-3 h-3"></i> Stable</span>
+            </div>
+
+            <div class="glass-panel p-6 rounded-xl relative group">
+                <div class="absolute top-6 right-6 p-2 bg-cyan-500/10 rounded-lg text-cyan-400 group-hover:text-white group-hover:bg-cyan-500 transition-colors">
+                    <i data-lucide="cpu" class="w-5 h-5"></i>
+                </div>
+                <p class="text-sm text-slate-400 font-medium mb-1">Active Agents</p>
+                <h3 class="text-2xl font-bold text-white mb-2">3</h3>
+                <span class="text-emerald-400 text-xs flex items-center gap-1"><i data-lucide="arrow-up" class="w-3 h-3"></i> +1 this week</span>
+            </div>
+
+            <div class="glass-panel p-6 rounded-xl relative group">
+                <div class="absolute top-6 right-6 p-2 bg-sky-500/10 rounded-lg text-sky-400 group-hover:text-white group-hover:bg-sky-500 transition-colors">
+                    <i data-lucide="users" class="w-5 h-5"></i>
+                </div>
+                <p class="text-sm text-slate-400 font-medium mb-1">Total Leads</p>
+                <h3 class="text-2xl font-bold text-white mb-2">14</h3>
+                <span class="text-emerald-400 text-xs flex items-center gap-1"><i data-lucide="trending-up" class="w-3 h-3"></i> +2 today</span>
+            </div>
+
+            <div class="glass-panel p-6 rounded-xl relative group">
+                <div class="absolute top-6 right-6 p-2 bg-slate-500/10 rounded-lg text-slate-400 group-hover:text-white group-hover:bg-slate-500 transition-colors">
+                    <i data-lucide="wallet" class="w-5 h-5"></i>
+                </div>
+                <p class="text-sm text-slate-400 font-medium mb-1">Revenue (MTD)</p>
+                <h3 class="text-2xl font-bold text-white mb-2">R 23.00</h3>
+                <span class="text-slate-500 text-xs flex items-center gap-1">updated 2m ago</span>
+            </div>
+        </div>
+
+        <h2 class="text-xl font-semibold text-white mb-6 opacity-0 animate-[fadeUp_0.8s_ease-out_0.8s_forwards]">Core Modules</h2>
+        
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 opacity-0 animate-[fadeUp_0.8s_ease-out_0.9s_forwards]">
+            
+            <a href="https://n8n.automania.cloud" target="_blank" class="glass-panel p-6 rounded-xl group relative overflow-hidden block">
+                <div class="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-blue-400/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div class="flex justify-between items-start mb-4 relative z-10">
+                    <div class="p-3 bg-blue-500/20 rounded-lg text-blue-400">
+                        <i data-lucide="workflow" class="w-6 h-6"></i>
+                    </div>
+                    <span class="flex items-center gap-1.5 px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-medium border border-emerald-500/20">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Online
+                    </span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 relative z-10">n8n Orchestrator</h3>
+                <p class="text-sm text-slate-400 mb-6 relative z-10">Manage automations, webhooks, and complex workflows across the ecosystem.</p>
+                <div class="grid grid-cols-2 gap-4 pt-4 border-t border-white/5 relative z-10">
+                    <div>
+                        <p class="text-xs text-slate-500">Active Flows</p>
+                        <p class="text-sm font-medium text-white">8</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500">Executions</p>
+                        <p class="text-sm font-medium text-white">435/day</p>
+                    </div>
+                </div>
+            </a>
+
+            <a href="lead-gen.html" class="glass-panel p-6 rounded-xl group relative overflow-hidden block">
+                <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-sky-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div class="flex justify-between items-start mb-4 relative z-10">
+                    <div class="p-3 bg-cyan-500/20 rounded-lg text-cyan-400">
+                        <i data-lucide="magnet" class="w-6 h-6"></i>
+                    </div>
+                    <span class="flex items-center gap-1.5 px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-medium border border-emerald-500/20">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Online
+                    </span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 relative z-10">AI Lead Generator</h3>
+                <p class="text-sm text-slate-400 mb-6 relative z-10">Automated outreach, qualification, and smart routing for incoming prospects.</p>
+                <div class="grid grid-cols-2 gap-4 pt-4 border-t border-white/5 relative z-10">
+                    <div>
+                        <p class="text-xs text-slate-500">New Leads</p>
+                        <p class="text-sm font-medium text-white">5</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500">Conversion</p>
+                        <p class="text-sm font-medium text-white">12%</p>
+                    </div>
+                </div>
+            </a>
+
+            <div class="glass-panel p-6 rounded-xl group relative overflow-hidden cursor-pointer">
+                <div class="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div class="flex justify-between items-start mb-4 relative z-10">
+                    <div class="p-3 bg-blue-500/20 rounded-lg text-blue-400">
+                        <i data-lucide="pie-chart" class="w-6 h-6"></i>
+                    </div>
+                    <span class="flex items-center gap-1.5 px-2 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-medium border border-blue-500/20">
+                        Live Data
+                    </span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 relative z-10">Lead Infographic</h3>
+                <p class="text-sm text-slate-400 mb-4 relative z-10">Visual breakdown of funnel performance and conversion drop-offs.</p>
+                
+                <div class="space-y-3 relative z-10 mt-4">
+                    <div>
+                        <div class="flex justify-between text-xs text-slate-400 mb-1">
+                            <span>Outreach</span>
+                            <span>42</span>
+                        </div>
+                        <div class="h-1.5 bg-slate-700 rounded-full overflow-hidden">
+                            <div class="h-full bg-blue-500 w-full rounded-full"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-xs text-slate-400 mb-1">
+                            <span>Opened</span>
+                            <span>28</span>
+                        </div>
+                        <div class="h-1.5 bg-slate-700 rounded-full overflow-hidden">
+                            <div class="h-full bg-cyan-500 w-[66%] rounded-full"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-xs text-slate-400 mb-1">
+                            <span>Qualified</span>
+                            <span>5</span>
+                        </div>
+                        <div class="h-1.5 bg-slate-700 rounded-full overflow-hidden">
+                            <div class="h-full bg-emerald-500 w-[12%] rounded-full"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <a href="https://resend.com/emails" target="_blank" class="glass-panel p-6 rounded-xl group relative overflow-hidden block">
+                <div class="absolute inset-0 bg-gradient-to-br from-slate-500/10 to-gray-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div class="flex justify-between items-start mb-4 relative z-10">
+                    <div class="p-3 bg-slate-500/20 rounded-lg text-slate-400">
+                        <i data-lucide="mail" class="w-6 h-6"></i>
+                    </div>
+                    <span class="flex items-center gap-1.5 px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-medium border border-emerald-500/20">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Active
+                    </span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 relative z-10">Outbound Relay</h3>
+                <p class="text-sm text-slate-400 mb-6 relative z-10">info@automania.cloud transaction logs via Resend.</p>
+                <div class="grid grid-cols-2 gap-4 pt-4 border-t border-white/5 relative z-10">
+                    <div>
+                        <p class="text-xs text-slate-500">Delivered</p>
+                        <p class="text-sm font-medium text-white">100%</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500">Last Sent</p>
+                        <p class="text-sm font-medium text-white">4m ago</p>
+                    </div>
+                </div>
+            </a>
+
+            <div class="glass-panel p-6 rounded-xl group relative overflow-hidden cursor-pointer">
+                <div class="absolute inset-0 bg-gradient-to-br from-sky-500/10 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div class="flex justify-between items-start mb-4 relative z-10">
+                    <div class="p-3 bg-sky-500/20 rounded-lg text-sky-400">
+                        <i data-lucide="server" class="w-6 h-6"></i>
+                    </div>
+                    <span class="flex items-center gap-1.5 px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-medium border border-emerald-500/20">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Healthy
+                    </span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 relative z-10">Infrastructure</h3>
+                <p class="text-sm text-slate-400 mb-6 relative z-10">VPS controls, Docker container status, and database backups.</p>
+                <div class="grid grid-cols-2 gap-4 pt-4 border-t border-white/5 relative z-10">
+                    <div>
+                        <p class="text-xs text-slate-500">CPU Usage</p>
+                        <p class="text-sm font-medium text-white">4%</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500">Memory</p>
+                        <p class="text-sm font-medium text-white">1.2GB / 8GB</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-panel p-6 rounded-xl group relative overflow-hidden cursor-pointer">
+                <div class="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div class="flex justify-between items-start mb-4 relative z-10">
+                    <div class="p-3 bg-indigo-500/20 rounded-lg text-indigo-400">
+                        <i data-lucide="share-2" class="w-6 h-6"></i>
+                    </div>
+                    <span class="flex items-center gap-1.5 px-2 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-medium border border-blue-500/20">
+                        4 Connected
+                    </span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2 relative z-10">Social Command</h3>
+                <p class="text-sm text-slate-400 mb-6 relative z-10">Manage brand presence and incoming messages across platforms.</p>
+                
+                <div class="flex items-center gap-3 pt-4 border-t border-white/5 relative z-10">
+                    <a href="https://wa.me/27644373243" target="_blank" class="p-2 bg-white/5 rounded-lg hover:bg-green-500 hover:text-white transition-colors cursor-pointer">
+                        <i data-lucide="message-circle" class="w-4 h-4"></i>
+                    </a>
+                    
+                    <div class="p-2 bg-white/5 rounded-lg hover:bg-blue-600 hover:text-white transition-colors cursor-pointer">
+                        <i data-lucide="linkedin" class="w-4 h-4"></i>
+                    </div>
+                    <div class="p-2 bg-white/5 rounded-lg hover:bg-sky-500 hover:text-white transition-colors cursor-pointer">
+                        <i data-lucide="twitter" class="w-4 h-4"></i>
+                    </div>
+                    <div class="p-2 bg-white/5 rounded-lg hover:bg-pink-600 hover:text-white transition-colors cursor-pointer">
+                        <i data-lucide="instagram" class="w-4 h-4"></i>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="fixed bottom-0 left-0 right-0 glass-panel border-t border-white/5 px-6 py-3 z-50">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-6">
+                <div class="flex items-center gap-2">
+                    <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                    <span class="text-xs text-slate-400 font-medium">All systems operational</span>
+                </div>
+                <span class="text-xs text-slate-500 hidden sm:block border-l border-white/10 pl-6">
+                    Last sync: <span class="text-slate-300">Just now</span>
+                </span>
+            </div>
+            <div class="text-xs text-slate-500 font-mono">
+                Automania v2.4.1
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
