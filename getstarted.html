@@ -12,6 +12,7 @@
         :root {
             --apple-grey: #86868b; 
             --apple-black: #1d1d1f;
+            --apple-blue: #0071e3;
             --system-bg: #ffffff;
             /* The Automania Vibe */
             --brand-gradient: linear-gradient(135deg, #0071e3 0%, #00c6fb 100%);
@@ -41,7 +42,7 @@
             backdrop-filter: blur(40px) saturate(180%);
             -webkit-backdrop-filter: blur(40px) saturate(180%);
             border: 1px solid rgba(255, 255, 255, 0.8);
-            border-radius: 36px; /* slightly rounder */
+            border-radius: 36px;
             padding: 50px 40px;
             text-align: center;
             box-shadow: 0 25px 60px rgba(0,0,0,0.12);
@@ -55,7 +56,7 @@
             font-size: 0.75rem; 
             font-weight: 700; 
             text-transform: uppercase; 
-            letter-spacing: 0.2em; /* Wide spacing for premium feel */
+            letter-spacing: 0.2em; 
             margin-bottom: 12px; 
             display: inline-block;
             
@@ -69,7 +70,7 @@
         h1 { 
             font-size: 2.75rem; 
             font-weight: 700; 
-            letter-spacing: -0.045em; /* Tight Apple header tracking */
+            letter-spacing: -0.045em; 
             margin-bottom: 12px; 
             color: var(--apple-black); 
             line-height: 1.05; 
@@ -91,7 +92,6 @@
             border-radius: 20px;
             text-decoration: none;
             font-size: 1.05rem;
-            font-weight: 500;
             letter-spacing: -0.01em;
             transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
             display: flex;
@@ -99,23 +99,42 @@
             align-items: center;
         }
 
-        /* Pricing Button */
+        /* PRICING BUTTON (The Hero - Blue & Glowing) */
         .btn-primary {
-            background: var(--apple-black);
+            background: var(--apple-blue);
             color: white;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            font-weight: 700; /* Bold text */
+            border: none;
+            /* The Pulse Animation */
+            animation: glowPulse 2s infinite;
         }
+        
         .btn-primary:hover { 
-            transform: scale(1.02); 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15); 
+            transform: scale(1.03); 
+            animation: none; /* Stops pulsing on hover to show interaction */
+            box-shadow: 0 0 30px rgba(0, 113, 227, 0.6); /* Solid strong glow on hover */
         }
 
-        /* Admin Button */
+        /* Pulse Animation Keyframes */
+        @keyframes glowPulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 113, 227, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(0, 113, 227, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 113, 227, 0);
+            }
+        }
+
+        /* ADMIN BUTTON (Secondary - Glass/Quiet) */
         .btn-secondary {
             background: rgba(255, 255, 255, 0.4);
             color: var(--apple-black);
             border: 1px solid rgba(0,0,0,0.08);
             font-size: 0.95rem; 
+            font-weight: 500;
         }
         .btn-secondary:hover { 
             background: rgba(255, 255, 255, 0.8); 
