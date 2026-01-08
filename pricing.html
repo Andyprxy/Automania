@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing Plans | Automania</title>
+    <link rel="icon" type="image/jpeg" href="favicon.jpg">
+    
+    <style>
+        :root {
+            --bg-color: #050505;
+            --card-bg: #0a0a0a;
+            --border-color: #1f1f1f;
+            --highlight-blue: #0071e3;
+            --text-main: #ffffff;
+            --text-muted: #86868b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- NAVBAR --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .brand {
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            font-size: 0.9rem;
+        }
+
+        .status-pill {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .status-badge {
+            background: #111;
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid #333;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dot { width: 6px; height: 6px; background-color: #00ff66; border-radius: 50%; box-shadow: 0 0 8px #00ff66; }
+
+        .disconnect-btn { color: var(--text-muted); text-decoration: none; transition: color 0.3s; }
+        .disconnect-btn:hover { color: #fff; }
+
+        /* --- HEADER --- */
+        .header-section {
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 40px;
+            padding: 0 20px;
+        }
+
+        h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 10px; }
+        .subtitle { color: var(--text-muted); font-size: 1.1rem; }
+
+        /* --- PRICING GRID --- */
+        .pricing-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px 80px 20px;
+            align-items: center; 
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            flex: 1;
+            min-width: 280px;
+            max-width: 350px;
+            height: 100%;
+        }
+
+        .card:hover { transform: translateY(-5px); border-color: #333; }
+
+        /* --- MINI PLAN STYLING --- */
+        .card.mini {
+            padding: 25px 20px;
+            border-style: dashed;
+            border-color: #333;
+            max-width: 260px;
+            transform: scale(0.95);
+            align-self: center;
+        }
+        
+        .card.mini .price { font-size: 2rem; margin-bottom: 20px; }
+        .card.mini .features-list li { font-size: 0.85rem; margin-bottom: 10px; }
+        
+        /* --- FEATURED BETA --- */
+        .card.featured {
+            border: 1px solid var(--highlight-blue);
+            box-shadow: 0 0 30px rgba(0, 113, 227, 0.1);
+            transform: scale(1.02);
+            z-index: 10;
+        }
+        .card.featured:hover { transform: scale(1.05); }
+
+        .badge-popular {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--highlight-blue);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 12px;
+            letter-spacing: 0.05em;
+        }
+
+        /* UPDATED PLAN NAME VISIBILITY */
+        .plan-name { 
+            font-size: 0.85rem; 
+            font-weight: 700; /* Bold */
+            text-transform: uppercase; 
+            letter-spacing: 0.15em; 
+            color: #ffffff; /* Bright White */
+            margin-bottom: 15px; 
+        }
+
+        .price {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: baseline;
+        }
+        .price span { font-size: 1rem; font-weight: 400; color: var(--text-muted); margin-left: 5px; }
+
+        .features-list { list-style: none; margin-bottom: 40px; flex-grow: 1; }
+
+        .features-list li {
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            color: #d1d1d6;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            line-height: 1.4;
+        }
+
+        .features-list li::before { content: "•"; color: var(--highlight-blue); font-weight: bold; }
+        
+        /* Limitation Text Style */
+        .limitation-text { color: #555; font-style: italic; }
+        .limitation-text::before { color: #444 !important; }
+
+        /* Gold Star for Special Features */
+        .star-feature { color: #fff; font-weight: 500; }
+        .star-icon { color: #FFD700; }
+
+        /* Buttons */
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            text-decoration: none;
+            background: transparent;
+            border: 1px solid #333;
+            color: #fff;
+        }
+        .btn:hover { border-color: #fff; background: rgba(255,255,255,0.05); }
+
+        .btn-mini { padding: 12px; font-size: 0.85rem; border-color: #222; }
+
+        .btn-primary {
+            background: var(--highlight-blue);
+            border: 1px solid var(--highlight-blue);
+            box-shadow: 0 4px 15px rgba(0, 113, 227, 0.3);
+        }
+        .btn-primary:hover { background: #0077ED; transform: scale(1.02); }
+
+        @media (max-width: 1100px) {
+            .pricing-container { flex-direction: column; align-items: stretch; max-width: 600px; }
+            .card.mini { max-width: 100%; transform: none; align-self: stretch; }
+            .card.featured { transform: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="brand">AUTOMANIA</div>
+        <div class="status-pill">
+            <div class="status-badge">
+                <div class="dot"></div>
+                Guest Access
+            </div>
+            <a href="appprt.html" class="disconnect-btn">Back</a>
+        </div>
+    </nav>
+
+    <header class="header-section">
+        <h1>Welcome to the Protocol</h1>
+        <p class="subtitle">Select your automation infrastructure level.</p>
+    </header>
+
+    <div class="pricing-container">
+        
+        <div class="card mini">
+            <div class="plan-name">Mini Plan</div>
+            <div class="price">R499<span>/mo</span></div>
+            
+            <ul class="features-list">
+                <li>Custom Website</li>
+                <li>Basic AI Web-Bot</li>
+                <li>3 Max Lead Capture</li>
+                <li class="limitation-text">Domain Excluded</li>
+            </ul>
+
+            <a href="#" class="btn btn-mini">Start Mini</a>
+        </div>
+
+        <div class="card">
+            <div class="plan-name">Alpha Plan</div>
+            <div class="price">R1,499<span>/mo</span></div>
+            
+            <ul class="features-list">
+                <li>Custom Website</li>
+                <li>Basic AI Web-Bot</li>
+                <li>Standard Hosting & SSL</li>
+                <li style="color: white;">Domain Included</li>
+                <li style="color: white;">Professional Email</li>
+                <li style="color: white;">15 Lead Gen Tokens</li>
+            </ul>
+
+            <a href="#" class="btn">Initialize Alpha</a>
+        </div>
+
+        <div class="card featured">
+            <div class="badge-popular">MOST POPULAR</div>
+            <div class="plan-name" style="color: var(--highlight-blue);">Beta Plan</div>
+            <div class="price">R3,999<span>/mo</span></div>
+            
+            <ul class="features-list">
+                <li>Everything in Alpha Plan</li>
+                <li>Google Business Listing</li>
+                <li class="star-feature"><span class="star-icon">★</span> WhatsApp AI Agent Integration</li>
+                <li class="star-feature">Unlimited Lead Gen Tokens</li>
+                <li>Priority Support</li>
+            </ul>
+
+            <a href="#" class="btn btn-primary">Deploy Beta</a>
+        </div>
+
+        <div class="card">
+            <div class="plan-name">Omega Plan</div>
+            <div class="price">R9,999<span>/mo</span></div>
+            
+            <ul class="features-list">
+                <li>Everything in Beta Plan</li>
+                <li class="star-feature"><span class="star-icon">★</span> Full Business Dashboard</li>
+                <li>CRM Integration (HubSpot)</li>
+                <li>Review Automation System</li>
+                <li>Competitor Analysis</li>
+                <li>Dedicated Account Manager</li>
+            </ul>
+
+            <a href="#" class="btn">Activate Omega</a>
+        </div>
+
+    </div>
+
+</body>
+</html>
