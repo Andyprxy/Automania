@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead Generator | Automania</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/jpeg" href="favicon.jpg">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        background: '#020617', 
+                        surface: '#0f172a',
+                    },
+                    animation: { 'fade-up': 'fadeUp 0.6s ease-out forwards' },
+                    keyframes: {
+                        fadeUp: {
+                            '0%': { opacity: '0', transform: 'translateY(15px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #020617; color: white; }
+        .bg-grid-pattern {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+            mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+        }
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .input-field {
+            background: rgba(2, 6, 23, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s;
+        }
+        .input-field:focus {
+            border-color: #3b82f6;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+        
+        /* Select Dropdown Styling */
+        select.input-field option {
+            background-color: #0f172a;
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-background min-h-screen relative flex items-center justify-center p-4">
+
+    <div class="fixed inset-0 bg-grid-pattern pointer-events-none z-0"></div>
+
+    <div class="relative z-10 w-full max-w-lg opacity-0 animate-[fadeUp_0.6s_ease-out_forwards]">
+        
+        <div class="flex items-center justify-between mb-8">
+            <a href="command-centre.html" class="flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                <span class="font-medium">Back to Command</span>
+            </a>
+            <span class="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-medium border border-blue-500/20">
+                Lead Machine V1.0
+            </span>
+        </div>
+
+        <div class="glass-panel rounded-2xl p-8 border border-white/10 shadow-2xl">
+            
+            <div class="text-center mb-8">
+                <h1 class="text-2xl font-bold text-white mb-2">Lead Machine</h1>
+                <p class="text-slate-400 text-sm">Configure your automated outreach parameters below.</p>
+            </div>
+
+            <form id="leadForm" class="space-y-6">
+                
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-2">Business Type <span class="text-red-400">*</span></label>
+                    <input type="text" id="businessType" placeholder="e.g. Plumber, Dentist, Real Estate" required 
+                           class="w-full p-3.5 rounded-xl input-field placeholder-slate-600">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-2">Location <span class="text-red-400">*</span></label>
+                    <input type="text" id="location" placeholder="e.g. Rome, Italy" required 
+                           class="w-full p-3.5 rounded-xl input-field placeholder-slate-600">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-2">Lead Number <span class="text-red-400">*</span></label>
+                    <input type="number" id="leadNumber" placeholder="e.g. 50" required min="1" max="500"
+                           class="w-full p-3.5 rounded-xl input-field placeholder-slate-600">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-2">Email Style</label>
+                    <div class="relative">
+                        <select id="emailStyle" class="w-full p-3.5 rounded-xl input-field appearance-none cursor-pointer">
+                            <option value="Standard">Standard Introduction</option>
+                            <option value="Aggressive">Direct Sales Pitch</option>
+                            <option value="Casual">Casual Networking</option>
+                            <option value="Consultative">Consultative Approach</option>
+                        </select>
+                        <i data-lucide="chevron-down" class="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"></i>
+                    </div>
+                </div>
+
+                <button type="submit" id="submitBtn" class="w-full py-4 mt-2 bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white font-bold rounded-xl shadow-lg shadow-orange-500/20 transition-all transform hover:scale-[1.02] flex items-center justify-center gap-2">
+                    <span>GO</span>
+                    <i data-lucide="rocket" class="w-5 h-5"></i>
+                </button>
+
+            </form>
+
+            <div id="statusMsg" class="hidden mt-6 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm text-center">
+                <div class="flex items-center justify-center gap-2">
+                    <i data-lucide="check-circle" class="w-4 h-4"></i>
+                    <span>Sequence Initiated Successfully!</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // --- CONFIGURATION ---
+        // PASTE YOUR n8n WEBHOOK URL HERE
+        const WEBHOOK_URL = 'YOUR_N8N_WEBHOOK_URL_HERE'; 
+
+        const form = document.getElementById('leadForm');
+        const btn = document.getElementById('submitBtn');
+        const statusMsg = document.getElementById('statusMsg');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // 1. Loading State
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Processing...`;
+            btn.disabled = true;
+            lucide.createIcons();
+
+            // 2. Gather Data
+            const formData = {
+                businessType: document.getElementById('businessType').value,
+                location: document.getElementById('location').value,
+                leadNumber: document.getElementById('leadNumber').value,
+                emailStyle: document.getElementById('emailStyle').value
+            };
+
+            try {
+                // 3. Send to n8n (POST)
+                const response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    // Success UI
+                    statusMsg.classList.remove('hidden');
+                    form.reset();
+                    btn.innerHTML = `<i data-lucide="check" class="w-5 h-5"></i> Sent`;
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                        btn.disabled = false;
+                        statusMsg.classList.add('hidden');
+                        lucide.createIcons();
+                    }, 3000);
+                } else {
+                    throw new Error('Webhook failed');
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to connect to Neural Core. Check console.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                lucide.createIcons();
+            }
+        });
+    </script>
+</body>
+</html>
