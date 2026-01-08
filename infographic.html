@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead Gen Command Center</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script> <style>
+        :root {
+            /* Apple Dark Mode Palette */
+            --bg-color: #000000;
+            --glass-bg: rgba(28, 28, 30, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            
+            --text-primary: #ffffff;
+            --text-secondary: #86868b;
+            --text-tertiary: #636366;
+            
+            --accent-blue: #0a84ff;
+            --accent-green: #30d158;
+            --accent-orange: #ff9f0a;
+            --accent-red: #ff453a;
+            --accent-purple: #bf5af2;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 40px;
+            color: var(--text-primary);
+            min-height: 100vh;
+            /* Subtle animated gradient background */
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(10, 132, 255, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(48, 209, 88, 0.1) 0%, transparent 40%);
+            box-sizing: border-box;
+            overflow-x: hidden;
+        }
+
+        /* --- Layout Grid --- */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: auto auto auto 1fr;
+            gap: 24px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* --- Glass Cards --- */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            padding: 24px;
+            box-shadow: var(--glass-shadow);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .glass-panel:hover {
+            border-color: rgba(255,255,255,0.25);
+        }
+
+        /* --- Header --- */
+        .header {
+            grid-column: span 12;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--glass-border);
+            margin-bottom: 10px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+
+        .live-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--accent-green);
+            background: rgba(48, 209, 88, 0.15);
+            padding: 6px 12px;
+            border-radius: 100px;
+            border: 1px solid rgba(48, 209, 88, 0.2);
+        }
+        .pulse {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent-green);
+            border-radius: 50%;
+            box-shadow: 0 0 0 rgba(48, 209, 88, 0.4);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(48, 209, 88, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(48, 209, 88, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(48, 209, 88, 0); }
+        }
+
+        /* --- KPI Cards --- */
+        .kpi-card {
+            grid-column: span 3;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 120px;
+        }
+
+        .kpi-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .kpi-value {
+            font-size: 42px;
+            font-weight: 700;
+            background: -webkit-linear-gradient(90deg, #fff, #a1a1aa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .kpi-footer {
+            font-size: 12px;
+            color: var(--accent-green);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* --- Charts --- */
+        .chart-section-donut {
+            grid-column: span 4;
+            height: 380px;
+        }
+        .chart-section-bar {
+            grid-column: span 8;
+            height: 380px;
+        }
+
+        h2.panel-title {
+            font-size: 17px;
+            font-weight: 600;
+            margin: 0 0 20px 0;
+            color: var(--text-primary);
+        }
+
+        /* --- Activity Logs (The "Clean" Part) --- */
+        .activity-section {
+            grid-column: span 6;
+            height: 400px;
+            overflow-y: auto;
+        }
+        
+        .activity-section::-webkit-scrollbar {
+            width: 6px;
+        }
+        .activity-section::-webkit-scrollbar-thumb {
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 4px;
+        }
+
+        .log-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .log-item {
+            display: flex;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            transition: background 0.2s;
+        }
+        .log-item:last-child { border-bottom: none; }
+
+        .log-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 16px;
+            color: var(--accent-blue);
+        }
+
+        .log-details {
+            flex: 1;
+        }
+
+        .log-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .log-sub {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .log-time {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            font-family: "SF Mono", monospace;
+        }
+
+        /* --- Embedded Sheet --- */
+        .sheet-section {
+            grid-column: span 6;
+            height: 400px;
+            padding: 0; /* Remove padding for iframe */
+        }
+        
+        .sheet-header-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 16px 24px;
+            background: rgba(28, 28, 30, 0.9);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            filter: invert(0.92) hue-rotate(180deg); /* Dark mode hack for Google Sheets */
+            opacity: 0.85;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 1000px) {
+            .kpi-card { grid-column: span 6; }
+            .chart-section-donut, .chart-section-bar { grid-column: span 12; }
+            .activity-section, .sheet-section { grid-column: span 12; }
+        }
+        @media (max-width: 600px) {
+            .kpi-card { grid-column: span 12; }
+            body { padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-grid">
+        
+        <div class="header">
+            <div style="display:flex; align-items:center; gap:12px;">
+                <i data-lucide="layout-dashboard" style="color:var(--accent-blue);"></i>
+                <h1>Lead Infographic</h1>
+            </div>
+            <div class="live-badge">
+                <div class="pulse"></div>
+                LIVE SYSTEM
+            </div>
+        </div>
+
+        <div class="glass-panel kpi-card">
+            <div class="kpi-label"><i data-lucide="users" size="14"></i> Total Leads</div>
+            <div class="kpi-value">12</div>
+            <div class="kpi-footer"><i data-lucide="trending-up" size="12"></i> +2 this week</div>
+        </div>
+
+        <div class="glass-panel kpi-card">
+            <div class="kpi-label"><i data-lucide="briefcase" size="14"></i> Companies</div>
+            <div class="kpi-value">5</div>
+            <div class="kpi-footer" style="color:var(--text-secondary);">Active Accounts</div>
+        </div>
+
+        <div class="glass-panel kpi-card">
+            <div class="kpi-label"><i data-lucide="mail" size="14"></i> Emails Sent</div>
+            <div class="kpi-value">1</div>
+            <div class="kpi-footer" style="color:var(--accent-orange);">Pending Action: 11</div>
+        </div>
+
+        <div class="glass-panel kpi-card">
+            <div class="kpi-label"><i data-lucide="target" size="14"></i> Target Sector</div>
+            <div class="kpi-value" style="font-size:24px; margin-top:8px;">Automotive</div>
+            <div class="kpi-footer" style="margin-top:auto;">92% of DB</div>
+        </div>
+
+        <div class="glass-panel chart-section-donut">
+            <h2 class="panel-title">Category Distribution</h2>
+            <div style="height: 300px; width: 100%;">
+                <canvas id="categoryChart"></canvas>
+            </div>
+        </div>
+
+        <div class="glass-panel chart-section-bar">
+            <h2 class="panel-title">Lead Volume by Company</h2>
+            <div style="height: 300px; width: 100%;">
+                <canvas id="volumeChart"></canvas>
+            </div>
+        </div>
+
+        <div class="glass-panel activity-section">
+            <h2 class="panel-title" style="position:sticky; top:0; padding-bottom:10px;">Recent Activity</h2>
+            <ul class="log-list">
+                <li class="log-item">
+                    <div class="log-icon"><i data-lucide="user-plus"></i></div>
+                    <div class="log-details">
+                        <div class="log-title">New Lead: Carmart Enterprise</div>
+                        <div class="log-sub">Source: Web Import | Category: Car Dealer</div>
+                    </div>
+                    <div class="log-time">10:42 AM</div>
+                </li>
+                <li class="log-item">
+                    <div class="log-icon" style="color:var(--accent-green);"><i data-lucide="check-circle"></i></div>
+                    <div class="log-details">
+                        <div class="log-title">Processed: Auto Champion</div>
+                        <div class="log-sub">Verification Complete</div>
+                    </div>
+                    <div class="log-time">09:15 AM</div>
+                </li>
+                <li class="log-item">
+                    <div class="log-icon" style="color:var(--accent-orange);"><i data-lucide="mail"></i></div>
+                    <div class="log-details">
+                        <div class="log-title">Campaign Sent</div>
+                        <div class="log-sub">Batch #2024-A sent to 1 recipient</div>
+                    </div>
+                    <div class="log-time">Yesterday</div>
+                </li>
+                <li class="log-item">
+                    <div class="log-icon" style="color:var(--accent-purple);"><i data-lucide="database"></i></div>
+                    <div class="log-details">
+                        <div class="log-title">Data Entry: Motus Toyota</div>
+                        <div class="log-sub">Parktown Branch added to database</div>
+                    </div>
+                    <div class="log-time">Jan 07</div>
+                </li>
+                <li class="log-item">
+                    <div class="log-icon"><i data-lucide="user-plus"></i></div>
+                    <div class="log-details">
+                        <div class="log-title">New Lead: Audi Centre</div>
+                        <div class="log-sub">Source: Braamfontein Web</div>
+                    </div>
+                    <div class="log-time">Jan 06</div>
+                </li>
+                 <li class="log-item">
+                    <div class="log-icon"><i data-lucide="user-plus"></i></div>
+                    <div class="log-details">
+                        <div class="log-title">New Lead: Rand Dentist</div>
+                        <div class="log-sub">Source: Web Import</div>
+                    </div>
+                    <div class="log-time">Jan 06</div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="glass-panel sheet-section">
+            <div class="sheet-header-overlay">
+                <span style="font-weight:600; font-size:14px;"><i data-lucide="table" size="14" style="margin-right:8px; vertical-align:middle;"></i>Master Database</span>
+                <span style="font-size:11px; color:var(--accent-green);">● Synced</span>
+            </div>
+            <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTH7wX4nvEkOLPQ5fJSGX6LlMWuhA9YS4ehksE8nOmh9uKBELDlsR5V0Y1CSbbXr0nBfBo6xnhuMJVb/pubhtml?widget=true&amp;headers=false"></iframe>
+        </div>
+
+    </div>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Chart defaults for Dark Mode
+        Chart.defaults.color = '#86868b';
+        Chart.defaults.borderColor = 'rgba(255,255,255,0.08)';
+        Chart.defaults.font.family = "-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif";
+
+        // --- Chart 1: Donut (Categories) ---
+        const ctxDonut = document.getElementById('categoryChart').getContext('2d');
+        new Chart(ctxDonut, {
+            type: 'doughnut',
+            data: {
+                labels: ['Car dealer', 'Used car dealer', 'Toyota dealer', 'Dentist', 'Audi dealer'],
+                datasets: [{
+                    data: [3, 3, 3, 2, 1],
+                    backgroundColor: [
+                        '#0a84ff', // Blue
+                        '#30d158', // Green
+                        '#ff9f0a', // Orange
+                        '#ff453a', // Red
+                        '#bf5af2'  // Purple
+                    ],
+                    borderColor: '#1c1c1e',
+                    borderWidth: 5,
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '70%',
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            usePointStyle: true,
+                            pointStyle: 'circle',
+                            padding: 20,
+                            color: '#fff'
+                        }
+                    }
+                }
+            }
+        });
+
+        // --- Chart 2: Bar (Volume) ---
+        const ctxBar = document.getElementById('volumeChart').getContext('2d');
+        const gradientBlue = ctxBar.createLinearGradient(0, 0, 0, 400);
+        gradientBlue.addColorStop(0, 'rgba(10, 132, 255, 0.8)');
+        gradientBlue.addColorStop(1, 'rgba(10, 132, 255, 0.2)');
+
+        new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: ['Carmart', 'Toyota Parktown', 'Auto Champ', 'Rand Dentist', 'Audi Center'],
+                datasets: [{
+                    label: 'Active Leads',
+                    data: [3, 3, 2, 2, 2],
+                    backgroundColor: gradientBlue,
+                    borderRadius: 6,
+                    barThickness: 30
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { display: true, color: 'rgba(255,255,255,0.05)' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
