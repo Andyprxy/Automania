@@ -5,13 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
     <title>Automania | AI Automation & Digital Agency</title>
-    <meta name="description" content="Automania is a premier digital agency specializing in Business Process Automation, AI Solutions, and 3D Web Experiences.">
+    <meta name="description" content="Automania is a premier digital agency specializing in Business Process Automation, AI Solutions, and 3D Web Experiences in South Africa.">
+    <link rel="canonical" href="https://automania.cloud/" />
+    
+    <meta property="og:title" content="Automania | AI Automation & Digital Agency">
+    <meta property="og:description" content="We build 24/7 AI Agents, 3D Websites, and Operational Dashboards to automate your business efficiency.">
+    <meta property="og:image" content="https://automania.cloud/social-preview.jpg"> 
+    <meta property="og:url" content="https://automania.cloud">
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Automania | AI Automation">
+    <meta name="twitter:description" content="The New Era of Efficiency. AI Agents and 3D Web Experiences.">
+    <meta name="twitter:image" content="https://automania.cloud/social-preview.jpg">
     
     <meta name="google-site-verification" content="T3t27t0-Uq7h0UgxY3fGCLVNZRCFrSyyH3fP2w-xPYE" />
     
     <link rel="icon" type="image/jpeg" href="favicon.jpg">
     <script type="module" src="https://unpkg.com/@splinetool/viewer@1.12.28/build/spline-viewer.js"></script>
     
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Automania",
+      "image": "https://automania.cloud/favicon.jpg",
+      "@id": "https://automania.cloud",
+      "url": "https://automania.cloud",
+      "telephone": "", 
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "South Africa",
+        "addressCountry": "ZA"
+      },
+      "description": "Automania is a premier digital agency specializing in Business Process Automation, AI Solutions, and 3D Web Experiences.",
+      "priceRange": "$$",
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "09:00",
+        "closes": "17:00"
+      }
+    }
+    </script>
+
     <style>
         :root {
             --apple-grey: #86868b; 
@@ -84,11 +121,21 @@
         }
         .services-wrapper.visible { opacity: 1; transform: translateY(0); }
         .services-list { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 550px; }
+        
         .service-tile {
             background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
             border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 22px; padding: 24px 32px;
             cursor: pointer; transition: 0.3s; text-decoration: none; color: inherit; display: block;
         }
+        
+        /* NEW SEO STYLE: Styling the H2 inside tiles to look nice */
+        .service-tile h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--apple-black);
+        }
+
         .keyword { font-size: 3.2rem; font-weight: 600; color: var(--sky-blue); display: block; text-align: right; line-height: 1.1; }
 
         /* ACTION AREA */
@@ -162,15 +209,15 @@
         <section class="services-wrapper active-element" id="servicesSection">
             <div class="services-list">
                 <a href="web.html" class="service-tile">
-                    <h3>3D Interactive Web →</h3>
+                    <h2>3D Interactive Web →</h2>
                     <p class="service-desc">Immersive web experiences built with Spline.</p>
                 </a>
                 <a href="automation.html" class="service-tile">
-                    <h3>24/7 AI Agents →</h3>
+                    <h2>24/7 AI Agents →</h2>
                     <p class="service-desc">Deploy autonomous agents to manage sales and support.</p>
                 </a>
                 <a href="dashboard.html" class="service-tile">
-                    <h3>Operational Dashboards →</h3>
+                    <h2>Operational Dashboards →</h2>
                     <p class="service-desc">Visualize operations and control your business.</p>
                 </a>
             </div>
