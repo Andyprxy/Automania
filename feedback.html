@@ -13,7 +13,7 @@
         :root {
             --apple-grey: #86868b;
             --apple-blue: #0071e3;
-            --apple-gold: #f5a623; /* Darker Gold for Text Readability */
+            --apple-gold: #f5a623;
             --apple-black: #1d1d1f;
             --glass-bg: rgba(255, 255, 255, 0.65);
             --glass-border: rgba(255, 255, 255, 0.5);
@@ -68,7 +68,6 @@
         /* Form Elements */
         .form-group { margin-bottom: 20px; text-align: left; }
         
-        /* Standard Blue Label */
         label { 
             display: block; 
             font-size: 0.9rem; 
@@ -79,11 +78,9 @@
             letter-spacing: -0.01em;
         }
 
-        /* Specific Color Overrides */
         .label-gold { color: var(--apple-gold) !important; }
         .label-grey { color: var(--apple-grey) !important; font-weight: 500; }
         
-        /* Frosted Bubble Inputs */
         .input-bubble {
             width: 100%;
             padding: 16px 20px;
@@ -112,9 +109,17 @@
             gap: 10px;
             margin: 10px 0 30px 0;
             flex-direction: row-reverse;
+            position: relative;
         }
 
-        .rating-group input { display: none; }
+        /* FIX 1: Changed from display:none to opacity:0 so browser can focus on it */
+        .rating-group input { 
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+            width: 0;
+            height: 0;
+        }
 
         .rating-group label {
             font-size: 2.5rem;
@@ -145,32 +150,17 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
 
-        .submit-btn:hover {
-            transform: scale(1.02);
-            background: #000;
-        }
+        .submit-btn:hover { transform: scale(1.02); background: #000; }
+        .submit-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; }
 
-        .submit-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* Success & Loading States */
+        /* States */
         .hidden { display: none; }
-        
-        .loader {
-            width: 24px; height: 24px;
-            border: 3px solid #fff; border-top-color: transparent;
-            border-radius: 50%; display: inline-block;
-            animation: spin 1s linear infinite;
-        }
+        .loader { width: 24px; height: 24px; border: 3px solid #fff; border-top-color: transparent; border-radius: 50%; display: inline-block; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         .success-message { text-align: center; padding: 20px; }
         .success-icon { font-size: 4rem; margin-bottom: 20px; display: block; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         @keyframes popIn { from { transform: scale(0); } to { transform: scale(1); } }
-
     </style>
 </head>
 <body>
@@ -260,8 +250,8 @@
             };
 
             try {
-                // YOUR WEBHOOK URL
-                const webhookUrl = 'https://my-n8n-server-3wbt.onrender.com/webhook-test/web'; 
+                // FIX 2: Using the PRODUCTION URL (Make sure your n8n workflow is ACTIVE/GREEN)
+                const webhookUrl = 'https://my-n8n-server-3wbt.onrender.com/webhook/web'; 
                 
                 await fetch(webhookUrl, {
                     method: 'POST',
@@ -289,8 +279,4 @@
     </script>
 
 </body>
-
 </html>
-
-
-
