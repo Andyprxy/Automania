@@ -131,11 +131,11 @@
             color: #ffb400; /* Gold */
         }
 
-        /* Submit Button - NOW GREEN */
+        /* Submit Button - GREEN */
         .submit-btn {
             width: 100%;
             padding: 18px;
-            background: var(--apple-green); /* Changed to Green */
+            background: var(--apple-green); 
             color: #fff;
             border: none;
             border-radius: 50px;
@@ -148,7 +148,7 @@
 
         .submit-btn:hover {
             transform: scale(1.02);
-            background: var(--apple-green-hover); /* Darker Green on Hover */
+            background: var(--apple-green-hover);
         }
 
         .submit-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; }
@@ -247,7 +247,7 @@
             };
 
             try {
-                // Production URL (Active Workflow)
+                // Production URL (Make sure your n8n workflow is ACTIVE)
                 const webhookUrl = 'https://my-n8n-server-3wbt.onrender.com/webhook/web'; 
                 
                 await fetch(webhookUrl, {
