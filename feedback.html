@@ -15,6 +15,9 @@
             --apple-blue: #0071e3;
             --apple-gold: #f5a623;
             --apple-black: #1d1d1f;
+            /* NEW GREEN VARIABLES */
+            --apple-green: #388E3C;
+            --apple-green-hover: #2E7D32;
             --glass-bg: rgba(255, 255, 255, 0.65);
             --glass-border: rgba(255, 255, 255, 0.5);
             --input-bg: rgba(255, 255, 255, 0.5);
@@ -107,7 +110,6 @@
             position: relative;
         }
 
-        /* Fixed Visibility Bug */
         .rating-group input { 
             position: absolute;
             opacity: 0;
@@ -129,21 +131,26 @@
             color: #ffb400; /* Gold */
         }
 
+        /* Submit Button - NOW GREEN */
         .submit-btn {
             width: 100%;
             padding: 18px;
-            background: var(--apple-black);
+            background: var(--apple-green); /* Changed to Green */
             color: #fff;
             border: none;
             border-radius: 50px;
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: transform 0.2s, background-color 0.2s;
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
 
-        .submit-btn:hover { transform: scale(1.02); background: #000; }
+        .submit-btn:hover {
+            transform: scale(1.02);
+            background: var(--apple-green-hover); /* Darker Green on Hover */
+        }
+
         .submit-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; }
 
         .hidden { display: none; }
@@ -243,7 +250,6 @@
                 // Production URL (Active Workflow)
                 const webhookUrl = 'https://my-n8n-server-3wbt.onrender.com/webhook/web'; 
                 
-                // Send Data to n8n (Non-blocking: we don't await if we want speed, but safer to await)
                 await fetch(webhookUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
