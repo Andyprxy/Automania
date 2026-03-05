@@ -15,7 +15,6 @@
             --apple-grey: #86868b; 
             --apple-black: #1d1d1f;
             --apple-blue: #0071e3;
-            --apple-purple: #5e5ce6;
             --sky-blue: #00AEEF;
             --system-bg: #fbfbfd;
             --nav-glass: rgba(255, 255, 255, 0.75);
@@ -28,7 +27,7 @@
         
         body { background-color: var(--system-bg); color: var(--apple-black); overflow-x: hidden; scroll-behavior: smooth; }
 
-        /* --- BACKGROUND FALLBACK & SPLINE --- */
+        /* --- BACKGROUND FALLBACK --- */
         .ambient-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 0;
             background: radial-gradient(circle at 70% 30%, rgba(0, 174, 239, 0.1) 0%, transparent 50%),
@@ -70,7 +69,7 @@
         .highlight-text { background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .hero-desc { font-size: 1.4rem; line-height: 1.5; color: var(--apple-grey); margin-bottom: 30px; font-weight: 400; }
 
-        /* --- ODOO-STYLE MODULE GRID --- */
+        /* --- MODULE GRID --- */
         .module-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 40px; }
         .module-card {
             background: var(--glass-card); backdrop-filter: blur(30px); border: 1px solid rgba(255,255,255,0.8);
@@ -87,22 +86,116 @@
         .showcase-text h2 { font-size: 3.5rem; font-weight: 700; line-height: 1.1; margin-bottom: 20px; letter-spacing: -0.02em; }
         .showcase-text p { font-size: 1.2rem; color: var(--apple-grey); line-height: 1.6; margin-bottom: 30px; }
         
-        .device-mockup { flex: 1; display: flex; justify-content: center; }
-        .phone-frame { width: 320px; height: 650px; background: #1d1d1f; border-radius: 50px; padding: 12px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); position: relative; }
-        .screen-content { width: 100%; height: 100%; background: #f3f4f6; border-radius: 38px; overflow: hidden; display: flex; align-items: center; justify-content: center; color: #9ca3af; font-weight: 600; }
+        /* Interactive Demo Button */
+        .demo-btn-container { margin-top: 20px; position: relative; display: inline-block; }
+        .demo-btn {
+            position: relative; display: inline-flex; align-items: center; gap: 12px;
+            background: linear-gradient(135deg, #0071e3, #00c6ff); color: white;
+            padding: 16px 36px; border-radius: 50px; text-decoration: none; font-size: 1.1rem; font-weight: 700;
+            box-shadow: 0 10px 30px rgba(0, 113, 227, 0.4); transition: all 0.3s ease; z-index: 2;
+            animation: breathe 3s infinite ease-in-out;
+        }
+        .demo-btn::after {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 50px; border: 2px solid #00AEEF; z-index: -1;
+            animation: ripple 2s infinite cubic-bezier(0, 0, 0.2, 1);
+        }
+        .demo-btn:hover { transform: scale(1.05) translateY(-2px); box-shadow: 0 15px 40px rgba(0, 113, 227, 0.6); }
+        .live-dot { width: 10px; height: 10px; background: #fff; border-radius: 50%; display: inline-block; box-shadow: 0 0 10px rgba(255,255,255,0.8); animation: blink 1.5s infinite; }
 
-        /* --- DASHBOARD MOCKUP (From dashboard.html) --- */
+        @keyframes breathe { 0% { transform: scale(1); } 50% { transform: scale(1.03); } 100% { transform: scale(1); } }
+        @keyframes ripple { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.4); opacity: 0; } }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+
+        /* Accurate Phone Mockup */
+        .device-mockup { flex: 1; display: flex; justify-content: center; position: relative; }
+        .phone-frame {
+            width: 320px; height: 650px; background: #1d1d1f; border-radius: 55px; padding: 12px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25), inset 0 0 0 2px rgba(255,255,255,0.1);
+            position: relative; overflow: hidden;
+        }
+        .phone-notch { position: absolute; top: 22px; left: 50%; transform: translateX(-50%); width: 100px; height: 28px; background: #000; border-radius: 20px; z-index: 3; }
+        .screen-content {
+            width: 100%; height: 100%; background: #fff; border-radius: 42px; overflow: hidden; position: relative;
+            background-image: url('agent-ui.jpg'); background-size: cover; background-position: top center;
+            background-color: #f3f4f6; display: flex; justify-content: center; align-items: center; color: #9ca3af;
+        }
+
+        /* --- DETAILED DASHBOARD MOCKUP (From dashboard.html) --- */
         .browser-mockup {
-            width: 100%; background: #fff; border-radius: 24px; margin-top: 100px;
+            width: 100%; max-width: 1100px; margin: 60px auto 0 auto;
+            background: #fff; border-radius: 24px;
             box-shadow: 0 40px 80px -20px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05);
-            overflow: hidden; transform: perspective(1200px) rotateX(2deg); transition: transform 0.5s ease;
+            overflow: hidden; position: relative;
+            transform: perspective(1200px) rotateX(2deg); transition: transform 0.5s ease;
         }
         .browser-mockup:hover { transform: perspective(1200px) rotateX(0deg) translateY(-10px); }
-        .browser-header { background: #fbfbfd; border-bottom: 1px solid rgba(0,0,0,0.05); padding: 15px 20px; display: flex; gap: 8px; }
-        .dot { width: 12px; height: 12px; border-radius: 50%; } .red { background: #ff5f57; } .yellow { background: #febc2e; } .green { background: #28c840; }
-        .dash-layout { display: flex; height: 400px; padding: 30px; gap: 20px; background: #fafafa; }
-        .stat-card { flex: 1; background: #fff; border: 1px solid rgba(0,0,0,0.06); border-radius: 18px; padding: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: center; }
-        .stat-val { font-size: 2rem; font-weight: 700; color: var(--apple-black); }
+
+        .browser-header { background: #fbfbfd; border-bottom: 1px solid rgba(0,0,0,0.05); padding: 15px 20px; display: flex; gap: 8px; align-items: center; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .red { background: #ff5f57; } .yellow { background: #febc2e; } .green { background: #28c840; }
+
+        .dash-layout { display: flex; height: 500px; } 
+        .dash-sidebar { width: 200px; background: #f5f5f7; padding: 20px; display: flex; flex-direction: column; gap: 15px; border-right: 1px solid rgba(0,0,0,0.05); }
+        .sidebar-item { height: 32px; display: flex; align-items: center; gap: 10px; padding: 0 10px; border-radius: 8px; opacity: 0.6; font-size: 0.85rem; font-weight: 600; color: #555; }
+        .sidebar-item.active { background: #fff; opacity: 1; box-shadow: 0 2px 5px rgba(0,0,0,0.05); color: var(--apple-blue); }
+        .sidebar-icon { width: 14px; height: 14px; background: #ccc; border-radius: 4px; }
+        .sidebar-item.active .sidebar-icon { background: var(--apple-blue); }
+
+        .dash-main { flex: 1; padding: 25px; display: flex; flex-direction: column; gap: 20px; background: #fff; overflow: hidden; }
+        
+        /* Stats */
+        .stats-row { display: flex; gap: 15px; }
+        .stat-card {
+            flex: 1; background: #fff; border: 1px solid rgba(0,0,0,0.06); border-radius: 14px; padding: 18px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .stat-label { font-size: 0.7rem; color: var(--apple-grey); font-weight: 700; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.05em; }
+        .stat-val { font-size: 1.5rem; font-weight: 700; color: var(--apple-black); }
+        .stat-delta { font-size: 0.75rem; font-weight: 600; margin-top: 4px; }
+        .pos { color: #28c840; } 
+
+        /* Charts */
+        .dash-middle { display: flex; gap: 15px; flex: 1; }
+        .main-chart-card {
+            flex: 2; background: #fff; border: 1px solid rgba(0,0,0,0.06); border-radius: 14px; padding: 18px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03); position: relative; overflow: hidden; display: flex; flex-direction: column;
+        }
+        .pie-card {
+            flex: 1; background: #fff; border: 1px solid rgba(0,0,0,0.06); border-radius: 14px; padding: 18px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03); display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+
+        /* Feed */
+        .live-feed {
+            flex: 1; background: #f9f9fa; border: 1px solid rgba(0,0,0,0.04); border-radius: 14px; padding: 15px;
+            display: flex; flex-direction: column; gap: 10px; overflow-y: hidden;
+        }
+        .feed-item { display: flex; align-items: center; justify-content: space-between; background: #fff; padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(0,0,0,0.04); }
+        .feed-left { display: flex; align-items: center; gap: 10px; }
+        .feed-avatar { width: 28px; height: 28px; background: #e0e0e0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #555; font-weight: 700; }
+        .feed-text { font-size: 0.85rem; font-weight: 500; color: #333; }
+        .feed-time { font-size: 0.7rem; color: #999; }
+
+        /* Visuals */
+        .css-wave {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 100px;
+            background: linear-gradient(to top, rgba(0, 113, 227, 0.15), transparent);
+            clip-path: polygon(0% 100%, 100% 100%, 100% 40%, 80% 60%, 60% 30%, 40% 70%, 20% 50%, 0% 80%);
+        }
+        .grid-lines { position: absolute; top: 50px; left: 18px; right: 18px; bottom: 18px; display: flex; flex-direction: column; justify-content: space-between; z-index: 0; }
+        .line { width: 100%; height: 1px; background: #f0f0f0; }
+
+        .donut-chart {
+            width: 110px; height: 110px; border-radius: 50%;
+            background: conic-gradient(var(--apple-blue) 0% 65%, var(--sky-blue) 65% 85%, #f0f0f2 85% 100%);
+            position: relative; margin-top: 10px;
+        }
+        .donut-chart::after {
+            content: '65%'; position: absolute; top: 15px; left: 15px; right: 15px; bottom: 15px;
+            background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; font-weight: 700; color: var(--apple-black);
+        }
 
         /* --- FLOATING CHAT WIDGET --- */
         .chat-trigger {
@@ -126,7 +219,11 @@
             .nav-links { display: none; }
             .hero h1 { font-size: 3.2rem; }
             .showcase-container { flex-direction: column; text-align: center; }
-            .dash-layout { flex-direction: column; height: auto; }
+            .dash-sidebar { display: none; }
+            .stats-row { flex-direction: column; }
+            .dash-middle { flex-direction: column; }
+            .dash-layout { height: auto; }
+            .browser-mockup { height: auto; }
             .chat-window { width: calc(100% - 40px); right: 20px; bottom: 100px; }
             .chat-trigger { bottom: 20px; right: 20px; }
         }
@@ -149,8 +246,8 @@
             </div>
             <div class="nav-links">
                 <a href="#home" class="nav-item" style="color:var(--apple-blue);">Home</a> 
-                <a href="#automation" class="nav-item">Automation</a>
-                <a href="#dashboard" class="nav-item">Dashboard</a>
+                <a href="automation.html" class="nav-item">Automation</a>
+                <a href="dashboard.html" class="nav-item">Dashboard</a>
                 <a href="about.html" class="nav-item">About</a>
             </div>
             <a href="getstarted.html" class="nav-btn">Command Centre</a>
@@ -164,12 +261,12 @@
             </div>
 
             <div class="module-grid animate-block d-1">
-                <a href="#automation" class="module-card">
+                <a href="automation.html" class="module-card">
                     <div class="module-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></div>
                     <h3>AI Sales Agents</h3>
                     <p style="color: var(--apple-grey); font-size: 0.9rem;">24/7 autonomous order processing and customer support.</p>
                 </a>
-                <a href="#dashboard" class="module-card">
+                <a href="dashboard.html" class="module-card">
                     <div class="module-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg></div>
                     <h3>BI Dashboards</h3>
                     <p style="color: var(--apple-grey); font-size: 0.9rem;">Turn raw data from agents and SQL into live visual KPIs.</p>
@@ -183,14 +280,21 @@
         </main>
 
         <section class="section-container" id="automation">
-            <div class="showcase-container animate-block">
-                <div class="showcase-text">
+            <div class="showcase-container">
+                <div class="showcase-text animate-block">
                     <h2>Always On. <br>Always Selling.</h2>
                     <p>Imagine a sales agent that never sleeps, never misses a DM, and knows your product catalog by heart. From handling legacy VBA queries to triggering n8n workflows, we automate the mundane.</p>
+                    
+                    <div class="demo-btn-container">
+                        <a href="agent.html" class="demo-btn">
+                            <span class="live-dot"></span> Test Live Demo
+                        </a>
+                    </div>
                 </div>
                 <div class="device-mockup animate-block d-1">
                     <div class="phone-frame">
-                        <div class="screen-content">Agent UI Active</div>
+                        <div class="phone-notch"></div>
+                        <div class="screen-content"></div>
                     </div>
                 </div>
             </div>
@@ -207,15 +311,60 @@
                     <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
                 </div>
                 <div class="dash-layout">
-                    <div class="stat-card">
-                        <div style="font-size: 0.8rem; color: var(--apple-grey); font-weight: 700; text-transform: uppercase;">Total Revenue</div>
-                        <div class="stat-val">R 450,200</div>
-                        <div style="color: #28c840; font-size: 0.8rem; font-weight: 600; margin-top: 5px;">↑ 12.5% vs last month</div>
+                    <div class="dash-sidebar">
+                        <div class="sidebar-item active"><div class="sidebar-icon"></div> Overview</div>
+                        <div class="sidebar-item"><div class="sidebar-icon"></div> Sales</div>
+                        <div class="sidebar-item"><div class="sidebar-icon"></div> Inventory</div>
+                        <div class="sidebar-item"><div class="sidebar-icon"></div> Customers</div>
                     </div>
-                    <div class="stat-card">
-                        <div style="font-size: 0.8rem; color: var(--apple-grey); font-weight: 700; text-transform: uppercase;">Active Automations</div>
-                        <div class="stat-val">8 Flows</div>
-                        <div style="color: var(--apple-blue); font-size: 0.8rem; font-weight: 600; margin-top: 5px;">n8n Orchestrator Online</div>
+                    
+                    <div class="dash-main">
+                        <div class="stats-row">
+                            <div class="stat-card">
+                                <div class="stat-label">Total Revenue</div>
+                                <div class="stat-val">R 450,200</div>
+                                <div class="stat-delta pos">↑ 12.5% vs last month</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">Pending Orders</div>
+                                <div class="stat-val">14</div>
+                                <div class="stat-delta" style="color:var(--apple-blue);">• Processed by AI</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">Stock Level</div>
+                                <div class="stat-val">84%</div>
+                                <div class="stat-delta pos">Healthy</div>
+                            </div>
+                        </div>
+
+                        <div class="dash-middle">
+                            <div class="main-chart-card">
+                                <div class="stat-label">Live Sales Activity</div>
+                                <div class="grid-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+                                <div class="css-wave"></div>
+                            </div>
+                            
+                            <div class="pie-card">
+                                <div class="stat-label">Order Source</div>
+                                <div class="donut-chart"></div>
+                            </div>
+
+                            <div class="live-feed">
+                                <div class="stat-label">Recent Agent Actions</div>
+                                <div class="feed-item">
+                                    <div class="feed-left">
+                                        <div class="feed-avatar" style="background:#e3f2fd; color:#1565c0;">AI</div>
+                                        <div class="feed-text">Order #2901 Confirmed</div>
+                                    </div>
+                                </div>
+                                <div class="feed-item">
+                                    <div class="feed-left">
+                                        <div class="feed-avatar" style="background:#f3e5f5; color:#7b1fa2;">AI</div>
+                                        <div class="feed-text">Answered FAQ: "Return"</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -244,10 +393,8 @@
     </div>
 
     <script>
-        // Chat Toggle Logic
         function toggleChat() { document.getElementById('chatWindow').classList.toggle('active'); }
 
-        // Webhook Chat Logic (Maintained exactly from original)
         async function sendMessage() {
             const input = document.getElementById('chatInput');
             const container = document.getElementById('chatMsgs');
@@ -273,7 +420,6 @@
             } catch (err) { console.error("Chat Error:", err); }
         }
 
-        // Scroll Animations
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
         }, { threshold: 0.15 });
