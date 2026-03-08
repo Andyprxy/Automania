@@ -151,6 +151,15 @@
             border: 1px solid var(--border-color);
             box-shadow: 0 8px 24px rgba(0,0,0,0.2);
             position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chart-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
         }
 
         .chart-title {
@@ -158,22 +167,41 @@
             font-weight: 700;
             color: var(--text-main);
             text-transform: uppercase;
-            margin-bottom: 20px;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
         }
 
         .chart-subtitle {
             font-size: 11px;
             color: var(--text-muted);
             font-weight: 500;
+            margin-top: 4px;
+        }
+
+        /* Custom Interactive BI Filter */
+        .bi-filter {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-family: inherit;
+            cursor: pointer;
+            outline: none;
+            transition: border-color 0.3s ease;
+            max-width: 200px;
+        }
+
+        .bi-filter:focus {
+            border-color: var(--dinaledi-orange);
         }
 
         .canvas-wrapper {
             position: relative;
             height: 300px;
             width: 100%;
+            flex-grow: 1;
         }
 
         #statusMessage {
@@ -186,6 +214,8 @@
         @media (max-width: 1024px) {
             .kpi-grid { grid-template-columns: repeat(2, 1fr); }
             .chart-grid, .chart-grid-bottom { grid-template-columns: 1fr; }
+            .chart-header-row { flex-direction: column; gap: 15px; }
+            .bi-filter { max-width: 100%; width: 100%; }
         }
     </style>
 </head>
@@ -226,18 +256,26 @@
 
         <div class="chart-grid">
             <div class="chart-container">
-                <div class="chart-title">
-                    Operational Burn Rate 
-                    <span class="chart-subtitle">Material Consumption Over Time</span>
+                <div class="chart-header-row">
+                    <div class="chart-title">
+                        Operational Burn Rate 
+                        <span class="chart-subtitle">Material Consumption Over Time</span>
+                    </div>
+                    <select id="trendFilter" class="bi-filter" onchange="updateTrendline()">
+                        <option value="ALL">Aggregate Overview (All)</option>
+                        </select>
                 </div>
                 <div class="canvas-wrapper">
                     <canvas id="trendChart"></canvas>
                 </div>
             </div>
+            
             <div class="chart-container">
-                <div class="chart-title">
-                    Top 5 Consumables
-                    <span class="chart-subtitle">By Volume</span>
+                <div class="chart-header-row">
+                    <div class="chart-title">
+                        Top 5 Consumables
+                        <span class="chart-subtitle">By Volume</span>
+                    </div>
                 </div>
                 <div class="canvas-wrapper">
                     <canvas id="doughnutChart"></canvas>
@@ -247,18 +285,22 @@
 
         <div class="chart-grid-bottom">
             <div class="chart-container">
-                <div class="chart-title">
-                    Supplier Inflow Analysis
-                    <span class="chart-subtitle">Volume Received per Vendor</span>
+                <div class="chart-header-row">
+                    <div class="chart-title">
+                        Supplier Inflow Analysis
+                        <span class="chart-subtitle">Volume Received per Vendor</span>
+                    </div>
                 </div>
                 <div class="canvas-wrapper">
                     <canvas id="supplierChart"></canvas>
                 </div>
             </div>
             <div class="chart-container">
-                <div class="chart-title">
-                    Recent Activity Breakdown
-                    <span class="chart-subtitle">IN vs OUT Actions</span>
+                <div class="chart-header-row">
+                    <div class="chart-title">
+                        Recent Activity Breakdown
+                        <span class="chart-subtitle">IN vs OUT Actions</span>
+                    </div>
                 </div>
                 <div class="canvas-wrapper">
                     <canvas id="ratioChart"></canvas>
@@ -270,10 +312,15 @@
     <script>
         const API_URL = 'https://script.google.com/macros/s/AKfycbx7rsialRRxeUm82hS9NcWiZ1SB_ujYArdp-zmhelaJtevdCsRV04609sQBlAq7qjfV0w/exec';
 
-        // Set global Chart.js styling for the dark theme
+        // Set global Chart.js styling
         Chart.defaults.color = '#9ca3af';
         Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto';
         Chart.defaults.borderColor = '#2d2e36';
+
+        // Variables to store state for interactive filtering
+        let globalLogData = [];
+        let trendChartInstance = null;
+        let globalDateList = [];
 
         async function fetchBIData() {
             try {
@@ -284,7 +331,8 @@
                 if (result.status === 'success') {
                     document.getElementById('statusMessage').style.display = 'none';
                     document.getElementById('dashboard-content').style.display = 'block';
-                    processAndRenderBI(result.data);
+                    globalLogData = result.data;
+                    processAndRenderBI();
                 } else {
                     document.getElementById('statusMessage').innerHTML = "Failed to load database. " + result.message;
                 }
@@ -294,23 +342,26 @@
             }
         }
 
-        function processAndRenderBI(dataArray) {
-            if (!dataArray || dataArray.length === 0) return;
+        function processAndRenderBI() {
+            if (!globalLogData || globalLogData.length === 0) return;
 
             let totalOut = 0, totalIn = 0;
-            let matOutCounts = {}, supInCounts = {}, dateCounts = {};
+            let matOutCounts = {}, supInCounts = {};
             let actionRatio = { IN: 0, OUT: 0 };
+            let rawDates = new Set();
+            let materialsSet = new Set();
 
             // Data Crunching Engine
-            dataArray.forEach(row => {
+            globalLogData.forEach(row => {
                 let qty = parseInt(row.quantity) || 0;
                 let dateOnly = row.timestamp.split(' ')[0];
+                rawDates.add(dateOnly);
 
                 if (row.action === 'OUT') {
                     totalOut += qty;
                     actionRatio.OUT++;
                     matOutCounts[row.material] = (matOutCounts[row.material] || 0) + qty;
-                    dateCounts[dateOnly] = (dateCounts[dateOnly] || 0) + qty;
+                    materialsSet.add(row.material);
                 } else if (row.action === 'IN') {
                     totalIn += qty;
                     actionRatio.IN++;
@@ -318,41 +369,29 @@
                 }
             });
 
+            // Update Global Date List (Sorted) to act as the X-axis anchor
+            globalDateList = Array.from(rawDates).sort((a, b) => new Date(a) - new Date(b));
+
+            // Populate Interactive Filter
+            const filterSelect = document.getElementById('trendFilter');
+            let sortedMaterials = Array.from(materialsSet).sort();
+            sortedMaterials.forEach(mat => {
+                let opt = document.createElement('option');
+                opt.value = mat;
+                opt.textContent = mat.length > 28 ? mat.substring(0, 25) + '...' : mat;
+                filterSelect.appendChild(opt);
+            });
+
             // Update KPIs
             document.getElementById('kpi-total-out').innerText = totalOut.toLocaleString();
             document.getElementById('kpi-total-in').innerText = totalIn.toLocaleString();
-
-            // Find Top Material
             let topMat = Object.entries(matOutCounts).sort((a, b) => b[1] - a[1])[0];
             document.getElementById('kpi-top-mat').innerText = topMat ? (topMat[0].length > 18 ? topMat[0].substring(0, 18) + '...' : topMat[0]) : '-';
-
-            // Find Top Supplier
             let topSup = Object.entries(supInCounts).sort((a, b) => b[1] - a[1])[0];
             document.getElementById('kpi-top-sup').innerText = topSup ? topSup[0] : '-';
 
-            // Render Chart 1: Trendline
-            let sortedDates = Object.keys(dateCounts).sort((a, b) => new Date(a) - new Date(b));
-            let trendData = sortedDates.map(d => dateCounts[d]);
-            
-            new Chart(document.getElementById('trendChart'), {
-                type: 'line',
-                data: {
-                    labels: sortedDates,
-                    datasets: [{
-                        label: 'Units Consumed',
-                        data: trendData,
-                        borderColor: '#f39200',
-                        backgroundColor: 'rgba(243, 146, 0, 0.1)',
-                        borderWidth: 3,
-                        tension: 0.4,
-                        fill: true,
-                        pointBackgroundColor: '#1c1d24',
-                        pointBorderColor: '#f39200',
-                        pointRadius: 4
-                    }]
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-            });
+            // Initial Trendline Render
+            renderTrendlineChart('ALL');
 
             // Render Chart 2: Top Consumables Doughnut
             let top5Mats = Object.entries(matOutCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
@@ -393,12 +432,71 @@
                     labels: ['Stock Received (IN)', 'Material Used (OUT)'],
                     datasets: [{
                         data: [actionRatio.IN, actionRatio.OUT],
-                        backgroundColor: ['#2c3e50', '#f39200'],
+                        backgroundColor: ['#2d2e36', '#f39200'],
                         borderWidth: 0
                     }]
                 },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
             });
+        }
+
+        // --- INTERACTIVE TRENDLINE ENGINE ---
+        function renderTrendlineChart(targetMaterial) {
+            let dateCounts = {};
+            // Pre-fill all dates with zero to ensure continuous timeflow
+            globalDateList.forEach(d => dateCounts[d] = 0);
+
+            // Filter data
+            globalLogData.forEach(row => {
+                if (row.action === 'OUT') {
+                    if (targetMaterial === 'ALL' || row.material === targetMaterial) {
+                        let dateOnly = row.timestamp.split(' ')[0];
+                        let qty = parseInt(row.quantity) || 0;
+                        dateCounts[dateOnly] += qty;
+                    }
+                }
+            });
+
+            let trendData = globalDateList.map(d => dateCounts[d]);
+
+            // If chart exists, destroy it to redraw smoothly with new data constraints
+            if (trendChartInstance) {
+                trendChartInstance.destroy();
+            }
+
+            trendChartInstance = new Chart(document.getElementById('trendChart'), {
+                type: 'line',
+                data: {
+                    labels: globalDateList,
+                    datasets: [{
+                        label: targetMaterial === 'ALL' ? 'Aggregate Units Consumed' : 'Specific Units Consumed',
+                        data: trendData,
+                        borderColor: '#f39200',
+                        backgroundColor: 'rgba(243, 146, 0, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: '#1c1d24',
+                        pointBorderColor: '#f39200',
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    }]
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true } // Ensures the bottom of the graph is always zero
+                    }
+                }
+            });
+        }
+
+        // Triggered by the dropdown
+        function updateTrendline() {
+            const selectedMaterial = document.getElementById('trendFilter').value;
+            renderTrendlineChart(selectedMaterial);
         }
 
         window.onload = fetchBIData;
