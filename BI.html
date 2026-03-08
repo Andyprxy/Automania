@@ -43,7 +43,7 @@
         }
 
         .header-branding img {
-            max-height: 40px; /* Perfectly sized logo */
+            max-height: 40px; 
             width: auto;
         }
 
@@ -83,7 +83,6 @@
             color: var(--dinaledi-orange);
         }
 
-        /* KPI Dashboard - Sleek & Corporate */
         .kpi-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -93,7 +92,7 @@
 
         .kpi-card {
             background: var(--card-bg);
-            padding: 12px 15px; /* Reduced for a tighter ribbon look */
+            padding: 12px 15px; 
             border-radius: 8px;
             border: 1px solid var(--border-color);
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -118,7 +117,7 @@
         .kpi-card.green::before { background: var(--bi-green); }
 
         .kpi-value {
-            font-size: 22px; /* Smaller, sharper font */
+            font-size: 22px; 
             font-weight: 800;
             color: white;
             margin-bottom: 2px;
@@ -132,7 +131,6 @@
             font-weight: 600;
         }
 
-        /* Chart Grids */
         .chart-grid {
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -154,6 +152,7 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             display: flex;
             flex-direction: column;
+            overflow: hidden; /* Contains the custom scrollbar */
         }
 
         .chart-header-row {
@@ -195,11 +194,40 @@
 
         .bi-filter:focus { border-color: var(--dinaledi-orange); }
 
+        /* Custom Scrollable X-Axis Canvas Wrapper */
+        .canvas-scroll-container {
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding-bottom: 10px; /* Space for scrollbar */
+        }
+
+        /* Sleek scrollbar styling */
+        .canvas-scroll-container::-webkit-scrollbar {
+            height: 6px;
+        }
+        .canvas-scroll-container::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+            border-radius: 4px;
+        }
+        .canvas-scroll-container::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+        .canvas-scroll-container::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+
         .canvas-wrapper {
             position: relative;
             height: 250px; 
             width: 100%;
             flex-grow: 1;
+        }
+
+        /* Forces the trendline to spread out and become scrollable */
+        .scrollable-chart {
+            min-width: 1200px; 
         }
 
         #loading-screen {
@@ -259,7 +287,7 @@
                 <div class="chart-header-row">
                     <div class="chart-title">
                         Operational Burn Rate 
-                        <span class="chart-subtitle">Material Consumption Over Time</span>
+                        <span class="chart-subtitle">Material Consumption Over Time (Scroll for History →)</span>
                     </div>
                     <select id="trendFilter" class="bi-filter" onchange="updateTrendline()">
                         <option value="ALL">Aggregate Overview (All Items)</option>
@@ -287,8 +315,10 @@
                         <option value="Velcro Disc 6S Plain P180">Velcro Disc 6S Plain P180</option>
                     </select>
                 </div>
-                <div class="canvas-wrapper">
-                    <canvas id="trendChart"></canvas>
+                <div class="canvas-scroll-container">
+                    <div class="canvas-wrapper scrollable-chart">
+                        <canvas id="trendChart"></canvas>
+                    </div>
                 </div>
             </div>
             
@@ -341,7 +371,6 @@
         let globalLogData = [];
         let globalDateList = [];
         
-        // Chart Instances
         let trendChartInstance = null;
         let doughnutChartInstance = null;
         let supplierChartInstance = null;
@@ -360,11 +389,9 @@
                     }
                     globalLogData = result.data;
                     
-                    // CRITICAL FIX: Make the container block visible BEFORE drawing charts
                     document.getElementById('loading-screen').style.display = 'none';
                     document.getElementById('dashboard-content').style.display = 'block';
 
-                    // Give the browser 100ms to paint the new size so Chart.js doesn't crash on a 0x0 canvas
                     setTimeout(() => {
                         processAndRenderBI();
                     }, 100);
@@ -387,7 +414,6 @@
             globalLogData.forEach(row => {
                 let qty = parseInt(row.quantity) || 0;
                 
-                // Safely parse date and skip empty rows
                 if(row.timestamp && row.timestamp.trim() !== '') {
                     let dateOnly = row.timestamp.split(' ')[0];
                     if(dateOnly) rawDates.add(dateOnly);
@@ -400,7 +426,7 @@
 
                 if (row.action === 'OUT') {
                     totalOut += qty;
-                    actionRatio.OUT += qty; // Using volume instead of just click counts
+                    actionRatio.OUT += qty; 
                     matOutCounts[matName] = (matOutCounts[matName] || 0) + qty;
                 } else if (row.action === 'IN') {
                     totalIn += qty;
@@ -422,7 +448,6 @@
             let topSup = Object.entries(supInCounts).sort((a, b) => b[1] - a[1])[0];
             document.getElementById('kpi-top-sup').innerText = topSup ? topSup[0] : '-';
 
-            // Draw Charts
             renderTrendlineChart('ALL');
             renderStaticCharts(matOutCounts, supInCounts, actionRatio);
         }
@@ -474,7 +499,6 @@
             if(supplierChartInstance) supplierChartInstance.destroy();
             if(ratioChartInstance) ratioChartInstance.destroy();
 
-            // Doughnut
             let top5Mats = Object.entries(matOutCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
             doughnutChartInstance = new Chart(document.getElementById('doughnutChart').getContext('2d'), {
                 type: 'doughnut',
@@ -489,7 +513,6 @@
                 options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { position: 'right' } } }
             });
 
-            // Bar Chart
             let sortedSups = Object.entries(supInCounts).sort((a, b) => b[1] - a[1]);
             supplierChartInstance = new Chart(document.getElementById('supplierChart').getContext('2d'), {
                 type: 'bar',
@@ -504,7 +527,6 @@
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } } } }
             });
 
-            // Pie Chart
             ratioChartInstance = new Chart(document.getElementById('ratioChart').getContext('2d'), {
                 type: 'pie',
                 data: {
