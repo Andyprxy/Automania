@@ -192,14 +192,27 @@
                 <select id="material-in">
                     <option value="" disabled selected>-- Select Material --</option>
                     <option value="163gsm Twill Weave Glass">163gsm Twill Weave Glass</option>
-                    <option value="Resin - DCR30 - Epoxy Resin">Resin - DCR30 - Epoxy Resin</option>
-                    <option value="Hardener - Sicomin SD4771">Hardener - Sicomin SD4771</option>
-                    <option value="Hardener - Sicomin SD4775">Hardener - Sicomin SD4775</option>
+                    <option value="25L Thinners">25L Thinners</option>
                     <option value="Acetone Pure 19.74kg">Acetone Pure 19.74kg</option>
-                    <option value="Peel ply">Peel ply</option>
-                    <option value="Vac Film 450V 50Mic (1153)">Vac Film 450V 50Mic (1153)</option>
+                    <option value="Brown/Buff tape 48mm">Brown/Buff tape 48mm</option>
+                    <option value="Buckets 1L">Buckets 1L</option>
+                    <option value="Clear tape 48mm">Clear tape 48mm</option>
+                    <option value="Cutter -18mm- Blade Larger/Tube">Cutter -18mm- Blade Larger/Tube</option>
+                    <option value="Fibre Disc Powermax 9T-R P80">Fibre Disc Powermax 9T-R P80</option>
+                    <option value="Fibreglass Brush 25mm">Fibreglass Brush 25mm</option>
                     <option value="Filler - Fumed Silica">Filler - Fumed Silica</option>
+                    <option value="Hardener - Sicomin SD4771">Hardener - Sicomin SD4771</option>
+                    <option value="Masking Tape 48mm">Masking Tape 48mm</option>
                     <option value="Masking paper-Brown 50gsm">Masking paper-Brown 50gsm</option>
+                    <option value="MEKP - Catalyst Clear">MEKP - Catalyst Clear</option>
+                    <option value="Pallet Wrap">Pallet Wrap</option>
+                    <option value="Peel ply">Peel ply</option>
+                    <option value="Primer - Self Etch Primer Red">Primer - Self Etch Primer Red</option>
+                    <option value="Ramwax Run In 1L">Ramwax Run In 1L</option>
+                    <option value="Resin - DCR30 - Epoxy Resin">Resin - DCR30 - Epoxy Resin</option>
+                    <option value="Smokey">Smokey</option>
+                    <option value="Vac Film 450V 50Mic (1153)">Vac Film 450V 50Mic (1153)</option>
+                    <option value="Velcro Disc 6S Plain P180">Velcro Disc 6S Plain P180</option>
                 </select>
             </div>
             <div class="form-group">
@@ -215,14 +228,27 @@
                 <select id="material-out">
                     <option value="" disabled selected>-- Select Material --</option>
                     <option value="163gsm Twill Weave Glass">163gsm Twill Weave Glass</option>
-                    <option value="Resin - DCR30 - Epoxy Resin">Resin - DCR30 - Epoxy Resin</option>
-                    <option value="Hardener - Sicomin SD4771">Hardener - Sicomin SD4771</option>
-                    <option value="Hardener - Sicomin SD4775">Hardener - Sicomin SD4775</option>
+                    <option value="25L Thinners">25L Thinners</option>
                     <option value="Acetone Pure 19.74kg">Acetone Pure 19.74kg</option>
-                    <option value="Peel ply">Peel ply</option>
-                    <option value="Vac Film 450V 50Mic (1153)">Vac Film 450V 50Mic (1153)</option>
+                    <option value="Brown/Buff tape 48mm">Brown/Buff tape 48mm</option>
+                    <option value="Buckets 1L">Buckets 1L</option>
+                    <option value="Clear tape 48mm">Clear tape 48mm</option>
+                    <option value="Cutter -18mm- Blade Larger/Tube">Cutter -18mm- Blade Larger/Tube</option>
+                    <option value="Fibre Disc Powermax 9T-R P80">Fibre Disc Powermax 9T-R P80</option>
+                    <option value="Fibreglass Brush 25mm">Fibreglass Brush 25mm</option>
                     <option value="Filler - Fumed Silica">Filler - Fumed Silica</option>
+                    <option value="Hardener - Sicomin SD4771">Hardener - Sicomin SD4771</option>
+                    <option value="Masking Tape 48mm">Masking Tape 48mm</option>
                     <option value="Masking paper-Brown 50gsm">Masking paper-Brown 50gsm</option>
+                    <option value="MEKP - Catalyst Clear">MEKP - Catalyst Clear</option>
+                    <option value="Pallet Wrap">Pallet Wrap</option>
+                    <option value="Peel ply">Peel ply</option>
+                    <option value="Primer - Self Etch Primer Red">Primer - Self Etch Primer Red</option>
+                    <option value="Ramwax Run In 1L">Ramwax Run In 1L</option>
+                    <option value="Resin - DCR30 - Epoxy Resin">Resin - DCR30 - Epoxy Resin</option>
+                    <option value="Smokey">Smokey</option>
+                    <option value="Vac Film 450V 50Mic (1153)">Vac Film 450V 50Mic (1153)</option>
+                    <option value="Velcro Disc 6S Plain P180">Velcro Disc 6S Plain P180</option>
                 </select>
             </div>
             <div class="form-group">
@@ -257,7 +283,7 @@
 </div>
 
 <script>
-    // Updated with the new Web App URL
+    // Pointing directly to the secured Google Apps Script Deployment
     const API_URL = 'https://script.google.com/macros/s/AKfycbx7rsialRRxeUm82hS9NcWiZ1SB_ujYArdp-zmhelaJtevdCsRV04609sQBlAq7qjfV0w/exec';
 
     function switchTab(tab) {
@@ -298,7 +324,7 @@
         }
     }
 
-    // 1. READ DATA: Clean GET request with a cache-buster
+    // LOAD LIVE DATA: Uses cache buster to force browser to fetch newest sheet
     async function fetchLiveLogs() {
         try {
             const cacheBuster = new Date().getTime();
@@ -318,7 +344,7 @@
         }
     }
 
-    // 2. WRITE DATA: Bulletproof URLSearchParams submission bypassing CORS entirely
+    // WRITE LIVE DATA: Bulletproof URLSearchParams submission bypassing CORS entirely
     async function processTransaction(type) {
         let material, quantity, supplier = "Internal";
         const btn = type === 'IN' ? document.getElementById('btn-submit-in') : document.getElementById('btn-submit-out');
@@ -371,7 +397,6 @@
             document.getElementById('qty-out').value = '';
 
             // Wait 1.5 seconds for Google to append the row, then refresh the table.
-            // (Because no-cors creates an opaque response, we assume success if no network crash occurred)
             setTimeout(() => {
                 fetchLiveLogs();
                 btn.innerText = type === 'IN' ? "Log Stock IN" : "Log Stock OUT";
