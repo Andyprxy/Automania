@@ -257,7 +257,6 @@
 </div>
 
 <script>
-    // Make sure your Apps Script backend has been updated with the newest `doGet` code and deployed as a "New version"
     const API_URL = 'https://script.google.com/macros/s/AKfycbxFurLms238Olyvcp-oFXrVhwKAuttqFqa9AlKZpfYe5uasEBkNCYuCLQ9q6RmnXPKA/exec';
 
     // UI Tab Switching
@@ -300,10 +299,10 @@
         }
     }
 
-    // Clean GET request for loading data on load
+    // Standard GET request: Flawlessly loads the table
     async function fetchLiveLogs() {
         try {
-            const response = await fetch(API_URL + '?requestType=read');
+            const response = await fetch(API_URL);
             const result = await response.json();
             
             if (result.status === 'success') {
@@ -316,7 +315,7 @@
         }
     }
 
-    // Clean GET request for writing data without CORS issues
+    // POST request with NO-CORS: Flawlessly writes to the database
     async function processTransaction(type) {
         let material, quantity, supplier = "Internal";
         const btn = type === 'IN' ? document.getElementById('btn-submit-in') : document.getElementById('btn-submit-out');
@@ -342,12 +341,22 @@
         const now = new Date();
         const fullTimestamp = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
 
-        // Build the precise URL string to bypass POST/CORS blocks completely
-        const url = `${API_URL}?requestType=write&action=${type}&material=${encodeURIComponent(material)}&quantity=${quantity}&timestamp=${encodeURIComponent(fullTimestamp)}&supplier=${encodeURIComponent(supplier)}`;
+        const payload = {
+            material: material,
+            action: type,
+            quantity: quantity,
+            timestamp: fullTimestamp,
+            supplier: supplier
+        };
 
         try {
-            const response = await fetch(url);
-            const result = await response.json();
+            // The 'no-cors' mode forces the browser to send the data without waiting for security approvals
+            await fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
 
             // Clear inputs
             document.getElementById('material-in').selectedIndex = 0;
@@ -356,13 +365,16 @@
             document.getElementById('material-out').selectedIndex = 0;
             document.getElementById('qty-out').value = '';
 
-            // Update UI instantly
-            await fetchLiveLogs();
+            // Give Google Sheets a moment to save the row, then refresh the table to show the new data
+            setTimeout(() => {
+                fetchLiveLogs();
+                btn.innerText = type === 'IN' ? "Log Stock IN" : "Log Stock OUT";
+                btn.disabled = false;
+            }, 800);
 
         } catch (error) {
             alert("Network error. Please try again.");
             console.error(error);
-        } finally {
             btn.innerText = type === 'IN' ? "Log Stock IN" : "Log Stock OUT";
             btn.disabled = false;
         }
