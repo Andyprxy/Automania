@@ -278,7 +278,7 @@
         const tableBody = document.getElementById('logTableBody');
         const statusMsg = document.getElementById('statusMessage');
         
-        if (dataArray.length > 0) {
+        if (dataArray && dataArray.length > 0) {
             tableBody.innerHTML = ''; 
             dataArray.forEach(row => {
                 const badgeClass = row.action === 'IN' ? 'badge in' : 'badge out';
@@ -299,7 +299,7 @@
         }
     }
 
-    // Standard GET request: Flawlessly loads the table
+    // Fetches the live feed using a clean GET request
     async function fetchLiveLogs() {
         try {
             const response = await fetch(API_URL);
@@ -307,6 +307,9 @@
             
             if (result.status === 'success') {
                 renderTable(result.data);
+            } else {
+                console.error("Backend Error:", result.message);
+                document.getElementById('statusMessage').innerHTML = "No transactions logged yet.";
             }
         } catch (error) {
             console.error('Fetch Error:', error);
@@ -315,7 +318,7 @@
         }
     }
 
-    // POST request with NO-CORS: Flawlessly writes to the database
+    // Writes data using FormData, bypassing CORS natively while allowing readable responses
     async function processTransaction(type) {
         let material, quantity, supplier = "Internal";
         const btn = type === 'IN' ? document.getElementById('btn-submit-in') : document.getElementById('btn-submit-out');
@@ -341,22 +344,21 @@
         const now = new Date();
         const fullTimestamp = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
 
-        const payload = {
-            material: material,
-            action: type,
-            quantity: quantity,
-            timestamp: fullTimestamp,
-            supplier: supplier
-        };
+        // FormData maps directly to e.parameter in Google Apps Script
+        const formData = new FormData();
+        formData.append('action', type);
+        formData.append('material', material);
+        formData.append('quantity', quantity);
+        formData.append('timestamp', fullTimestamp);
+        formData.append('supplier', supplier);
 
         try {
-            // The 'no-cors' mode forces the browser to send the data without waiting for security approvals
-            await fetch(API_URL, {
+            const response = await fetch(API_URL, {
                 method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
+                body: formData 
             });
+            
+            const result = await response.json();
 
             // Clear inputs
             document.getElementById('material-in').selectedIndex = 0;
@@ -365,16 +367,15 @@
             document.getElementById('material-out').selectedIndex = 0;
             document.getElementById('qty-out').value = '';
 
-            // Give Google Sheets a moment to save the row, then refresh the table to show the new data
-            setTimeout(() => {
-                fetchLiveLogs();
-                btn.innerText = type === 'IN' ? "Log Stock IN" : "Log Stock OUT";
-                btn.disabled = false;
-            }, 800);
+            // Update UI instantly with the fresh data returned from the server
+            if(result.status === 'success') {
+                renderTable(result.data);
+            }
 
         } catch (error) {
             alert("Network error. Please try again.");
             console.error(error);
+        } finally {
             btn.innerText = type === 'IN' ? "Log Stock IN" : "Log Stock OUT";
             btn.disabled = false;
         }
