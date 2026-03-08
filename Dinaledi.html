@@ -65,7 +65,6 @@
             border: 1px solid rgba(255,255,255,0.05);
         }
 
-        /* Tab System */
         .tabs {
             display: flex;
             gap: 10px;
@@ -143,7 +142,6 @@
         .btn-in { background-color: var(--action-in); }
         .btn-out { background-color: var(--dinaledi-orange); color: #121212; }
 
-        /* Table Styles */
         .table-container { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
         th { padding: 16px 8px; border-bottom: 2px solid var(--border-color); color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
@@ -259,7 +257,6 @@
 <script>
     const API_URL = 'https://script.google.com/macros/s/AKfycbxFurLms238Olyvcp-oFXrVhwKAuttqFqa9AlKZpfYe5uasEBkNCYuCLQ9q6RmnXPKA/exec';
 
-    // UI Tab Switching
     function switchTab(tab) {
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
         document.querySelectorAll('.form-section').forEach(sec => sec.classList.remove('active'));
@@ -273,7 +270,6 @@
         }
     }
 
-    // Renders the data array into the HTML table
     function renderTable(dataArray) {
         const tableBody = document.getElementById('logTableBody');
         const statusMsg = document.getElementById('statusMessage');
@@ -299,10 +295,11 @@
         }
     }
 
-    // Fetches the live feed using a clean GET request
+    // LOAD LIVE DATA: Uses cache buster to force browser to fetch newest sheet
     async function fetchLiveLogs() {
         try {
-            const response = await fetch(API_URL);
+            const cacheBuster = new Date().getTime();
+            const response = await fetch(API_URL + '?requestType=read&t=' + cacheBuster);
             const result = await response.json();
             
             if (result.status === 'success') {
@@ -318,7 +315,7 @@
         }
     }
 
-    // Writes data using FormData, bypassing CORS natively while allowing readable responses
+    // WRITE LIVE DATA: Connects flawlessly to doGet without CORS conflicts
     async function processTransaction(type) {
         let material, quantity, supplier = "Internal";
         const btn = type === 'IN' ? document.getElementById('btn-submit-in') : document.getElementById('btn-submit-out');
@@ -343,31 +340,23 @@
 
         const now = new Date();
         const fullTimestamp = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
+        const cacheBuster = now.getTime();
 
-        // FormData maps directly to e.parameter in Google Apps Script
-        const formData = new FormData();
-        formData.append('action', type);
-        formData.append('material', material);
-        formData.append('quantity', quantity);
-        formData.append('timestamp', fullTimestamp);
-        formData.append('supplier', supplier);
+        // Pass exactly the 6 variables the database expects
+        const url = `${API_URL}?requestType=write&action=${type}&material=${encodeURIComponent(material)}&quantity=${quantity}&timestamp=${encodeURIComponent(fullTimestamp)}&supplier=${encodeURIComponent(supplier)}&t=${cacheBuster}`;
 
         try {
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                body: formData 
-            });
-            
+            const response = await fetch(url);
             const result = await response.json();
 
-            // Clear inputs
+            // Clear the forms
             document.getElementById('material-in').selectedIndex = 0;
             document.getElementById('supplier-in').selectedIndex = 0;
             document.getElementById('qty-in').value = '';
             document.getElementById('material-out').selectedIndex = 0;
             document.getElementById('qty-out').value = '';
 
-            // Update UI instantly with the fresh data returned from the server
+            // Render the table using the fresh JSON response directly from the write action
             if(result.status === 'success') {
                 renderTable(result.data);
             }
@@ -381,7 +370,7 @@
         }
     }
 
-    // Trigger fetch on load
+    // Trigger initial load
     window.onload = fetchLiveLogs;
 </script>
 
