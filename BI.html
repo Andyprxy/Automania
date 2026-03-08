@@ -190,7 +190,7 @@
             cursor: pointer;
             outline: none;
             transition: border-color 0.3s ease;
-            max-width: 200px;
+            max-width: 280px;
         }
 
         .bi-filter:focus {
@@ -262,8 +262,30 @@
                         <span class="chart-subtitle">Material Consumption Over Time</span>
                     </div>
                     <select id="trendFilter" class="bi-filter" onchange="updateTrendline()">
-                        <option value="ALL">Aggregate Overview (All)</option>
-                        </select>
+                        <option value="ALL">Aggregate Overview (All Items)</option>
+                        <option value="163gsm Twill Weave Glass">163gsm Twill Weave Glass</option>
+                        <option value="25L Thinners">25L Thinners</option>
+                        <option value="Acetone Pure 19.74kg">Acetone Pure 19.74kg</option>
+                        <option value="Brown/Buff tape 48mm">Brown/Buff tape 48mm</option>
+                        <option value="Buckets 1L">Buckets 1L</option>
+                        <option value="Clear tape 48mm">Clear tape 48mm</option>
+                        <option value="Cutter -18mm- Blade Larger/Tube">Cutter -18mm- Blade Larger/Tube</option>
+                        <option value="Fibre Disc Powermax 9T-R P80">Fibre Disc Powermax 9T-R P80</option>
+                        <option value="Fibreglass Brush 25mm">Fibreglass Brush 25mm</option>
+                        <option value="Filler - Fumed Silica">Filler - Fumed Silica</option>
+                        <option value="Hardener - Sicomin SD4771">Hardener - Sicomin SD4771</option>
+                        <option value="Masking Tape 48mm">Masking Tape 48mm</option>
+                        <option value="Masking paper-Brown 50gsm">Masking paper-Brown 50gsm</option>
+                        <option value="MEKP - Catalyst Clear">MEKP - Catalyst Clear</option>
+                        <option value="Pallet Wrap">Pallet Wrap</option>
+                        <option value="Peel ply">Peel ply</option>
+                        <option value="Primer - Self Etch Primer Red">Primer - Self Etch Primer Red</option>
+                        <option value="Ramwax Run In 1L">Ramwax Run In 1L</option>
+                        <option value="Resin - DCR30 - Epoxy Resin">Resin - DCR30 - Epoxy Resin</option>
+                        <option value="Smokey">Smokey</option>
+                        <option value="Vac Film 450V 50Mic (1153)">Vac Film 450V 50Mic (1153)</option>
+                        <option value="Velcro Disc 6S Plain P180">Velcro Disc 6S Plain P180</option>
+                    </select>
                 </div>
                 <div class="canvas-wrapper">
                     <canvas id="trendChart"></canvas>
@@ -349,7 +371,6 @@
             let matOutCounts = {}, supInCounts = {};
             let actionRatio = { IN: 0, OUT: 0 };
             let rawDates = new Set();
-            let materialsSet = new Set();
 
             // Data Crunching Engine
             globalLogData.forEach(row => {
@@ -361,7 +382,6 @@
                     totalOut += qty;
                     actionRatio.OUT++;
                     matOutCounts[row.material] = (matOutCounts[row.material] || 0) + qty;
-                    materialsSet.add(row.material);
                 } else if (row.action === 'IN') {
                     totalIn += qty;
                     actionRatio.IN++;
@@ -369,18 +389,8 @@
                 }
             });
 
-            // Update Global Date List (Sorted) to act as the X-axis anchor
+            // Update Global Date List (Sorted chronologically) to act as the continuous X-axis anchor
             globalDateList = Array.from(rawDates).sort((a, b) => new Date(a) - new Date(b));
-
-            // Populate Interactive Filter
-            const filterSelect = document.getElementById('trendFilter');
-            let sortedMaterials = Array.from(materialsSet).sort();
-            sortedMaterials.forEach(mat => {
-                let opt = document.createElement('option');
-                opt.value = mat;
-                opt.textContent = mat.length > 28 ? mat.substring(0, 25) + '...' : mat;
-                filterSelect.appendChild(opt);
-            });
 
             // Update KPIs
             document.getElementById('kpi-total-out').innerText = totalOut.toLocaleString();
@@ -443,7 +453,7 @@
         // --- INTERACTIVE TRENDLINE ENGINE ---
         function renderTrendlineChart(targetMaterial) {
             let dateCounts = {};
-            // Pre-fill all dates with zero to ensure continuous timeflow
+            // Pre-fill all dates with zero to ensure the line anchors to the bottom smoothly
             globalDateList.forEach(d => dateCounts[d] = 0);
 
             // Filter data
@@ -459,7 +469,6 @@
 
             let trendData = globalDateList.map(d => dateCounts[d]);
 
-            // If chart exists, destroy it to redraw smoothly with new data constraints
             if (trendChartInstance) {
                 trendChartInstance.destroy();
             }
@@ -469,7 +478,7 @@
                 data: {
                     labels: globalDateList,
                     datasets: [{
-                        label: targetMaterial === 'ALL' ? 'Aggregate Units Consumed' : 'Specific Units Consumed',
+                        label: targetMaterial === 'ALL' ? 'Aggregate Units Consumed' : 'Units Consumed',
                         data: trendData,
                         borderColor: '#f39200',
                         backgroundColor: 'rgba(243, 146, 0, 0.1)',
@@ -487,7 +496,7 @@
                     maintainAspectRatio: false, 
                     plugins: { legend: { display: false } },
                     scales: {
-                        y: { beginAtZero: true } // Ensures the bottom of the graph is always zero
+                        y: { beginAtZero: true } // Anchors the bottom of the graph to 0 perfectly
                     }
                 }
             });
