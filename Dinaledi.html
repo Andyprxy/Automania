@@ -36,17 +36,17 @@
             gap: 20px;
         }
 
-        /* Top Header Section */
+        /* Top Header Section with Absolute Positioning for the Button */
         .brand-header {
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 10px 0 30px 0;
+            padding: 10px 0 40px 0;
             border-bottom: 1px solid var(--border-color);
             position: relative;
         }
 
-        /* Nav Button - Top Left & Orange as requested */
+        /* ORANGE DASHBOARD BUTTON - TOP LEFT */
         .nav-link-container {
             position: absolute;
             top: 10px;
@@ -54,17 +54,18 @@
         }
 
         .nav-btn-orange {
-            padding: 12px 20px;
+            padding: 12px 24px;
             background: var(--dinaledi-orange);
             color: #121212;
             text-decoration: none;
             border-radius: 8px;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 1px;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(243, 146, 0, 0.2);
+            border: none;
         }
 
         .nav-btn-orange:hover {
@@ -73,17 +74,17 @@
             box-shadow: 0 6px 20px rgba(243, 146, 0, 0.4);
         }
 
-        /* LOGO RESIZED - Bigger as requested */
+        /* BIGGER LOGO - RESIZED FOR IMPACT */
         .brand-header img {
-            max-height: 100px; 
+            max-height: 120px; /* Increased size as requested */
             width: auto;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
 
         .brand-header p {
             color: var(--text-muted);
             margin: 0;
-            font-size: 14px;
+            font-size: 15px;
             letter-spacing: 2px;
             text-transform: uppercase;
             font-weight: 600;
@@ -182,6 +183,7 @@
         @media (max-width: 600px) {
             .nav-link-container { position: static; margin-bottom: 20px; width: 100%; text-align: center; }
             .nav-btn-orange { display: block; }
+            .brand-header img { max-height: 80px; }
         }
     </style>
 </head>
@@ -199,8 +201,8 @@
 
     <div class="card">
         <div class="tabs">
-            <button class="tab-btn active in-tab" onclick="switchTab('in')">Receive Stock</button>
-            <button class="tab-btn out-tab" onclick="switchTab('out')">Use Material</button>
+            <button class="tab-btn active in-tab" onclick="switchTab('in')">Receive Stock (IN)</button>
+            <button class="tab-btn out-tab" onclick="switchTab('out')">Use Material (OUT)</button>
         </div>
 
         <div id="form-in" class="form-section active">
@@ -248,7 +250,7 @@
             </div>
             <div class="form-group">
                 <label>Quantity</label>
-                <input type="number" id="qty-in" min="1" placeholder="Enter units received...">
+                <input type="number" id="qty-in" min="1" placeholder="Enter quantity received...">
             </div>
             <button class="submit-btn btn-in" id="btn-submit-in" onclick="processTransaction('IN')">Log Stock IN</button>
         </div>
@@ -284,7 +286,7 @@
             </div>
             <div class="form-group">
                 <label>Quantity</label>
-                <input type="number" id="qty-out" min="1" placeholder="Enter units used...">
+                <input type="number" id="qty-out" min="1" placeholder="Enter quantity used...">
             </div>
             <button class="submit-btn btn-out" id="btn-submit-out" onclick="processTransaction('OUT')">Log Stock OUT</button>
         </div>
@@ -296,7 +298,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Timestamp</th>
+                        <th>Date & Time</th>
                         <th>Material</th>
                         <th>Action</th>
                         <th>Qty</th>
@@ -329,7 +331,7 @@
         const statusMsg = document.getElementById('statusMessage');
         if (dataArray && dataArray.length > 0) {
             tableBody.innerHTML = ''; 
-            dataArray.slice(0, 8).forEach(row => {
+            dataArray.slice(0, 10).forEach(row => {
                 const badgeClass = row.action === 'IN' ? 'badge in' : 'badge out';
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
@@ -350,24 +352,25 @@
         try {
             const response = await fetch(`${API_URL}?t=${new Date().getTime()}`);
             const result = await response.json();
-            if (result.status === 'success') renderTable(result.data.reverse()); // Reverse so newest shows first in small table
+            if (result.status === 'success') renderTable(result.data);
         } catch (e) { console.error(e); }
     }
 
     async function processTransaction(type) {
         let mat, qty, sup = "Internal";
         const btn = type === 'IN' ? document.getElementById('btn-submit-in') : document.getElementById('btn-submit-out');
+        
         if(type === 'IN') {
             mat = document.getElementById('material-in').value;
             qty = document.getElementById('qty-in').value;
             sup = document.getElementById('supplier-in').value;
-            if(!sup) { alert("Select Supplier"); return; }
+            if(!sup) { alert("Please Select Supplier"); return; }
         } else {
             mat = document.getElementById('material-out').value;
             qty = document.getElementById('qty-out').value;
         }
 
-        if(!mat || !qty || qty <= 0) { alert("Enter valid details"); return; }
+        if(!mat || !qty || qty <= 0) { alert("Please enter valid details"); return; }
 
         btn.innerText = "Syncing...";
         btn.disabled = true;
@@ -380,12 +383,29 @@
         payload.append('supplier', sup);
 
         try {
-            await fetch(API_URL, { method: 'POST', mode: 'no-cors', body: payload.toString() });
+            await fetch(API_URL, { 
+                method: 'POST', 
+                mode: 'no-cors', 
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: payload.toString() 
+            });
+
             document.getElementById('qty-in').value = '';
             document.getElementById('qty-out').value = '';
-            setTimeout(() => { fetchLiveLogs(); btn.innerText = "Logged Success"; }, 1000);
-        } catch (e) { alert("Network Error"); }
-        finally { setTimeout(() => { btn.innerText = type === 'IN' ? "Log Stock IN" : "Log Stock OUT"; btn.disabled = false; }, 2000); }
+            
+            setTimeout(() => { 
+                fetchLiveLogs(); 
+                btn.innerText = "Logged Successfully"; 
+            }, 1000);
+            
+        } catch (e) { 
+            alert("Network Error"); 
+        } finally { 
+            setTimeout(() => { 
+                btn.innerText = type === 'IN' ? "Log Stock IN" : "Log Stock OUT"; 
+                btn.disabled = false; 
+            }, 2500); 
+        }
     }
 
     window.onload = fetchLiveLogs;
