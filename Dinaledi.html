@@ -162,7 +162,7 @@
 
 <div class="container">
     <div class="brand-header">
-        <img src="Dinaledi1.png" alt="Dinaledi Composite Engineering">
+        <img src="Dinaledi1.jpg" alt="Dinaledi Composite Engineering">
         <p>Live Inventory Terminal</p>
     </div>
 
@@ -257,6 +257,7 @@
 </div>
 
 <script>
+    // Make sure your Apps Script backend has been updated with the newest `doGet` code and deployed as a "New version"
     const API_URL = 'https://script.google.com/macros/s/AKfycbxFurLms238Olyvcp-oFXrVhwKAuttqFqa9AlKZpfYe5uasEBkNCYuCLQ9q6RmnXPKA/exec';
 
     // UI Tab Switching
@@ -299,14 +300,10 @@
         }
     }
 
-    // Fetches initial data on page load using POST to bypass CORS
+    // Clean GET request for loading data on load
     async function fetchLiveLogs() {
         try {
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify({ requestType: 'FETCH_LOGS' })
-            });
+            const response = await fetch(API_URL + '?requestType=read');
             const result = await response.json();
             
             if (result.status === 'success') {
@@ -315,10 +312,11 @@
         } catch (error) {
             console.error('Fetch Error:', error);
             document.getElementById('statusMessage').innerHTML = "Error connecting to Automania database.";
+            document.getElementById('statusMessage').style.display = 'block';
         }
     }
 
-    // Submits new transaction and instantly updates table
+    // Clean GET request for writing data without CORS issues
     async function processTransaction(type) {
         let material, quantity, supplier = "Internal";
         const btn = type === 'IN' ? document.getElementById('btn-submit-in') : document.getElementById('btn-submit-out');
@@ -344,21 +342,11 @@
         const now = new Date();
         const fullTimestamp = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
 
-        const payload = {
-            material: material,
-            action: type,
-            quantity: quantity,
-            timestamp: fullTimestamp,
-            supplier: supplier
-        };
+        // Build the precise URL string to bypass POST/CORS blocks completely
+        const url = `${API_URL}?requestType=write&action=${type}&material=${encodeURIComponent(material)}&quantity=${quantity}&timestamp=${encodeURIComponent(fullTimestamp)}&supplier=${encodeURIComponent(supplier)}`;
 
         try {
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify(payload)
-            });
-            
+            const response = await fetch(url);
             const result = await response.json();
 
             // Clear inputs
@@ -368,10 +356,8 @@
             document.getElementById('material-out').selectedIndex = 0;
             document.getElementById('qty-out').value = '';
 
-            // Render the fresh data immediately returned from the server
-            if (result.status === 'success') {
-                renderTable(result.data);
-            }
+            // Update UI instantly
+            await fetchLiveLogs();
 
         } catch (error) {
             alert("Network error. Please try again.");
