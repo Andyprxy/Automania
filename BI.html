@@ -43,7 +43,7 @@
         }
 
         .header-branding img {
-            max-height: 45px; /* Sized perfectly for top left */
+            max-height: 40px; /* Perfectly sized logo */
             width: auto;
         }
 
@@ -73,7 +73,7 @@
             font-weight: 600;
             text-decoration: none;
             transition: all 0.3s ease;
-            font-size: 12px;
+            font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -83,7 +83,7 @@
             color: var(--dinaledi-orange);
         }
 
-        /* KPI Dashboard - Resized to be sleek and professional */
+        /* KPI Dashboard - Sleek & Corporate */
         .kpi-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -93,12 +93,11 @@
 
         .kpi-card {
             background: var(--card-bg);
-            padding: 15px 20px;
-            border-radius: 12px;
+            padding: 12px 15px; /* Reduced for a tighter ribbon look */
+            border-radius: 8px;
             border: 1px solid var(--border-color);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             position: relative;
-            overflow: hidden;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -119,21 +118,21 @@
         .kpi-card.green::before { background: var(--bi-green); }
 
         .kpi-value {
-            font-size: 26px; /* Reduced from 36px */
+            font-size: 22px; /* Smaller, sharper font */
             font-weight: 800;
             color: white;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
         .kpi-label {
-            font-size: 11px;
+            font-size: 10px;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.5px;
             font-weight: 600;
         }
 
-        /* Chart Grid */
+        /* Chart Grids */
         .chart-grid {
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -152,7 +151,7 @@
             padding: 20px;
             border-radius: 12px;
             border: 1px solid var(--border-color);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             display: flex;
             flex-direction: column;
         }
@@ -165,7 +164,7 @@
         }
 
         .chart-title {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
             color: var(--text-main);
             text-transform: uppercase;
@@ -191,24 +190,25 @@
             cursor: pointer;
             outline: none;
             transition: border-color 0.3s ease;
-            max-width: 250px;
+            max-width: 240px;
         }
 
         .bi-filter:focus { border-color: var(--dinaledi-orange); }
 
         .canvas-wrapper {
             position: relative;
-            height: 260px; /* Slightly shorter for a tighter view */
+            height: 250px; 
             width: 100%;
             flex-grow: 1;
         }
 
-        #statusMessage {
+        #loading-screen {
             text-align: center;
             padding: 40px;
             color: var(--dinaledi-orange);
             font-style: italic;
-            font-size: 14px;
+            font-size: 13px;
+            letter-spacing: 1px;
         }
 
         @media (max-width: 1024px) {
@@ -232,7 +232,7 @@
         <a href="index.html" class="nav-btn">← Back to Floor Terminal</a>
     </div>
 
-    <div id="statusMessage">Syncing with live factory database... Please wait.</div>
+    <div id="loading-screen">Syncing with live factory database... Please wait.</div>
 
     <div id="dashboard-content" style="display: none;">
         <div class="kpi-grid">
@@ -320,8 +320,8 @@
             <div class="chart-container">
                 <div class="chart-header-row">
                     <div class="chart-title">
-                        Recent Activity Breakdown
-                        <span class="chart-subtitle">Stock IN vs Material OUT</span>
+                        Overall Material Flow
+                        <span class="chart-subtitle">Volume IN vs Volume OUT</span>
                     </div>
                 </div>
                 <div class="canvas-wrapper">
@@ -339,8 +339,13 @@
         Chart.defaults.borderColor = '#2d2e36';
 
         let globalLogData = [];
-        let trendChartInstance = null;
         let globalDateList = [];
+        
+        // Chart Instances
+        let trendChartInstance = null;
+        let doughnutChartInstance = null;
+        let supplierChartInstance = null;
+        let ratioChartInstance = null;
 
         async function fetchBIData() {
             try {
@@ -350,25 +355,30 @@
                 
                 if (result.status === 'success') {
                     if(result.data.length === 0) {
-                        document.getElementById('statusMessage').innerHTML = "Database is connected but completely empty. Log a transaction first.";
+                        document.getElementById('loading-screen').innerHTML = "Database connected but empty. Please log data first.";
                         return;
                     }
-                    document.getElementById('statusMessage').style.display = 'none';
-                    document.getElementById('dashboard-content').style.display = 'block';
                     globalLogData = result.data;
-                    processAndRenderBI();
+                    
+                    // CRITICAL FIX: Make the container block visible BEFORE drawing charts
+                    document.getElementById('loading-screen').style.display = 'none';
+                    document.getElementById('dashboard-content').style.display = 'block';
+
+                    // Give the browser 100ms to paint the new size so Chart.js doesn't crash on a 0x0 canvas
+                    setTimeout(() => {
+                        processAndRenderBI();
+                    }, 100);
+
                 } else {
-                    document.getElementById('statusMessage').innerHTML = "Backend Error: " + result.message;
+                    document.getElementById('loading-screen').innerHTML = "Backend Error: " + result.message;
                 }
             } catch (error) {
                 console.error(error);
-                document.getElementById('statusMessage').innerHTML = "Network connection failed. Ensure your Google Apps Script is deployed as 'Anyone'.";
+                document.getElementById('loading-screen').innerHTML = "Network connection failed. Ensure your Google Apps Script is deployed properly.";
             }
         }
 
         function processAndRenderBI() {
-            if (!globalLogData || globalLogData.length === 0) return;
-
             let totalOut = 0, totalIn = 0;
             let matOutCounts = {}, supInCounts = {};
             let actionRatio = { IN: 0, OUT: 0 };
@@ -377,27 +387,32 @@
             globalLogData.forEach(row => {
                 let qty = parseInt(row.quantity) || 0;
                 
-                // Ensure timestamp exists before trying to split it
-                if(row.timestamp) {
+                // Safely parse date and skip empty rows
+                if(row.timestamp && row.timestamp.trim() !== '') {
                     let dateOnly = row.timestamp.split(' ')[0];
                     if(dateOnly) rawDates.add(dateOnly);
+                } else {
+                    return; 
                 }
+
+                let matName = row.material || "Unknown";
+                let supName = row.supplier || "Unknown";
 
                 if (row.action === 'OUT') {
                     totalOut += qty;
-                    actionRatio.OUT++;
-                    matOutCounts[row.material] = (matOutCounts[row.material] || 0) + qty;
+                    actionRatio.OUT += qty; // Using volume instead of just click counts
+                    matOutCounts[matName] = (matOutCounts[matName] || 0) + qty;
                 } else if (row.action === 'IN') {
                     totalIn += qty;
-                    actionRatio.IN++;
-                    supInCounts[row.supplier] = (supInCounts[row.supplier] || 0) + qty;
+                    actionRatio.IN += qty;
+                    supInCounts[supName] = (supInCounts[supName] || 0) + qty;
                 }
             });
 
-            // Date processing for continuous trendline
+            // Sort dates chronologically for the X-Axis
             globalDateList = Array.from(rawDates).sort((a, b) => new Date(a) - new Date(b));
 
-            // Grand Totals permanently set regardless of filters
+            // Set Static KPIs
             document.getElementById('kpi-total-out').innerText = totalOut.toLocaleString();
             document.getElementById('kpi-total-in').innerText = totalIn.toLocaleString();
             
@@ -407,48 +422,9 @@
             let topSup = Object.entries(supInCounts).sort((a, b) => b[1] - a[1])[0];
             document.getElementById('kpi-top-sup').innerText = topSup ? topSup[0] : '-';
 
-            // Initial Renders
+            // Draw Charts
             renderTrendlineChart('ALL');
-
-            let top5Mats = Object.entries(matOutCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
-            new Chart(document.getElementById('doughnutChart'), {
-                type: 'doughnut',
-                data: {
-                    labels: top5Mats.map(m => m[0].substring(0, 15) + '..'),
-                    datasets: [{
-                        data: top5Mats.map(m => m[1]),
-                        backgroundColor: ['#f39200', '#3b82f6', '#8b5cf6', '#10b981', '#ef4444'],
-                        borderWidth: 0, hoverOffset: 4
-                    }]
-                },
-                options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { position: 'right' } } }
-            });
-
-            let sortedSups = Object.entries(supInCounts).sort((a, b) => b[1] - a[1]);
-            new Chart(document.getElementById('supplierChart'), {
-                type: 'bar',
-                data: {
-                    labels: sortedSups.map(s => s[0]),
-                    datasets: [{
-                        label: 'Units Supplied',
-                        data: sortedSups.map(s => s[1]),
-                        backgroundColor: '#3b82f6', borderRadius: 6
-                    }]
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } } } }
-            });
-
-            new Chart(document.getElementById('ratioChart'), {
-                type: 'pie',
-                data: {
-                    labels: ['Stock Received (IN)', 'Material Used (OUT)'],
-                    datasets: [{
-                        data: [actionRatio.IN, actionRatio.OUT],
-                        backgroundColor: ['#2d2e36', '#f39200'], borderWidth: 0
-                    }]
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
-            });
+            renderStaticCharts(matOutCounts, supInCounts, actionRatio);
         }
 
         function renderTrendlineChart(targetMaterial) {
@@ -457,7 +433,8 @@
 
             globalLogData.forEach(row => {
                 if (row.action === 'OUT' && row.timestamp) {
-                    if (targetMaterial === 'ALL' || row.material === targetMaterial) {
+                    let matName = row.material || "";
+                    if (targetMaterial === 'ALL' || matName === targetMaterial) {
                         let dateOnly = row.timestamp.split(' ')[0];
                         let qty = parseInt(row.quantity) || 0;
                         if(dateCounts[dateOnly] !== undefined) {
@@ -471,7 +448,8 @@
 
             if (trendChartInstance) trendChartInstance.destroy();
 
-            trendChartInstance = new Chart(document.getElementById('trendChart'), {
+            const ctx = document.getElementById('trendChart').getContext('2d');
+            trendChartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: globalDateList,
@@ -488,6 +466,55 @@
                     responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
                     scales: { y: { beginAtZero: true } }
                 }
+            });
+        }
+
+        function renderStaticCharts(matOutCounts, supInCounts, actionRatio) {
+            if(doughnutChartInstance) doughnutChartInstance.destroy();
+            if(supplierChartInstance) supplierChartInstance.destroy();
+            if(ratioChartInstance) ratioChartInstance.destroy();
+
+            // Doughnut
+            let top5Mats = Object.entries(matOutCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
+            doughnutChartInstance = new Chart(document.getElementById('doughnutChart').getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: top5Mats.map(m => m[0].substring(0, 15) + '..'),
+                    datasets: [{
+                        data: top5Mats.map(m => m[1]),
+                        backgroundColor: ['#f39200', '#3b82f6', '#8b5cf6', '#10b981', '#ef4444'],
+                        borderWidth: 0, hoverOffset: 4
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { position: 'right' } } }
+            });
+
+            // Bar Chart
+            let sortedSups = Object.entries(supInCounts).sort((a, b) => b[1] - a[1]);
+            supplierChartInstance = new Chart(document.getElementById('supplierChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: sortedSups.map(s => s[0]),
+                    datasets: [{
+                        label: 'Total Volume Supplied',
+                        data: sortedSups.map(s => s[1]),
+                        backgroundColor: '#3b82f6', borderRadius: 4
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } } } }
+            });
+
+            // Pie Chart
+            ratioChartInstance = new Chart(document.getElementById('ratioChart').getContext('2d'), {
+                type: 'pie',
+                data: {
+                    labels: ['Volume Received (IN)', 'Volume Used (OUT)'],
+                    datasets: [{
+                        data: [actionRatio.IN, actionRatio.OUT],
+                        backgroundColor: ['#2d2e36', '#f39200'], borderWidth: 0
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
             });
         }
 
