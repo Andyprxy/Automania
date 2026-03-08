@@ -65,6 +65,7 @@
             border: 1px solid rgba(255,255,255,0.05);
         }
 
+        /* Tab System */
         .tabs {
             display: flex;
             gap: 10px;
@@ -142,6 +143,7 @@
         .btn-in { background-color: var(--action-in); }
         .btn-out { background-color: var(--dinaledi-orange); color: #121212; }
 
+        /* Table Styles */
         .table-container { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
         th { padding: 16px 8px; border-bottom: 2px solid var(--border-color); color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
@@ -255,7 +257,8 @@
 </div>
 
 <script>
-    const API_URL = 'https://script.google.com/macros/s/AKfycbxFurLms238Olyvcp-oFXrVhwKAuttqFqa9AlKZpfYe5uasEBkNCYuCLQ9q6RmnXPKA/exec';
+    // Updated with the new Web App URL
+    const API_URL = 'https://script.google.com/macros/s/AKfycbx7rsialRRxeUm82hS9NcWiZ1SB_ujYArdp-zmhelaJtevdCsRV04609sQBlAq7qjfV0w/exec';
 
     function switchTab(tab) {
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -306,7 +309,7 @@
                 renderTable(result.data);
             } else {
                 console.error("Backend Error:", result.message);
-                document.getElementById('statusMessage').innerHTML = "Database structure error.";
+                document.getElementById('statusMessage').innerHTML = "Database structure error. Please check sheet configuration.";
             }
         } catch (error) {
             console.error('Fetch Error:', error);
@@ -367,7 +370,8 @@
             document.getElementById('material-out').selectedIndex = 0;
             document.getElementById('qty-out').value = '';
 
-            // Wait 1.5 seconds for Google to append the row, then refresh the table
+            // Wait 1.5 seconds for Google to append the row, then refresh the table.
+            // (Because no-cors creates an opaque response, we assume success if no network crash occurred)
             setTimeout(() => {
                 fetchLiveLogs();
                 btn.innerText = type === 'IN' ? "Log Stock IN" : "Log Stock OUT";
