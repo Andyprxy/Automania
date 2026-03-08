@@ -34,32 +34,24 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
+            position: relative; /* Needed for absolute positioning of nav button */
         }
 
-        /* Top Header Section with Absolute Positioning for the Button */
-        .brand-header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 10px 0 40px 0;
-            border-bottom: 1px solid var(--border-color);
-            position: relative;
-        }
-
-        /* ORANGE DASHBOARD BUTTON - TOP LEFT */
+        /* Top Left Orange Button as requested */
         .nav-link-container {
             position: absolute;
             top: 10px;
             left: 0;
+            z-index: 10;
         }
 
         .nav-btn-orange {
-            padding: 12px 24px;
+            padding: 10px 18px;
             background: var(--dinaledi-orange);
             color: #121212;
             text-decoration: none;
             border-radius: 8px;
-            font-size: 13px;
+            font-size: 11px;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -74,9 +66,16 @@
             box-shadow: 0 6px 20px rgba(243, 146, 0, 0.4);
         }
 
-        /* BIGGER LOGO - RESIZED FOR IMPACT */
+        .brand-header {
+            text-align: center;
+            margin-bottom: 10px;
+            padding: 20px 0 40px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* LOGO RESIZED - Significantly bigger for impact */
         .brand-header img {
-            max-height: 120px; /* Increased size as requested */
+            max-height: 120px; 
             width: auto;
             margin-bottom: 15px;
         }
@@ -84,7 +83,7 @@
         .brand-header p {
             color: var(--text-muted);
             margin: 0;
-            font-size: 15px;
+            font-size: 14px;
             letter-spacing: 2px;
             text-transform: uppercase;
             font-weight: 600;
@@ -109,7 +108,7 @@
 
         .tab-btn {
             flex: 1;
-            padding: 16px;
+            padding: 14px;
             background: transparent;
             color: var(--text-muted);
             border: none;
@@ -136,12 +135,7 @@
             margin-bottom: 20px;
         }
 
-        label {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
+        label { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; }
 
         select, input {
             padding: 16px;
@@ -180,29 +174,28 @@
 
         .status-text { text-align: center; padding: 20px; color: var(--text-muted); font-style: italic; }
 
-        @media (max-width: 600px) {
-            .nav-link-container { position: static; margin-bottom: 20px; width: 100%; text-align: center; }
+        @media (max-width: 768px) {
+            .nav-link-container { position: static; text-align: center; margin-bottom: 15px; }
             .nav-btn-orange { display: block; }
-            .brand-header img { max-height: 80px; }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <div class="nav-link-container">
+        <a href="BI.html" class="nav-btn-orange">Launch Dashboard BI</a>
+    </div>
+
     <div class="brand-header">
-        <div class="nav-link-container">
-            <a href="BI.html" class="nav-btn-orange">Launch Dashboard BI</a>
-        </div>
-        
-        <img src="Dinaledi1.png" alt="Dinaledi Composite Engineering">
+        <img src="Dinaledi1.png" alt="Dinaledi Logo">
         <p>Live Inventory Terminal</p>
     </div>
 
     <div class="card">
         <div class="tabs">
-            <button class="tab-btn active in-tab" onclick="switchTab('in')">Receive Stock (IN)</button>
-            <button class="tab-btn out-tab" onclick="switchTab('out')">Use Material (OUT)</button>
+            <button class="tab-btn active in-tab" onclick="switchTab('in')">Receive Stock</button>
+            <button class="tab-btn out-tab" onclick="switchTab('out')">Use Material</button>
         </div>
 
         <div id="form-in" class="form-section active">
@@ -250,7 +243,7 @@
             </div>
             <div class="form-group">
                 <label>Quantity</label>
-                <input type="number" id="qty-in" min="1" placeholder="Enter quantity received...">
+                <input type="number" id="qty-in" min="1" placeholder="Quantity received...">
             </div>
             <button class="submit-btn btn-in" id="btn-submit-in" onclick="processTransaction('IN')">Log Stock IN</button>
         </div>
@@ -286,7 +279,7 @@
             </div>
             <div class="form-group">
                 <label>Quantity</label>
-                <input type="number" id="qty-out" min="1" placeholder="Enter quantity used...">
+                <input type="number" id="qty-out" min="1" placeholder="Quantity used...">
             </div>
             <button class="submit-btn btn-out" id="btn-submit-out" onclick="processTransaction('OUT')">Log Stock OUT</button>
         </div>
@@ -298,7 +291,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Date & Time</th>
+                        <th>Time</th>
                         <th>Material</th>
                         <th>Action</th>
                         <th>Qty</th>
@@ -306,7 +299,7 @@
                 </thead>
                 <tbody id="logTableBody"></tbody>
             </table>
-            <div id="statusMessage" class="status-text">Connecting to database...</div>
+            <div id="statusMessage" class="status-text">Syncing...</div>
         </div>
     </div>
 </div>
@@ -331,11 +324,15 @@
         const statusMsg = document.getElementById('statusMessage');
         if (dataArray && dataArray.length > 0) {
             tableBody.innerHTML = ''; 
-            dataArray.slice(0, 10).forEach(row => {
+            // SHOWING MOST RECENT AT TOP (Descending Order)
+            // We use .reverse() to flip the spreadsheet order for the floor terminal
+            const displayData = [...dataArray].reverse().slice(0, 10); 
+            
+            displayData.forEach(row => {
                 const badgeClass = row.action === 'IN' ? 'badge in' : 'badge out';
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td style="color: var(--text-muted); font-size: 11px;">${row.timestamp}</td>
+                    <td style="color: var(--text-muted); font-size: 11px;">${row.timestamp.split(' ')[1] + ' ' + row.timestamp.split(' ')[2]}</td>
                     <td style="font-weight: 500;">${row.material}</td>
                     <td><span class="${badgeClass}">${row.action}</span></td>
                     <td style="font-weight: 700;">${row.quantity}</td>
@@ -359,21 +356,18 @@
     async function processTransaction(type) {
         let mat, qty, sup = "Internal";
         const btn = type === 'IN' ? document.getElementById('btn-submit-in') : document.getElementById('btn-submit-out');
-        
         if(type === 'IN') {
             mat = document.getElementById('material-in').value;
             qty = document.getElementById('qty-in').value;
             sup = document.getElementById('supplier-in').value;
-            if(!sup) { alert("Please Select Supplier"); return; }
+            if(!sup) { alert("Select Supplier"); return; }
         } else {
             mat = document.getElementById('material-out').value;
             qty = document.getElementById('qty-out').value;
         }
 
-        if(!mat || !qty || qty <= 0) { alert("Please enter valid details"); return; }
-
-        btn.innerText = "Syncing...";
-        btn.disabled = true;
+        if(!mat || !qty || qty <= 0) { alert("Check details"); return; }
+        btn.innerText = "Syncing..."; btn.disabled = true;
 
         const payload = new URLSearchParams();
         payload.append('action', type);
@@ -383,29 +377,12 @@
         payload.append('supplier', sup);
 
         try {
-            await fetch(API_URL, { 
-                method: 'POST', 
-                mode: 'no-cors', 
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: payload.toString() 
-            });
-
+            await fetch(API_URL, { method: 'POST', mode: 'no-cors', body: payload.toString() });
             document.getElementById('qty-in').value = '';
             document.getElementById('qty-out').value = '';
-            
-            setTimeout(() => { 
-                fetchLiveLogs(); 
-                btn.innerText = "Logged Successfully"; 
-            }, 1000);
-            
-        } catch (e) { 
-            alert("Network Error"); 
-        } finally { 
-            setTimeout(() => { 
-                btn.innerText = type === 'IN' ? "Log Stock IN" : "Log Stock OUT"; 
-                btn.disabled = false; 
-            }, 2500); 
-        }
+            setTimeout(() => { fetchLiveLogs(); btn.innerText = "Logged!"; }, 1000);
+        } catch (e) { alert("Error"); }
+        finally { setTimeout(() => { btn.innerText = type === 'IN' ? "Log Stock IN" : "Log Stock OUT"; btn.disabled = false; }, 2500); }
     }
 
     window.onload = fetchLiveLogs;
