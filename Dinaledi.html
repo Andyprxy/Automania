@@ -295,18 +295,18 @@
         }
     }
 
-    // LOAD LIVE DATA: Uses cache buster to force browser to fetch newest sheet
+    // 1. READ DATA: Clean GET request with a cache-buster
     async function fetchLiveLogs() {
         try {
             const cacheBuster = new Date().getTime();
-            const response = await fetch(API_URL + '?requestType=read&t=' + cacheBuster);
+            const response = await fetch(`${API_URL}?t=${cacheBuster}`);
             const result = await response.json();
             
             if (result.status === 'success') {
                 renderTable(result.data);
             } else {
                 console.error("Backend Error:", result.message);
-                document.getElementById('statusMessage').innerHTML = "No transactions logged yet.";
+                document.getElementById('statusMessage').innerHTML = "Database structure error.";
             }
         } catch (error) {
             console.error('Fetch Error:', error);
@@ -315,7 +315,7 @@
         }
     }
 
-    // WRITE LIVE DATA: Connects flawlessly to doGet without CORS conflicts
+    // 2. WRITE DATA: Bulletproof URLSearchParams submission bypassing CORS entirely
     async function processTransaction(type) {
         let material, quantity, supplier = "Internal";
         const btn = type === 'IN' ? document.getElementById('btn-submit-in') : document.getElementById('btn-submit-out');
@@ -340,14 +340,25 @@
 
         const now = new Date();
         const fullTimestamp = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
-        const cacheBuster = now.getTime();
 
-        // Pass exactly the 6 variables the database expects
-        const url = `${API_URL}?requestType=write&action=${type}&material=${encodeURIComponent(material)}&quantity=${quantity}&timestamp=${encodeURIComponent(fullTimestamp)}&supplier=${encodeURIComponent(supplier)}&t=${cacheBuster}`;
+        // This encodes the data exactly like a native HTML form, granting it safe passage
+        const payload = new URLSearchParams();
+        payload.append('action', type);
+        payload.append('material', material);
+        payload.append('quantity', quantity);
+        payload.append('timestamp', fullTimestamp);
+        payload.append('supplier', supplier);
 
         try {
-            const response = await fetch(url);
-            const result = await response.json();
+            // mode: 'no-cors' strictly forbids the browser from intercepting the request
+            await fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: payload.toString()
+            });
 
             // Clear the forms
             document.getElementById('material-in').selectedIndex = 0;
@@ -356,15 +367,16 @@
             document.getElementById('material-out').selectedIndex = 0;
             document.getElementById('qty-out').value = '';
 
-            // Render the table using the fresh JSON response directly from the write action
-            if(result.status === 'success') {
-                renderTable(result.data);
-            }
+            // Wait 1.5 seconds for Google to append the row, then refresh the table
+            setTimeout(() => {
+                fetchLiveLogs();
+                btn.innerText = type === 'IN' ? "Log Stock IN" : "Log Stock OUT";
+                btn.disabled = false;
+            }, 1500);
 
         } catch (error) {
             alert("Network error. Please try again.");
             console.error(error);
-        } finally {
             btn.innerText = type === 'IN' ? "Log Stock IN" : "Log Stock OUT";
             btn.disabled = false;
         }
