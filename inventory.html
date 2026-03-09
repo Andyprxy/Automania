@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Master Inventory | Automania Systems</title>
+    <style>
+        /* Automania Premium Enterprise Dark Theme */
+        :root {
+            --bg-dark: #0f1015;
+            --card-bg: #1c1d24;
+            --text-main: #ffffff;
+            --text-muted: #9ca3af;
+            --dinaledi-orange: #f39200; 
+            --dinaledi-orange-hover: #d68000;
+            --bi-blue: #3b82f6;
+            --bi-red: #ef4444;
+            --bi-green: #10b981;
+            --border-color: #2d2e36;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            padding: 30px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-branding {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-branding img {
+            max-height: 50px; 
+            width: auto;
+        }
+
+        .header-titles h1 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: 0.5px; }
+        .header-titles p { margin: 5px 0 0 0; font-size: 13px; color: var(--dinaledi-orange); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+
+        .nav-container { display: flex; gap: 10px; }
+
+        .nav-btn {
+            padding: 10px 20px;
+            background: transparent;
+            border: 1px solid var(--text-muted);
+            color: var(--text-muted);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+        .nav-btn:hover { border-color: var(--text-main); color: var(--text-main); }
+
+        /* Summary KPIs */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .kpi-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .kpi-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--bi-blue); }
+        .kpi-card.orange::before { background: var(--dinaledi-orange); }
+        .kpi-card.red::before { background: var(--bi-red); }
+
+        .kpi-value { font-size: 28px; font-weight: 800; color: white; margin-bottom: 5px; }
+        .kpi-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color);
+        }
+
+        /* Controls */
+        .controls-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .search-bar {
+            width: 100%;
+            max-width: 400px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-dark);
+            color: white;
+            font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+        }
+        .search-bar:focus { border-color: var(--dinaledi-orange); }
+
+        /* Table Styling */
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
+        thead { background: var(--bg-dark); }
+        th { padding: 15px; border-bottom: 2px solid var(--border-color); color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        td { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        tr:hover { background: rgba(255,255,255,0.02); }
+
+        /* Stock Status Badges */
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
+        }
+        .status-ok { background: rgba(16, 185, 129, 0.15); color: var(--bi-green); border: 1px solid var(--bi-green); }
+        .status-low { background: rgba(243, 146, 0, 0.15); color: var(--dinaledi-orange); border: 1px solid var(--dinaledi-orange); }
+        .status-out { background: rgba(239, 68, 68, 0.15); color: var(--bi-red); border: 1px solid var(--bi-red); }
+
+        .current-balance { font-size: 16px; font-weight: 800; color: white; }
+
+        #statusMessage { text-align: center; padding: 40px; color: var(--dinaledi-orange); font-style: italic; font-size: 14px; }
+
+        @media (max-width: 900px) {
+            .header { flex-direction: column; gap: 20px; text-align: center; }
+            .header-branding { flex-direction: column; }
+            .nav-container { flex-direction: column; width: 100%; }
+            .nav-btn { text-align: center; }
+            .kpi-grid { grid-template-columns: 1fr; }
+            .search-bar { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="header-branding">
+            <img src="Dinaledi1.png" alt="Dinaledi Logo">
+            <div class="header-titles">
+                <h1>Master Inventory Tracking</h1>
+                <p>Live Stock Balances</p>
+            </div>
+        </div>
+        <div class="nav-container">
+            <a href="Dinaledi.html" class="nav-btn">← Floor Terminal</a>
+            <a href="BI.html" class="nav-btn" style="border-color: var(--bi-blue); color: var(--bi-blue);">📊 Dashboard BI</a>
+            <a href="Audit.html" class="nav-btn">🗄️ Master Ledger</a>
+        </div>
+    </div>
+
+    <div id="statusMessage">Calculating live inventory from transaction history...</div>
+
+    <div id="dashboard-content" style="display: none;">
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-value" id="kpi-unique-items">0</div>
+                <div class="kpi-label">Total Unique Materials</div>
+            </div>
+            <div class="kpi-card orange">
+                <div class="kpi-value" id="kpi-low-stock">0</div>
+                <div class="kpi-label">Items Low on Stock (< 50)</div>
+            </div>
+            <div class="kpi-card red">
+                <div class="kpi-value" id="kpi-out-stock">0</div>
+                <div class="kpi-label">Items Out of Stock (0)</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="controls-bar">
+                <input type="text" id="searchInput" class="search-bar" placeholder="Search for a material..." onkeyup="filterTable()">
+            </div>
+
+            <div class="table-wrapper">
+                <table id="inventoryTable">
+                    <thead>
+                        <tr>
+                            <th>Material Description</th>
+                            <th>Total IN</th>
+                            <th>Total OUT</th>
+                            <th>Current Balance</th>
+                            <th>Stock Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventoryBody">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'https://script.google.com/macros/s/AKfycbx7rsialRRxeUm82hS9NcWiZ1SB_ujYArdp-zmhelaJtevdCsRV04609sQBlAq7qjfV0w/exec';
+        
+        let inventoryMap = {};
+
+        async function calculateInventory() {
+            try {
+                const response = await fetch(`${API_URL}?t=${new Date().getTime()}`);
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    processData(result.data);
+                } else {
+                    document.getElementById('statusMessage').innerHTML = "Database Error.";
+                }
+            } catch (error) {
+                document.getElementById('statusMessage').innerHTML = "Network connection failed.";
+            }
+        }
+
+        function processData(logs) {
+            inventoryMap = {};
+
+            // Calculate totals from transaction history
+            logs.forEach(row => {
+                let mat = row.material;
+                let qty = parseInt(row.quantity) || 0;
+
+                if (!inventoryMap[mat]) {
+                    inventoryMap[mat] = { in: 0, out: 0, balance: 0 };
+                }
+
+                if (row.action === 'IN') {
+                    inventoryMap[mat].in += qty;
+                    inventoryMap[mat].balance += qty;
+                } else if (row.action === 'OUT') {
+                    inventoryMap[mat].out += qty;
+                    inventoryMap[mat].balance -= qty;
+                }
+            });
+
+            renderInventoryTable();
+        }
+
+        function renderInventoryTable() {
+            const tbody = document.getElementById('inventoryBody');
+            tbody.innerHTML = '';
+            
+            let lowStockCount = 0;
+            let outOfStockCount = 0;
+
+            // Sort alphabetically by material name
+            let sortedMaterials = Object.keys(inventoryMap).sort();
+
+            sortedMaterials.forEach(mat => {
+                let data = inventoryMap[mat];
+                
+                // Prevent negative balances in visual display (in case of log errors)
+                let visualBalance = data.balance < 0 ? 0 : data.balance;
+
+                // Status Logic
+                let statusHtml = '';
+                if (visualBalance === 0) {
+                    statusHtml = `<span class="status-badge status-out">Out of Stock</span>`;
+                    outOfStockCount++;
+                } else if (visualBalance < 50) { // Set warning threshold to 50
+                    statusHtml = `<span class="status-badge status-low">Low Stock</span>`;
+                    lowStockCount++;
+                } else {
+                    statusHtml = `<span class="status-badge status-ok">In Stock</span>`;
+                }
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="font-weight: 600; color: white;">${mat}</td>
+                    <td style="color: var(--text-muted);">${data.in.toLocaleString()} units</td>
+                    <td style="color: var(--text-muted);">${data.out.toLocaleString()} units</td>
+                    <td class="current-balance">${visualBalance.toLocaleString()}</td>
+                    <td>${statusHtml}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // Update KPIs
+            document.getElementById('kpi-unique-items').innerText = sortedMaterials.length;
+            document.getElementById('kpi-low-stock').innerText = lowStockCount;
+            document.getElementById('kpi-out-stock').innerText = outOfStockCount;
+
+            document.getElementById('statusMessage').style.display = 'none';
+            document.getElementById('dashboard-content').style.display = 'block';
+        }
+
+        function filterTable() {
+            let input = document.getElementById('searchInput').value.toUpperCase();
+            let table = document.getElementById('inventoryTable');
+            let tr = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < tr.length; i++) {
+                let td = tr[i].getElementsByTagName('td')[0]; // Filter by Material Name (Column 1)
+                if (td) {
+                    let txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(input) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        window.onload = calculateInventory;
+    </script>
+</body>
+</html>
