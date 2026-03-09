@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dinaledi Stock Control | Automania Systems</title>
+    <style>
+        /* Dinaledi Premium Dark Theme */
+        :root {
+            --bg-dark: #121212;
+            --card-bg: #1e1e24;
+            --text-main: #ffffff;
+            --text-muted: #9ca3af;
+            --dinaledi-orange: #f39200; 
+            --dinaledi-orange-hover: #d68000;
+            --action-in: #2c3e50;
+            --action-in-hover: #34495e;
+            --border-color: #333333;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 850px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .brand-header {
+            text-align: center;
+            margin-bottom: 10px;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .brand-header img {
+            max-width: 250px;
+            height: auto;
+            margin-bottom: 15px;
+        }
+
+        .brand-header p {
+            color: var(--text-muted);
+            margin: 0;
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* Tab System */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+            background: #121212;
+            padding: 6px;
+            border-radius: 14px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 14px;
+            background: transparent;
+            color: var(--text-muted);
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tab-btn.active.in-tab { background: var(--action-in); color: white; }
+        .tab-btn.active.out-tab { background: var(--dinaledi-orange); color: #121212; }
+
+        .form-section { display: none; }
+        .form-section.active { display: block; animation: fadeIn 0.3s ease; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        select, input {
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            font-size: 16px;
+            background-color: #121212;
+            color: white;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        select:focus, input:focus { outline: none; border-color: var(--dinaledi-orange); }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        .btn-in { background-color: var(--action-in); }
+        .btn-out { background-color: var(--dinaledi-orange); color: #121212; }
+
+        /* Table Styles */
+        .table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+        th { padding: 16px 8px; border-bottom: 2px solid var(--border-color); color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+        td { padding: 16px 8px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        
+        .badge { padding: 6px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; }
+        .badge.in { background: rgba(44, 62, 80, 0.5); color: #fff; border: 1px solid var(--action-in); }
+        .badge.out { background: rgba(243, 146, 0, 0.15); color: var(--dinaledi-orange); border: 1px solid var(--dinaledi-orange); }
+
+        .status-text { text-align: center; padding: 20px; color: var(--text-muted); font-style: italic; }
+        .loading-spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: var(--dinaledi-orange); animation: spin 1s ease-in-out infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="brand-header">
+        <img src="Dinaledi1.jpg" alt="Dinaledi Composite Engineering">
+        <p>Live Inventory Terminal</p>
+    </div>
+
+    <div class="card">
+        <div class="tabs">
+            <button class="tab-btn active in-tab" onclick="switchTab('in')">Receive Stock (IN)</button>
+            <button class="tab-btn out-tab" onclick="switchTab('out')">Use Material (OUT)</button>
+        </div>
+
+        <div id="form-in" class="form-section active">
+            <div class="form-group">
+                <label>Select Supplier</label>
+                <select id="supplier-in">
+                    <option value="" disabled selected>-- Select Supplier --</option>
+                    <option value="Aerontec">Aerontec</option>
+                    <option value="AMT">AMT</option>
+                    <option value="Atlin Chemicals">Atlin Chemicals</option>
+                    <option value="Coastland">Coastland</option>
+                    <option value="Matrixxx Polymers CC">Matrixxx Polymers CC</option>
+                    <option value="Nivitex">Nivitex</option>
+                    <option value="Plastilon">Plastilon</option>
+                    <option value="Rebel Paint and Panel">Rebel Paint and Panel</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Select Material</label>
+                <select id="material-in">
+                    <option value="" disabled selected>-- Select Material --</option>
+                    <option value="163gsm Twill Weave Glass">163gsm Twill Weave Glass</option>
+                    <option value="25L Thinners">25L Thinners</option>
+                    <option value="Acetone Pure 19.74kg">Acetone Pure 19.74kg</option>
+                    <option value="Brown/Buff tape 48mm">Brown/Buff tape 48mm</option>
+                    <option value="Buckets 1L">Buckets 1L</option>
+                    <option value="Clear tape 48mm">Clear tape 48mm</option>
+                    <option value="Cutter -18mm- Blade Larger/Tube">Cutter -18mm- Blade Larger/Tube</option>
+                    <option value="Fibre Disc Powermax 9T-R P80">Fibre Disc Powermax 9T-R P80</option>
+                    <option value="Fibreglass Brush 25mm">Fibreglass Brush 25mm</option>
+                    <option value="Filler - Fumed Silica">Filler - Fumed Silica</option>
+                    <option value="Hardener - Sicomin SD4771">Hardener - Sicomin SD4771</option>
+                    <option value="Masking Tape 48mm">Masking Tape 48mm</option>
+                    <option value="Masking paper-Brown 50gsm">Masking paper-Brown 50gsm</option>
+                    <option value="MEKP - Catalyst Clear">MEKP - Catalyst Clear</option>
+                    <option value="Pallet Wrap">Pallet Wrap</option>
+                    <option value="Peel ply">Peel ply</option>
+                    <option value="Primer - Self Etch Primer Red">Primer - Self Etch Primer Red</option>
+                    <option value="Ramwax Run In 1L">Ramwax Run In 1L</option>
+                    <option value="Resin - DCR30 - Epoxy Resin">Resin - DCR30 - Epoxy Resin</option>
+                    <option value="Smokey">Smokey</option>
+                    <option value="Vac Film 450V 50Mic (1153)">Vac Film 450V 50Mic (1153)</option>
+                    <option value="Velcro Disc 6S Plain P180">Velcro Disc 6S Plain P180</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Quantity</label>
+                <input type="number" id="qty-in" min="1" placeholder="Enter quantity received...">
+            </div>
+            <button class="submit-btn btn-in" id="btn-submit-in" onclick="processTransaction('IN')">Log Stock IN</button>
+        </div>
+
+        <div id="form-out" class="form-section">
+            <div class="form-group">
+                <label>Select Material</label>
+                <select id="material-out">
+                    <option value="" disabled selected>-- Select Material --</option>
+                    <option value="163gsm Twill Weave Glass">163gsm Twill Weave Glass</option>
+                    <option value="25L Thinners">25L Thinners</option>
+                    <option value="Acetone Pure 19.74kg">Acetone Pure 19.74kg</option>
+                    <option value="Brown/Buff tape 48mm">Brown/Buff tape 48mm</option>
+                    <option value="Buckets 1L">Buckets 1L</option>
+                    <option value="Clear tape 48mm">Clear tape 48mm</option>
+                    <option value="Cutter -18mm- Blade Larger/Tube">Cutter -18mm- Blade Larger/Tube</option>
+                    <option value="Fibre Disc Powermax 9T-R P80">Fibre Disc Powermax 9T-R P80</option>
+                    <option value="Fibreglass Brush 25mm">Fibreglass Brush 25mm</option>
+                    <option value="Filler - Fumed Silica">Filler - Fumed Silica</option>
+                    <option value="Hardener - Sicomin SD4771">Hardener - Sicomin SD4771</option>
+                    <option value="Masking Tape 48mm">Masking Tape 48mm</option>
+                    <option value="Masking paper-Brown 50gsm">Masking paper-Brown 50gsm</option>
+                    <option value="MEKP - Catalyst Clear">MEKP - Catalyst Clear</option>
+                    <option value="Pallet Wrap">Pallet Wrap</option>
+                    <option value="Peel ply">Peel ply</option>
+                    <option value="Primer - Self Etch Primer Red">Primer - Self Etch Primer Red</option>
+                    <option value="Ramwax Run In 1L">Ramwax Run In 1L</option>
+                    <option value="Resin - DCR30 - Epoxy Resin">Resin - DCR30 - Epoxy Resin</option>
+                    <option value="Smokey">Smokey</option>
+                    <option value="Vac Film 450V 50Mic (1153)">Vac Film 450V 50Mic (1153)</option>
+                    <option value="Velcro Disc 6S Plain P180">Velcro Disc 6S Plain P180</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Quantity</label>
+                <input type="number" id="qty-out" min="1" placeholder="Enter quantity used...">
+            </div>
+            <button class="submit-btn btn-out" id="btn-submit-out" onclick="processTransaction('OUT')">Log Stock OUT</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2 style="margin-top:0; font-size:18px; color: var(--dinaledi-orange); text-transform: uppercase;">Live Database Feed</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date & Time</th>
+                        <th>Material</th>
+                        <th>Supplier</th>
+                        <th>Action</th>
+                        <th>Qty</th>
+                    </tr>
+                </thead>
+                <tbody id="logTableBody">
+                    </tbody>
+            </table>
+            <div id="statusMessage" class="status-text">
+                <div class="loading-spinner"></div> Fetching live data...
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Pointing directly to the secured Google Apps Script Deployment
+    const API_URL = 'https://script.google.com/macros/s/AKfycbx7rsialRRxeUm82hS9NcWiZ1SB_ujYArdp-zmhelaJtevdCsRV04609sQBlAq7qjfV0w/exec';
+
+    function switchTab(tab) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.form-section').forEach(sec => sec.classList.remove('active'));
+        
+        if(tab === 'in') {
+            document.querySelector('.in-tab').classList.add('active');
+            document.getElementById('form-in').classList.add('active');
+        } else {
+            document.querySelector('.out-tab').classList.add('active');
+            document.getElementById('form-out').classList.add('active');
+        }
+    }
+
+    function renderTable(dataArray) {
+        const tableBody = document.getElementById('logTableBody');
+        const statusMsg = document.getElementById('statusMessage');
+        
+        if (dataArray && dataArray.length > 0) {
+            tableBody.innerHTML = ''; 
+            dataArray.forEach(row => {
+                const badgeClass = row.action === 'IN' ? 'badge in' : 'badge out';
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="color: var(--text-muted); font-size: 12px;">${row.timestamp}</td>
+                    <td style="font-weight: 500;">${row.material}</td>
+                    <td style="color: var(--text-muted);">${row.supplier}</td>
+                    <td><span class="${badgeClass}">${row.action}</span></td>
+                    <td style="font-weight: 700;">${row.quantity}</td>
+                `;
+                tableBody.appendChild(tr);
+            });
+            statusMsg.style.display = 'none';
+        } else {
+            statusMsg.style.display = 'block';
+            statusMsg.innerHTML = "No transactions found in database.";
+        }
+    }
+
+    // LOAD LIVE DATA: Uses cache buster to force browser to fetch newest sheet
+    async function fetchLiveLogs() {
+        try {
+            const cacheBuster = new Date().getTime();
+            const response = await fetch(`${API_URL}?t=${cacheBuster}`);
+            const result = await response.json();
+            
+            if (result.status === 'success') {
+                renderTable(result.data);
+            } else {
+                console.error("Backend Error:", result.message);
+                document.getElementById('statusMessage').innerHTML = "Database structure error. Please check sheet configuration.";
+            }
+        } catch (error) {
+            console.error('Fetch Error:', error);
+            document.getElementById('statusMessage').innerHTML = "Error connecting to Automania database.";
+            document.getElementById('statusMessage').style.display = 'block';
+        }
+    }
+
+    // WRITE LIVE DATA: Bulletproof URLSearchParams submission bypassing CORS entirely
+    async function processTransaction(type) {
+        let material, quantity, supplier = "Internal";
+        const btn = type === 'IN' ? document.getElementById('btn-submit-in') : document.getElementById('btn-submit-out');
+
+        if(type === 'IN') {
+            material = document.getElementById('material-in').value;
+            quantity = document.getElementById('qty-in').value;
+            supplier = document.getElementById('supplier-in').value;
+            if(!supplier) { alert("Please select a supplier."); return; }
+        } else {
+            material = document.getElementById('material-out').value;
+            quantity = document.getElementById('qty-out').value;
+        }
+
+        if(!material || !quantity || quantity <= 0) {
+            alert("Please select a material and enter a valid quantity.");
+            return;
+        }
+
+        btn.innerText = "Syncing...";
+        btn.disabled = true;
+
+        const now = new Date();
+        const fullTimestamp = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
+
+        // This encodes the data exactly like a native HTML form, granting it safe passage
+        const payload = new URLSearchParams();
+        payload.append('action', type);
+        payload.append('material', material);
+        payload.append('quantity', quantity);
+        payload.append('timestamp', fullTimestamp);
+        payload.append('supplier', supplier);
+
+        try {
+            // mode: 'no-cors' strictly forbids the browser from intercepting the request
+            await fetch(API_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: payload.toString()
+            });
+
+            // Clear the forms
+            document.getElementById('material-in').selectedIndex = 0;
+            document.getElementById('supplier-in').selectedIndex = 0;
+            document.getElementById('qty-in').value = '';
+            document.getElementById('material-out').selectedIndex = 0;
+            document.getElementById('qty-out').value = '';
+
+            // Wait 1.5 seconds for Google to append the row, then refresh the table.
+            setTimeout(() => {
+                fetchLiveLogs();
+                btn.innerText = type === 'IN' ? "Log Stock IN" : "Log Stock OUT";
+                btn.disabled = false;
+            }, 1500);
+
+        } catch (error) {
+            alert("Network error. Please try again.");
+            console.error(error);
+            btn.innerText = type === 'IN' ? "Log Stock IN" : "Log Stock OUT";
+            btn.disabled = false;
+        }
+    }
+
+    // Trigger initial load
+    window.onload = fetchLiveLogs;
+</script>
+
+</body>
+</html>
