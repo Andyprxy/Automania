@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>System Audit Ledger | Automania Systems</title>
+    <style>
+        /* Automania Premium Enterprise Dark Theme */
+        :root {
+            --bg-dark: #0f1015;
+            --card-bg: #1c1d24;
+            --text-main: #ffffff;
+            --text-muted: #9ca3af;
+            --dinaledi-orange: #f39200; 
+            --dinaledi-orange-hover: #d68000;
+            --action-in: #2c3e50;
+            --bi-blue: #3b82f6;
+            --border-color: #2d2e36;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            padding: 30px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-branding {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-branding img {
+            max-height: 50px; 
+            width: auto;
+        }
+
+        .header-titles h1 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: 0.5px; }
+        .header-titles p { margin: 5px 0 0 0; font-size: 13px; color: var(--dinaledi-orange); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+
+        .nav-container { display: flex; gap: 10px; }
+
+        .nav-btn {
+            padding: 10px 20px;
+            background: transparent;
+            border: 1px solid var(--text-muted);
+            color: var(--text-muted);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+        .nav-btn:hover { border-color: var(--text-main); color: var(--text-main); }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color);
+        }
+
+        /* Filter & Export Controls */
+        .controls-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+            background: #121212;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .date-filters {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .date-filters label {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .date-input {
+            background: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+            color-scheme: dark;
+        }
+        .date-input:focus { border-color: var(--dinaledi-orange); }
+
+        .btn-filter {
+            background: var(--bi-blue);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 12px;
+            transition: 0.3s;
+        }
+        .btn-filter:hover { background: #2563eb; transform: translateY(-2px); }
+
+        .btn-export {
+            background: var(--dinaledi-orange);
+            color: #121212;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 12px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-export:hover { background: var(--dinaledi-orange-hover); transform: translateY(-2px); }
+
+        /* Table Styling */
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            max-height: 600px;
+            overflow-y: auto;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Custom Scrollbar for the table */
+        .table-wrapper::-webkit-scrollbar { width: 8px; height: 8px; }
+        .table-wrapper::-webkit-scrollbar-track { background: var(--bg-dark); }
+        .table-wrapper::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
+        thead { position: sticky; top: 0; background: var(--bg-dark); z-index: 10; }
+        th { padding: 15px; border-bottom: 2px solid var(--border-color); color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        td { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        tr:hover { background: rgba(255,255,255,0.02); }
+
+        .badge { padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 800; letter-spacing: 0.5px;}
+        .badge.in { background: rgba(44, 62, 80, 0.5); color: #fff; border: 1px solid var(--action-in); }
+        .badge.out { background: rgba(243, 146, 0, 0.15); color: var(--dinaledi-orange); border: 1px solid var(--dinaledi-orange); }
+
+        #statusMessage { text-align: center; padding: 40px; color: var(--dinaledi-orange); font-style: italic; font-size: 14px; }
+        .stats-summary { font-size: 12px; color: var(--text-muted); margin-top: 15px; text-align: right; }
+
+        @media (max-width: 900px) {
+            .header { flex-direction: column; gap: 20px; text-align: center; }
+            .header-branding { flex-direction: column; }
+            .controls-bar { flex-direction: column; align-items: stretch; }
+            .date-filters { flex-direction: column; align-items: stretch; }
+            .nav-container { flex-direction: column; width: 100%; }
+            .nav-btn { text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="header-branding">
+            <img src="Dinaledi1.png" alt="Dinaledi Logo">
+            <div class="header-titles">
+                <h1>Historical Audit Ledger</h1>
+                <p>Master Database Viewer</p>
+            </div>
+        </div>
+        <div class="nav-container">
+            <a href="Dinaledi.html" class="nav-btn">← Floor Terminal</a>
+            <a href="BI.html" class="nav-btn">📊 Dashboard BI</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="controls-bar">
+            <div class="date-filters">
+                <label>Start Date:</label>
+                <input type="date" id="startDate" class="date-input">
+                
+                <label>End Date:</label>
+                <input type="date" id="endDate" class="date-input">
+                
+                <button class="btn-filter" onclick="filterLogs()">Apply Filter</button>
+                <button class="btn-filter" style="background: transparent; border: 1px solid var(--border-color); color: var(--text-muted);" onclick="resetFilter()">Reset</button>
+            </div>
+            <button class="btn-export" onclick="exportToCSV()">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                Download CSV
+            </button>
+        </div>
+
+        <div id="statusMessage">Syncing Master Ledger...</div>
+
+        <div class="table-wrapper" id="table-wrapper" style="display: none;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date & Time</th>
+                        <th>Material</th>
+                        <th>Supplier</th>
+                        <th>Action</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tbody id="auditTableBody">
+                    </tbody>
+            </table>
+        </div>
+        <div id="recordCount" class="stats-summary" style="display: none;">Showing 0 records</div>
+    </div>
+
+    <script>
+        const API_URL = 'https://script.google.com/macros/s/AKfycbx7rsialRRxeUm82hS9NcWiZ1SB_ujYArdp-zmhelaJtevdCsRV04609sQBlAq7qjfV0w/exec';
+        
+        let globalMasterLogs = [];
+        let currentlyDisplayedLogs = [];
+
+        async function fetchAllLogs() {
+            try {
+                const response = await fetch(`${API_URL}?t=${new Date().getTime()}`);
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    // Reverse to show newest on top
+                    globalMasterLogs = result.data.reverse(); 
+                    currentlyDisplayedLogs = [...globalMasterLogs];
+                    
+                    document.getElementById('statusMessage').style.display = 'none';
+                    document.getElementById('table-wrapper').style.display = 'block';
+                    document.getElementById('recordCount').style.display = 'block';
+                    
+                    renderTable(currentlyDisplayedLogs);
+                } else {
+                    document.getElementById('statusMessage').innerHTML = "Database structure error.";
+                }
+            } catch (error) {
+                document.getElementById('statusMessage').innerHTML = "Error connecting to Automania database.";
+            }
+        }
+
+        function renderTable(dataArray) {
+            const tableBody = document.getElementById('auditTableBody');
+            tableBody.innerHTML = ''; 
+            
+            dataArray.forEach(row => {
+                const badgeClass = row.action === 'IN' ? 'badge in' : 'badge out';
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="color: var(--text-muted); white-space: nowrap;">${row.timestamp}</td>
+                    <td style="font-weight: 600; color: white;">${row.material}</td>
+                    <td style="color: var(--text-muted);">${row.supplier}</td>
+                    <td><span class="${badgeClass}">${row.action}</span></td>
+                    <td style="font-weight: 800; color: white;">${row.quantity}</td>
+                `;
+                tableBody.appendChild(tr);
+            });
+
+            document.getElementById('recordCount').innerText = `Showing ${dataArray.length} records`;
+        }
+
+        function filterLogs() {
+            const startVal = document.getElementById('startDate').value;
+            const endVal = document.getElementById('endDate').value;
+
+            if (!startVal && !endVal) return; // Do nothing if blank
+
+            let startDate = startVal ? new Date(startVal) : new Date('2000-01-01');
+            startDate.setHours(0, 0, 0, 0);
+
+            let endDate = endVal ? new Date(endVal) : new Date('2100-01-01');
+            endDate.setHours(23, 59, 59, 999);
+
+            currentlyDisplayedLogs = globalMasterLogs.filter(row => {
+                // Parse the spreadsheet timestamp string safely
+                let rowDate = new Date(row.timestamp.split(' ')[0]); 
+                return rowDate >= startDate && rowDate <= endDate;
+            });
+
+            renderTable(currentlyDisplayedLogs);
+        }
+
+        function resetFilter() {
+            document.getElementById('startDate').value = '';
+            document.getElementById('endDate').value = '';
+            currentlyDisplayedLogs = [...globalMasterLogs];
+            renderTable(currentlyDisplayedLogs);
+        }
+
+        function exportToCSV() {
+            if (currentlyDisplayedLogs.length === 0) {
+                alert("No data available to export.");
+                return;
+            }
+
+            // Create CSV Headers
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += "Date & Time,Material,Supplier,Action,Quantity\n";
+
+            // Append Rows (wrapped in quotes to prevent comma breaking)
+            currentlyDisplayedLogs.forEach(row => {
+                let formattedRow = `"${row.timestamp}","${row.material}","${row.supplier}","${row.action}","${row.quantity}"`;
+                csvContent += formattedRow + "\n";
+            });
+
+            // Trigger Download
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            
+            // Name the file based on today's date
+            const dateStr = new Date().toISOString().split('T')[0];
+            link.setAttribute("download", `Dinaledi_Audit_Log_${dateStr}.csv`);
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Init
+        window.onload = fetchAllLogs;
+    </script>
+</body>
+</html>
