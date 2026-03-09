@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dinaledi Stock Control | Automania Systems</title>
     <style>
         /* Dinaledi Premium Dark Theme */
@@ -18,6 +18,8 @@
             --border-color: #333333;
         }
 
+        * { box-sizing: border-box; }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-dark);
@@ -26,7 +28,107 @@
             padding: 20px;
             display: flex;
             justify-content: center;
+            overflow-x: hidden; /* Prevents horizontal scroll from side menu */
         }
+
+        /* --- APP DRAWER (SIDE MENU) CSS --- */
+        .menu-toggle {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 26px;
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+            border-radius: 8px;
+        }
+        
+        .menu-toggle:hover {
+            color: var(--dinaledi-orange);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .side-menu {
+            position: fixed;
+            top: 0;
+            left: -320px; /* Hidden off-screen by default */
+            width: 280px;
+            height: 100vh;
+            background-color: var(--card-bg);
+            box-shadow: 5px 0 25px rgba(0,0,0,0.8);
+            z-index: 1000;
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 30px 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            border-right: 1px solid var(--border-color);
+        }
+
+        .side-menu.open { left: 0; }
+
+        .close-menu {
+            align-self: flex-end;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 24px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: 0.2s;
+        }
+        .close-menu:hover { color: var(--dinaledi-orange); transform: scale(1.1); }
+
+        .side-menu-title {
+            color: var(--text-muted);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+        }
+
+        .side-link {
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 13px;
+            font-weight: 600;
+            padding: 14px 15px;
+            border-radius: 10px;
+            background: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .side-link:hover {
+            border-color: var(--dinaledi-orange);
+            color: var(--dinaledi-orange);
+            transform: translateX(5px);
+        }
+
+        .menu-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(3px);
+            z-index: 999;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .menu-overlay.open { display: block; opacity: 1; }
+        /* --------------------------------- */
 
         .container {
             max-width: 850px;
@@ -43,24 +145,6 @@
             border-bottom: 1px solid var(--border-color);
             position: relative; 
         }
-
-        /* NEW ORANGE BUTTON - TOP LEFT */
-        .dash-btn {
-            position: absolute;
-            top: 15px;
-            left: 0;
-            background: var(--dinaledi-orange);
-            color: #121212;
-            padding: 10px 15px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 800;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: 0.3s;
-        }
-        .dash-btn:hover { background: var(--dinaledi-orange-hover); transform: translateY(-1px); }
 
         /* LOGO - Large on Desktop */
         .brand-header img {
@@ -179,23 +263,32 @@
 
         /* MOBILE OPTIMIZATIONS */
         @media (max-width: 768px) {
-            .dash-btn { 
-                position: static; 
-                display: block; 
-                margin-bottom: 15px; 
-                text-align: center; 
-            }
             .brand-header img {
                 max-height: 70px; /* Shrinks the logo specifically for mobile */
+            }
+            .menu-toggle {
+                top: 5px; /* Adjusts icon position for smaller screens */
             }
         }
     </style>
 </head>
 <body>
 
+<div id="menuOverlay" class="menu-overlay" onclick="closeNavMenu()"></div>
+
+<div id="sideNavigation" class="side-menu">
+    <button class="close-menu" onclick="closeNavMenu()">✕</button>
+    <div class="side-menu-title">Management Portals</div>
+    
+    <a href="BI.html" class="side-link">📊 Dashboard BI</a>
+    <a href="Inventory.html" class="side-link">📦 Master Inventory</a>
+    <a href="Audit.html" class="side-link">🗄️ Master Ledger</a>
+</div>
+
 <div class="container">
     <div class="brand-header">
-        <a href="BI.html" class="dash-btn">Launch Dashboard BI</a>
+        <button class="menu-toggle" onclick="openNavMenu()">☰</button>
+        
         <img src="Dinaledi1.png" alt="Dinaledi Composite Engineering">
         <p>Live Inventory Terminal</p>
     </div>
@@ -318,6 +411,17 @@
 
 <script>
     const API_URL = 'https://script.google.com/macros/s/AKfycbx7rsialRRxeUm82hS9NcWiZ1SB_ujYArdp-zmhelaJtevdCsRV04609sQBlAq7qjfV0w/exec';
+
+    // App Drawer Logic
+    function openNavMenu() {
+        document.getElementById("sideNavigation").classList.add("open");
+        document.getElementById("menuOverlay").classList.add("open");
+    }
+
+    function closeNavMenu() {
+        document.getElementById("sideNavigation").classList.remove("open");
+        document.getElementById("menuOverlay").classList.remove("open");
+    }
 
     function switchTab(tab) {
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
