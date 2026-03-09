@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dinaledi Stock Control | Automania Systems</title>
     <style>
-        /* Dinaledi Premium Dark Theme */
+        /* Dinaledi Premium Dark Theme & Mobile Resets */
         :root {
             --bg-dark: #121212;
             --card-bg: #1e1e24;
@@ -16,6 +16,10 @@
             --action-in: #2c3e50;
             --action-in-hover: #34495e;
             --border-color: #333333;
+        }
+
+        * {
+            box-sizing: border-box; /* Crucial for preventing mobile horizontal overflow */
         }
 
         body {
@@ -41,37 +45,32 @@
             margin-bottom: 10px;
             padding: 20px 0;
             border-bottom: 1px solid var(--border-color);
-            position: relative; /* Essential for placing the button top-right */
+            position: relative; 
         }
 
-        /* DASHBOARD BUTTON - TOP RIGHT */
+        /* NEW ORANGE BUTTON - TOP LEFT */
         .dash-btn {
             position: absolute;
-            top: 20px;
-            right: 0;
+            top: 15px;
+            left: 0;
             background: var(--dinaledi-orange);
             color: #121212;
-            padding: 10px 16px;
+            padding: 10px 15px;
             border-radius: 8px;
             text-decoration: none;
             font-weight: 800;
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(243, 146, 0, 0.2);
+            transition: 0.3s;
         }
+        .dash-btn:hover { background: var(--dinaledi-orange-hover); transform: translateY(-1px); }
 
-        .dash-btn:hover { 
-            background: var(--dinaledi-orange-hover); 
-            transform: translateY(-2px); 
-            box-shadow: 0 6px 20px rgba(243, 146, 0, 0.4);
-        }
-
-        /* LARGER LOGO AS REQUESTED */
+        /* LOGO RESIZED */
         .brand-header img {
-            max-height: 120px; 
-            width: auto;
+            max-width: 100%; /* Responsive logo width */
+            width: 380px; /* Max size on desktop */
+            height: auto;
             margin-bottom: 15px;
         }
 
@@ -91,7 +90,6 @@
             border: 1px solid rgba(255,255,255,0.05);
         }
 
-        /* Tab System */
         .tabs {
             display: flex;
             gap: 10px;
@@ -129,6 +127,7 @@
             flex-direction: column;
             gap: 10px;
             margin-bottom: 20px;
+            width: 100%;
         }
 
         label {
@@ -143,11 +142,12 @@
             padding: 16px;
             border-radius: 12px;
             border: 1px solid var(--border-color);
-            font-size: 16px;
+            font-size: 16px; /* Keeping at 16px prevents iOS Safari auto-zoom on mobile */
             background-color: #121212;
             color: white;
             transition: all 0.3s ease;
             font-family: inherit;
+            width: 100%;
         }
 
         select:focus, input:focus { outline: none; border-color: var(--dinaledi-orange); }
@@ -169,23 +169,48 @@
         .btn-in { background-color: var(--action-in); }
         .btn-out { background-color: var(--dinaledi-orange); color: #121212; }
 
-        /* Table Styles */
-        .table-container { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+        .table-container { overflow-x: auto; width: 100%; }
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; min-width: 400px; }
         th { padding: 16px 8px; border-bottom: 2px solid var(--border-color); color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
         td { padding: 16px 8px; border-bottom: 1px solid rgba(255,255,255,0.05); }
         
-        .badge { padding: 6px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; }
+        .badge { padding: 6px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; white-space: nowrap; }
         .badge.in { background: rgba(44, 62, 80, 0.5); color: #fff; border: 1px solid var(--action-in); }
         .badge.out { background: rgba(243, 146, 0, 0.15); color: var(--dinaledi-orange); border: 1px solid var(--dinaledi-orange); }
 
         .status-text { text-align: center; padding: 20px; color: var(--text-muted); font-style: italic; }
-        .loading-spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: var(--dinaledi-orange); animation: spin 1s ease-in-out infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Mobile Fix for Button */
-        @media (max-width: 600px) {
-            .dash-btn { position: static; display: block; margin-bottom: 15px; }
+        /* --- MOBILE DEVICE OPTIMIZATIONS --- */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                gap: 15px;
+            }
+            .brand-header {
+                padding: 10px 0;
+            }
+            .dash-btn {
+                position: relative; /* Remove absolute positioning on phones */
+                display: block; /* Make it a full width block */
+                top: auto;
+                left: auto;
+                margin-bottom: 20px;
+                text-align: center;
+                padding: 15px;
+                font-size: 13px;
+            }
+            .card {
+                padding: 20px; /* Reduce padding inside the cards to maximize screen real estate */
+            }
+            .tab-btn {
+                font-size: 13px;
+                padding: 12px 5px;
+            }
+            th, td {
+                padding: 12px 6px;
+            }
         }
     </style>
 </head>
@@ -194,6 +219,7 @@
 <div class="container">
     <div class="brand-header">
         <a href="BI.html" class="dash-btn">Launch Dashboard BI</a>
+        
         <img src="Dinaledi1.png" alt="Dinaledi Composite Engineering">
         <p>Live Inventory Terminal</p>
     </div>
@@ -292,7 +318,7 @@
     </div>
 
     <div class="card">
-        <h2 style="margin-top:0; font-size:18px; color: var(--dinaledi-orange); text-transform: uppercase;">Live Database Feed</h2>
+        <h2 style="margin-top:0; font-size:18px; color: var(--dinaledi-orange); text-transform: uppercase;">Recent Log</h2>
         <div class="table-container">
             <table>
                 <thead>
@@ -305,11 +331,9 @@
                     </tr>
                 </thead>
                 <tbody id="logTableBody">
-                    </tbody>
+                </tbody>
             </table>
-            <div id="statusMessage" class="status-text">
-                <div class="loading-spinner"></div> Fetching live data...
-            </div>
+            <div id="statusMessage" class="status-text">Fetching live data...</div>
         </div>
     </div>
 </div>
@@ -345,7 +369,7 @@
                 const badgeClass = row.action === 'IN' ? 'badge in' : 'badge out';
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td style="color: var(--text-muted); font-size: 12px;">${row.timestamp}</td>
+                    <td style="color: var(--text-muted); font-size: 12px; white-space: nowrap;">${row.timestamp}</td>
                     <td style="font-weight: 500;">${row.material}</td>
                     <td style="color: var(--text-muted);">${row.supplier}</td>
                     <td><span class="${badgeClass}">${row.action}</span></td>
@@ -360,7 +384,7 @@
         }
     }
 
-    // LOAD LIVE DATA: Uses cache buster to force browser to fetch newest sheet
+    // LOAD LIVE DATA
     async function fetchLiveLogs() {
         try {
             const cacheBuster = new Date().getTime();
@@ -380,7 +404,7 @@
         }
     }
 
-    // WRITE LIVE DATA: Bulletproof URLSearchParams submission bypassing CORS entirely
+    // WRITE LIVE DATA
     async function processTransaction(type) {
         let material, quantity, supplier = "Internal";
         const btn = type === 'IN' ? document.getElementById('btn-submit-in') : document.getElementById('btn-submit-out');
@@ -406,7 +430,6 @@
         const now = new Date();
         const fullTimestamp = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
 
-        // This encodes the data exactly like a native HTML form, granting it safe passage
         const payload = new URLSearchParams();
         payload.append('action', type);
         payload.append('material', material);
@@ -415,7 +438,6 @@
         payload.append('supplier', supplier);
 
         try {
-            // mode: 'no-cors' strictly forbids the browser from intercepting the request
             await fetch(API_URL, {
                 method: 'POST',
                 mode: 'no-cors',
@@ -425,14 +447,12 @@
                 body: payload.toString()
             });
 
-            // Clear the forms
             document.getElementById('material-in').selectedIndex = 0;
             document.getElementById('supplier-in').selectedIndex = 0;
             document.getElementById('qty-in').value = '';
             document.getElementById('material-out').selectedIndex = 0;
             document.getElementById('qty-out').value = '';
 
-            // Wait 1.5 seconds for Google to append the row, then refresh the table.
             setTimeout(() => {
                 fetchLiveLogs();
                 btn.innerText = type === 'IN' ? "Log Stock IN" : "Log Stock OUT";
@@ -447,7 +467,6 @@
         }
     }
 
-    // Trigger initial load
     window.onload = fetchLiveLogs;
 </script>
 
