@@ -28,7 +28,7 @@
             padding: 20px;
             display: flex;
             justify-content: center;
-            overflow-x: hidden; /* Prevents horizontal scroll from side menu */
+            overflow-x: hidden; 
         }
 
         /* --- APP DRAWER (SIDE MENU) CSS --- */
@@ -55,7 +55,7 @@
         .side-menu {
             position: fixed;
             top: 0;
-            left: -320px; /* Hidden off-screen by default */
+            left: -320px; 
             width: 280px;
             height: 100vh;
             background-color: var(--card-bg);
@@ -128,7 +128,6 @@
             transition: opacity 0.4s ease;
         }
         .menu-overlay.open { display: block; opacity: 1; }
-        /* --------------------------------- */
 
         .container {
             max-width: 850px;
@@ -146,7 +145,6 @@
             position: relative; 
         }
 
-        /* LOGO - Large on Desktop */
         .brand-header img {
             max-height: 120px; 
             max-width: 100%;
@@ -261,13 +259,12 @@
         .loading-spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: var(--dinaledi-orange); animation: spin 1s ease-in-out infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* MOBILE OPTIMIZATIONS */
         @media (max-width: 768px) {
             .brand-header img {
-                max-height: 70px; /* Shrinks the logo specifically for mobile */
+                max-height: 70px; 
             }
             .menu-toggle {
-                top: 5px; /* Adjusts icon position for smaller screens */
+                top: 5px; 
             }
         }
     </style>
@@ -280,9 +277,9 @@
     <button class="close-menu" onclick="closeNavMenu()">✕</button>
     <div class="side-menu-title">Management Portals</div>
     
-    <a href="BI.html" class="side-link">📊 Dashboard BI</a>
-    <a href="Inventory.html" class="side-link">📦 Master Inventory</a>
     <a href="Audit.html" class="side-link">🗄️ Master Ledger</a>
+    <a href="invtory.html" class="side-link">📦 Master Inventory</a>
+    <a href="BI.html" class="side-link">📊 Dashboard BI</a>
 </div>
 
 <div class="container">
