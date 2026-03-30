@@ -14,7 +14,6 @@
             --dinaledi-orange: #f39200; 
             --dinaledi-orange-hover: #d68000;
             --action-in: #2c3e50;
-            --action-in-hover: #34495e;
             --border-color: #333333;
         }
 
@@ -47,202 +46,93 @@
             border-radius: 8px;
         }
         
-        .menu-toggle:hover {
-            color: var(--dinaledi-orange);
-            background: rgba(255,255,255,0.05);
-        }
+        .menu-toggle:hover { color: var(--dinaledi-orange); background: rgba(255,255,255,0.05); }
 
         .side-menu {
             position: fixed;
-            top: 0;
-            left: -320px; 
-            width: 280px;
-            height: 100vh;
+            top: 0; left: -320px; width: 280px; height: 100vh;
             background-color: var(--card-bg);
             box-shadow: 5px 0 25px rgba(0,0,0,0.8);
             z-index: 1000;
             transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             padding: 30px 25px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+            display: flex; flex-direction: column; gap: 15px;
             border-right: 1px solid var(--border-color);
         }
 
         .side-menu.open { left: 0; }
 
         .close-menu {
-            align-self: flex-end;
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 24px;
-            cursor: pointer;
-            margin-bottom: 20px;
-            transition: 0.2s;
+            align-self: flex-end; background: none; border: none;
+            color: var(--text-muted); font-size: 24px; cursor: pointer;
+            margin-bottom: 20px; transition: 0.2s;
         }
         .close-menu:hover { color: var(--dinaledi-orange); transform: scale(1.1); }
 
         .side-menu-title {
-            color: var(--text-muted);
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--border-color);
-            font-weight: 600;
+            color: var(--text-muted); font-size: 11px; text-transform: uppercase;
+            letter-spacing: 2px; margin-bottom: 10px; padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color); font-weight: 600;
         }
 
         .side-link {
-            text-decoration: none;
-            color: var(--text-main);
-            font-size: 13px;
-            font-weight: 600;
-            padding: 14px 15px;
-            border-radius: 10px;
-            background: var(--bg-dark);
-            border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            text-decoration: none; color: var(--text-main); font-size: 13px;
+            font-weight: 600; padding: 14px 15px; border-radius: 10px;
+            background: var(--bg-dark); border: 1px solid var(--border-color);
+            transition: all 0.3s ease; text-transform: uppercase;
+            letter-spacing: 1px; display: flex; align-items: center; gap: 12px;
         }
-
-        .side-link:hover {
-            border-color: var(--dinaledi-orange);
-            color: var(--dinaledi-orange);
-            transform: translateX(5px);
-        }
+        .side-link:hover { border-color: var(--dinaledi-orange); color: var(--dinaledi-orange); transform: translateX(5px); }
 
         .menu-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(3px);
-            z-index: 999;
-            display: none;
-            opacity: 0;
-            transition: opacity 0.4s ease;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(3px);
+            z-index: 999; display: none; opacity: 0; transition: opacity 0.4s ease;
         }
         .menu-overlay.open { display: block; opacity: 1; }
 
-        .container {
-            max-width: 850px;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
+        .container { max-width: 850px; width: 100%; display: flex; flex-direction: column; gap: 24px; }
 
         .brand-header {
-            text-align: center;
-            margin-bottom: 10px;
-            padding: 20px 0;
-            border-bottom: 1px solid var(--border-color);
-            position: relative; 
+            text-align: center; margin-bottom: 10px; padding: 20px 0;
+            border-bottom: 1px solid var(--border-color); position: relative; 
         }
-
-        .brand-header img {
-            max-height: 120px; 
-            max-width: 100%;
-            width: auto;
-            margin-bottom: 15px;
-            transition: all 0.3s ease;
-        }
-
-        .brand-header p {
-            color: var(--text-muted);
-            margin: 0;
-            font-size: 14px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
+        .brand-header img { max-height: 120px; max-width: 100%; width: auto; margin-bottom: 15px; }
+        .brand-header p { color: var(--text-muted); margin: 0; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; }
 
         .card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.05);
+            background: var(--card-bg); border-radius: 16px; padding: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05);
         }
 
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 24px;
-            background: #121212;
-            padding: 6px;
-            border-radius: 14px;
-        }
-
+        .tabs { display: flex; gap: 10px; margin-bottom: 24px; background: #121212; padding: 6px; border-radius: 14px; }
         .tab-btn {
-            flex: 1;
-            padding: 14px;
-            background: transparent;
-            color: var(--text-muted);
-            border: none;
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            flex: 1; padding: 14px; background: transparent; color: var(--text-muted);
+            border: none; border-radius: 10px; font-size: 15px; font-weight: 700;
+            cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px;
         }
-
         .tab-btn.active.in-tab { background: var(--action-in); color: white; }
         .tab-btn.active.out-tab { background: var(--dinaledi-orange); color: #121212; }
 
         .form-section { display: none; }
         .form-section.active { display: block; animation: fadeIn 0.3s ease; }
-
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        label {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
+        .form-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        label { font-size: 13px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+        
         select, input {
-            padding: 16px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            font-size: 16px;
-            background-color: #121212;
-            color: white;
-            transition: all 0.3s ease;
-            font-family: inherit;
+            padding: 16px; border-radius: 12px; border: 1px solid var(--border-color);
+            font-size: 16px; background-color: #121212; color: white; transition: all 0.3s ease; font-family: inherit;
         }
-
         select:focus, input:focus { outline: none; border-color: var(--dinaledi-orange); }
+        select:disabled { opacity: 0.5; cursor: not-allowed; }
 
         .submit-btn {
-            width: 100%;
-            padding: 18px;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            color: white;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 10px;
+            width: 100%; padding: 18px; border: none; border-radius: 12px; font-size: 16px;
+            font-weight: 700; cursor: pointer; color: white; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px;
+            transition: 0.3s;
         }
-
         .btn-in { background-color: var(--action-in); }
         .btn-out { background-color: var(--dinaledi-orange); color: #121212; }
 
@@ -254,19 +144,9 @@
         .badge { padding: 6px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; }
         .badge.in { background: rgba(44, 62, 80, 0.5); color: #fff; border: 1px solid var(--action-in); }
         .badge.out { background: rgba(243, 146, 0, 0.15); color: var(--dinaledi-orange); border: 1px solid var(--dinaledi-orange); }
-
         .status-text { text-align: center; padding: 20px; color: var(--text-muted); font-style: italic; }
-        .loading-spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: var(--dinaledi-orange); animation: spin 1s ease-in-out infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
 
-        @media (max-width: 768px) {
-            .brand-header img {
-                max-height: 70px; 
-            }
-            .menu-toggle {
-                top: 5px; 
-            }
-        }
+        @media (max-width: 768px) { .brand-header img { max-height: 70px; } .menu-toggle { top: 5px; } }
     </style>
 </head>
 <body>
@@ -276,7 +156,6 @@
 <div id="sideNavigation" class="side-menu">
     <button class="close-menu" onclick="closeNavMenu()">✕</button>
     <div class="side-menu-title">Management Portals</div>
-    
     <a href="Audit.html" class="side-link">🗄️ Master Ledger</a>
     <a href="invtory.html" class="side-link">📦 Master Inventory</a>
     <a href="BI.html" class="side-link">📊 Dashboard BI</a>
@@ -285,7 +164,6 @@
 <div class="container">
     <div class="brand-header">
         <button class="menu-toggle" onclick="openNavMenu()">☰</button>
-        
         <img src="Dinaledi1.png" alt="Dinaledi Composite Engineering">
         <p>Live Inventory Terminal</p>
     </div>
@@ -298,86 +176,34 @@
 
         <div id="form-in" class="form-section active">
             <div class="form-group">
-                <label>Select Supplier</label>
-                <select id="supplier-in">
+                <label>1. Select Supplier</label>
+                <select id="supplier-in" onchange="populateMaterials('in')">
                     <option value="" disabled selected>-- Select Supplier --</option>
-                    <option value="Aerontec">Aerontec</option>
-                    <option value="AMT">AMT</option>
-                    <option value="Atlin Chemicals">Atlin Chemicals</option>
-                    <option value="Coastland">Coastland</option>
-                    <option value="Matrixxx Polymers CC">Matrixxx Polymers CC</option>
-                    <option value="Nivitex">Nivitex</option>
-                    <option value="Plastilon">Plastilon</option>
-                    <option value="Rebel Paint and Panel">Rebel Paint and Panel</option>
+                    </select>
+            </div>
+            <div class="form-group">
+                <label>2. Select Material</label>
+                <select id="material-in" disabled>
+                    <option value="" disabled selected>-- Select Supplier First --</option>
                 </select>
             </div>
             <div class="form-group">
-                <label>Select Material</label>
-                <select id="material-in">
-                    <option value="" disabled selected>-- Select Material --</option>
-                    <option value="163gsm Twill Weave Glass">163gsm Twill Weave Glass</option>
-                    <option value="25L Thinners">25L Thinners</option>
-                    <option value="Acetone Pure 19.74kg">Acetone Pure 19.74kg</option>
-                    <option value="Brown/Buff tape 48mm">Brown/Buff tape 48mm</option>
-                    <option value="Buckets 1L">Buckets 1L</option>
-                    <option value="Clear tape 48mm">Clear tape 48mm</option>
-                    <option value="Cutter -18mm- Blade Larger/Tube">Cutter -18mm- Blade Larger/Tube</option>
-                    <option value="Fibre Disc Powermax 9T-R P80">Fibre Disc Powermax 9T-R P80</option>
-                    <option value="Fibreglass Brush 25mm">Fibreglass Brush 25mm</option>
-                    <option value="Filler - Fumed Silica">Filler - Fumed Silica</option>
-                    <option value="Hardener - Sicomin SD4771">Hardener - Sicomin SD4771</option>
-                    <option value="Masking Tape 48mm">Masking Tape 48mm</option>
-                    <option value="Masking paper-Brown 50gsm">Masking paper-Brown 50gsm</option>
-                    <option value="MEKP - Catalyst Clear">MEKP - Catalyst Clear</option>
-                    <option value="Pallet Wrap">Pallet Wrap</option>
-                    <option value="Peel ply">Peel ply</option>
-                    <option value="Primer - Self Etch Primer Red">Primer - Self Etch Primer Red</option>
-                    <option value="Ramwax Run In 1L">Ramwax Run In 1L</option>
-                    <option value="Resin - DCR30 - Epoxy Resin">Resin - DCR30 - Epoxy Resin</option>
-                    <option value="Smokey">Smokey</option>
-                    <option value="Vac Film 450V 50Mic (1153)">Vac Film 450V 50Mic (1153)</option>
-                    <option value="Velcro Disc 6S Plain P180">Velcro Disc 6S Plain P180</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Quantity</label>
-                <input type="number" id="qty-in" min="1" placeholder="Enter quantity received...">
+                <label>3. Quantity Received</label>
+                <input type="number" id="qty-in" min="1" placeholder="Enter quantity...">
             </div>
             <button class="submit-btn btn-in" id="btn-submit-in" onclick="processTransaction('IN')">Log Stock IN</button>
         </div>
 
         <div id="form-out" class="form-section">
             <div class="form-group">
-                <label>Select Material</label>
+                <label>1. Select Material to Use</label>
                 <select id="material-out">
                     <option value="" disabled selected>-- Select Material --</option>
-                    <option value="163gsm Twill Weave Glass">163gsm Twill Weave Glass</option>
-                    <option value="25L Thinners">25L Thinners</option>
-                    <option value="Acetone Pure 19.74kg">Acetone Pure 19.74kg</option>
-                    <option value="Brown/Buff tape 48mm">Brown/Buff tape 48mm</option>
-                    <option value="Buckets 1L">Buckets 1L</option>
-                    <option value="Clear tape 48mm">Clear tape 48mm</option>
-                    <option value="Cutter -18mm- Blade Larger/Tube">Cutter -18mm- Blade Larger/Tube</option>
-                    <option value="Fibre Disc Powermax 9T-R P80">Fibre Disc Powermax 9T-R P80</option>
-                    <option value="Fibreglass Brush 25mm">Fibreglass Brush 25mm</option>
-                    <option value="Filler - Fumed Silica">Filler - Fumed Silica</option>
-                    <option value="Hardener - Sicomin SD4771">Hardener - Sicomin SD4771</option>
-                    <option value="Masking Tape 48mm">Masking Tape 48mm</option>
-                    <option value="Masking paper-Brown 50gsm">Masking paper-Brown 50gsm</option>
-                    <option value="MEKP - Catalyst Clear">MEKP - Catalyst Clear</option>
-                    <option value="Pallet Wrap">Pallet Wrap</option>
-                    <option value="Peel ply">Peel ply</option>
-                    <option value="Primer - Self Etch Primer Red">Primer - Self Etch Primer Red</option>
-                    <option value="Ramwax Run In 1L">Ramwax Run In 1L</option>
-                    <option value="Resin - DCR30 - Epoxy Resin">Resin - DCR30 - Epoxy Resin</option>
-                    <option value="Smokey">Smokey</option>
-                    <option value="Vac Film 450V 50Mic (1153)">Vac Film 450V 50Mic (1153)</option>
-                    <option value="Velcro Disc 6S Plain P180">Velcro Disc 6S Plain P180</option>
-                </select>
+                    </select>
             </div>
             <div class="form-group">
-                <label>Quantity</label>
-                <input type="number" id="qty-out" min="1" placeholder="Enter quantity used...">
+                <label>2. Quantity Used</label>
+                <input type="number" id="qty-out" min="1" placeholder="Enter quantity...">
             </div>
             <button class="submit-btn btn-out" id="btn-submit-out" onclick="processTransaction('OUT')">Log Stock OUT</button>
         </div>
@@ -389,19 +215,16 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Date & Time</th>
+                        <th>Time</th>
                         <th>Material</th>
                         <th>Supplier</th>
                         <th>Action</th>
                         <th>Qty</th>
                     </tr>
                 </thead>
-                <tbody id="logTableBody">
-                </tbody>
+                <tbody id="logTableBody"></tbody>
             </table>
-            <div id="statusMessage" class="status-text">
-                <div class="loading-spinner"></div> Fetching live data...
-            </div>
+            <div id="statusMessage" class="status-text">Fetching live data...</div>
         </div>
     </div>
 </div>
@@ -409,21 +232,133 @@
 <script>
     const API_URL = 'https://script.google.com/macros/s/AKfycbx7rsialRRxeUm82hS9NcWiZ1SB_ujYArdp-zmhelaJtevdCsRV04609sQBlAq7qjfV0w/exec';
 
-    // App Drawer Logic
-    function openNavMenu() {
-        document.getElementById("sideNavigation").classList.add("open");
-        document.getElementById("menuOverlay").classList.add("open");
+    // MASTER INVENTORY DATA STRUCTURE 
+    const inventoryData = {
+        "AERONTEC": [
+            "Bleather Cloth", "163gsm Twill Weave Glass", "Peelply", "Sealant Tape Grey",
+            "Sealant Tape Yellow", "Sicomin SD 4771 Laminating ultra slow hardener",
+            "Sicomin SD 4775 laminating medium hardener", "400gsm Glass Biax",
+            "200gsm Carbon Twill stabilized", "Paper cup 500ml", "Paper cup 250ml",
+            "My cell M080 Eco", "Skin protection cream", "Release Film High Temp",
+            "Sicomic SD 7820 Hardener high Temp", "Sicomin Epoxy Resin SR 1660 High Temp",
+            "MYCELL 80 GREEN"
+        ],
+        "AMT": [
+            "TONGUE DEPRESSORS (100 PER BOX)", "SEALANT TAPE (40 PER BOX)", "CARBON FAB 200GSM",
+            "GLASS FAB 163g/92110/100\\", "AIRBLEED 100 - 1520MM X 100M (Breather)",
+            "RELEASE FILM A2200 P3/1.45M/500/120C [I036]", "PRIME 37 RESIN (4.5KG)",
+            "AMPREG 3X SLOW HARDENER (1.3KG)", "PRIME 37 RESIN (16.15KG) - (Infusion) for Coil Sep",
+            "AMPREG 3X SLOW HARDENER (4.68KG) (Infusion) for Coil Sep", "GLASS ROVING 2400 TEX (DIRECT ROVING) for Coil Sep",
+            "PIGMENT EPOXY - BLACK (5KG)", "PEELPLY NYLON 078g/1616/150 ECC", "PEELPLY NYLON 085g/LTX/PS 1000MM",
+            "FASTCAST F160", "EP GC080/GC14", "CUPS 500ml (50 CUPS PER PACK)",
+            "TENSORGRIP TC49 INFUSION HI-TAC FINE", "VACFILM 450V 50MIC"
+        ],
+        "ATLIN / ATLAND": [
+            "COTTON FLOCKS 1*2KG", "AEROSIL 200 FUMED SILICA - 1*10KG",
+            "SEMI-RIGID ISO LAMINATING RESIN 1*25KG (Polyester)", "AKPEROX A50 CATALYST 1*500ML",
+            "RAMWAX RUN-IN 1*5LT", "PVA RED RELEASE AGENT 1*4.4KG", "ONE SIDE FEATHERED CSM450 1*45KG"
+        ],
+        "DURA PAINTS": [
+            "Enamel sunshine yellow 5L,10L and 20L", "QD Enamel Ford Tractor Blue 5L,10L and 20L",
+            "Anchorbond Aluminium 5L,10L and 20L"
+        ],
+        "MATRIXXX": [
+            "DCR30 - Epoxy Resin - 25 KG", "DCH10 - Epoxy Hardener - Slow - 25 KG",
+            "DCH20 - Epoxy Hardener - Medium - 25 KG"
+        ],
+        "MEGAPHASE": [
+            "LUGS 35mmx12mm", "LUGS 16mmx12mm", "LUGS 6mmx10mm", "LUGS 6mmx8mm", "LUGS 10mmx12mm",
+            "LUGS 25mmx8mm", "LUGS 25mmx12mm", "LUGS 35mmx10mm", "LUGS 16mmx10mm", "LUGS 10mmx8mm",
+            "LUGS 25mmx10mm", "LUGS16mmx8mm", "LUGS 50mmx12mm", "Heat Shrink_Red -19mm",
+            "Heat Shrink_Black - 9,5mm", "Heat Shrink_Black -19/20mm", "Heat Shrink_Black -6,4mm",
+            "Heat Shrink_Black -4,8mm", "Heat Shrink_Blue -9,5mm", "Heat Shrink_Red -9,5mm",
+            "Heat Shrink_White -12,7mm", "Heat Shrink_Red -12,7mm", "Heat Shrink_Green/Yellow -12,7mm",
+            "Heat Shrink_Blue -12,7mm", "Heat Shrink_Clear -12,7mm", "Heat Shrink_Yellow -12,7mm",
+            "Heat Shrink_Blue -19/20mm", "Heat Shrink_White -19/20mm", "Heat Shrink_Clear -20mm",
+            "Heat Shrink_Green/Yellow -20mm", "Heat Shrink_Clear -9,5mm"
+        ],
+        "MOOT BOLT & NUT": [
+            "Dust musk", "Markers", "Drill bit size-5mm ,6mm ,8mm ,10mm", "Cutting Disc",
+            "Hole Saw - 89mm", "Hole Saw - 46mm", "Gloves Ninja"
+        ],
+        "NIVITEX": [
+            "Wove Roving- 400gsm -Plain Weave Glass"
+        ],
+        "PLASTILON": [
+            "Tubing-Smokey", "Tis.Jumbo wipe", "Pallet wrap core", "Airothene",
+            "Cutter /Blade large", "Sheeting Black", "Zipper bag", "Plastic sleeves (Blue)",
+            "Disposable mop caps (white0", "Bucket 1Lt White"
+        ],
+        "REBEL PAINT & PANEL": [
+            "Masking tape 24mm", "Masking tape 48mm", "B/Fill 220 fine stopper 1kg",
+            "B/Fill Hardener past 100g", "P2000 water paper", "P1200 water paper",
+            "Soudal 40fc Black 310ml", "Paint strainer(190micron)", "Brush fibreglass 25mm",
+            "Brush fibreglass 50mm", "Scotch pad Eka very fine", "Rebel pre filter",
+            "Gerson half mask replaceable", "Waste rags white", "Solvent lacquer Thinners 200Lt And Solvent Acetone 200lt",
+            "Black etch primer 5lt", "QD ford tractor blue 5lt", "QD white Etch prime 5lt",
+            "QD Red oxide Etch primer 5lt", "2K Hardener 5lt", "2K Thinners (GDK) 5lt",
+            "2K MS primer white 5lt", "2K Black 5lt", "2K Clear coat Auto gold 5lt",
+            "2K Fast cure Additive 1lt", "2K HS primer Grey (Nurana)", "Plascon Acryline 2K Toner white"
+        ],
+        "TRANSTECHNICAL (TTS)": [
+            "Gland M40", "Gland M25", "Gland M32", "Gland M63", "Gland M50", "Connector M50",
+            "Connector M40", "Connector M25", "Connector M32", "Connector M63",
+            "Stopper plug M63", "Stopper plug M25", "Stopper plug M50", "Stopper plug M40",
+            "Stopper plug M32", "Reducer 40-25mm", "Reducer 32-25mm", "Reducer 50-40mm",
+            "Reducer 63-50mm", "Reducer 40-32mm", "Enlarger M50-M40", "Enlarger M32-M40", "Enlarger m25-m32"
+        ]
+    };
+
+    // Initialize Suppliers and Master Materials List on Load
+    function loadInitialData() {
+        const suppliers = Object.keys(inventoryData).sort(); 
+        const supIn = document.getElementById('supplier-in');
+
+        // Populate Supplier IN
+        suppliers.forEach(sup => {
+            supIn.add(new Option(sup, sup));
+        });
+
+        // Flatten all items into a single array for the OUT dropdown, remove duplicates, and sort A-Z
+        let allMaterials = [];
+        for (const sup in inventoryData) {
+            allMaterials = allMaterials.concat(inventoryData[sup]);
+        }
+        allMaterials = [...new Set(allMaterials)].sort();
+
+        const matOut = document.getElementById('material-out');
+        allMaterials.forEach(item => {
+            matOut.add(new Option(item, item));
+        });
     }
 
-    function closeNavMenu() {
-        document.getElementById("sideNavigation").classList.remove("open");
-        document.getElementById("menuOverlay").classList.remove("open");
+    // Dynamic Dropdown Logic for IN tab
+    function populateMaterials(type) {
+        if(type !== 'in') return; // Only applies to IN now
+        const supplierSelect = document.getElementById('supplier-in');
+        const materialSelect = document.getElementById('material-in');
+        const selectedSupplier = supplierSelect.value;
+
+        materialSelect.innerHTML = '<option value="" disabled selected>-- Select Material --</option>';
+
+        if (selectedSupplier && inventoryData[selectedSupplier]) {
+            const items = [...inventoryData[selectedSupplier]].sort();
+            items.forEach(item => {
+                materialSelect.add(new Option(item, item));
+            });
+            materialSelect.disabled = false;
+        } else {
+            materialSelect.disabled = true;
+        }
     }
+
+    // Navigation & UI Logic
+    function openNavMenu() { document.getElementById("sideNavigation").classList.add("open"); document.getElementById("menuOverlay").classList.add("open"); }
+    function closeNavMenu() { document.getElementById("sideNavigation").classList.remove("open"); document.getElementById("menuOverlay").classList.remove("open"); }
 
     function switchTab(tab) {
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
         document.querySelectorAll('.form-section').forEach(sec => sec.classList.remove('active'));
-        
         if(tab === 'in') {
             document.querySelector('.in-tab').classList.add('active');
             document.getElementById('form-in').classList.add('active');
@@ -436,97 +371,74 @@
     function renderTable(dataArray) {
         const tableBody = document.getElementById('logTableBody');
         const statusMsg = document.getElementById('statusMessage');
-        
         if (dataArray && dataArray.length > 0) {
             tableBody.innerHTML = ''; 
-            
             const displayData = [...dataArray].reverse().slice(0, 10);
-
             displayData.forEach(row => {
                 const badgeClass = row.action === 'IN' ? 'badge in' : 'badge out';
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td style="color: var(--text-muted); font-size: 12px;">${row.timestamp}</td>
-                    <td style="font-weight: 500;">${row.material}</td>
-                    <td style="color: var(--text-muted);">${row.supplier}</td>
+                    <td style="color: var(--text-muted); font-size: 11px;">${row.timestamp.split(' ')[0]}</td>
+                    <td style="font-weight: 600;">${row.material}</td>
+                    <td style="color: var(--text-muted); font-size: 11px;">${row.supplier}</td>
                     <td><span class="${badgeClass}">${row.action}</span></td>
                     <td style="font-weight: 700;">${row.quantity}</td>
                 `;
                 tableBody.appendChild(tr);
             });
             statusMsg.style.display = 'none';
-        } else {
-            statusMsg.style.display = 'block';
-            statusMsg.innerHTML = "No transactions found in database.";
         }
     }
 
     async function fetchLiveLogs() {
         try {
-            const cacheBuster = new Date().getTime();
-            const response = await fetch(`${API_URL}?t=${cacheBuster}`);
+            const response = await fetch(`${API_URL}?t=${new Date().getTime()}`);
             const result = await response.json();
-            
-            if (result.status === 'success') {
-                renderTable(result.data);
-            } else {
-                console.error("Backend Error:", result.message);
-                document.getElementById('statusMessage').innerHTML = "Database structure error. Please check sheet configuration.";
-            }
-        } catch (error) {
-            console.error('Fetch Error:', error);
-            document.getElementById('statusMessage').innerHTML = "Error connecting to Automania database.";
-            document.getElementById('statusMessage').style.display = 'block';
-        }
+            if (result.status === 'success') renderTable(result.data);
+        } catch (error) { console.error('Fetch Error:', error); }
     }
 
     async function processTransaction(type) {
-        let material, quantity, supplier = "Internal";
-        const btn = type === 'IN' ? document.getElementById('btn-submit-in') : document.getElementById('btn-submit-out');
+        let material = document.getElementById(`material-${type.toLowerCase()}`).value;
+        let quantity = document.getElementById(`qty-${type.toLowerCase()}`).value;
+        let payloadSupplier = "Internal";
 
-        if(type === 'IN') {
-            material = document.getElementById('material-in').value;
-            quantity = document.getElementById('qty-in').value;
-            supplier = document.getElementById('supplier-in').value;
-            if(!supplier) { alert("Please select a supplier."); return; }
+        if (type === 'IN') {
+            let supplierDropdown = document.getElementById('supplier-in').value;
+            if(!supplierDropdown || !material || !quantity || quantity <= 0) {
+                alert("Please complete all fields.");
+                return;
+            }
+            payloadSupplier = supplierDropdown;
         } else {
-            material = document.getElementById('material-out').value;
-            quantity = document.getElementById('qty-out').value;
+            if(!material || !quantity || quantity <= 0) {
+                alert("Please select a material and enter a valid quantity.");
+                return;
+            }
         }
 
-        if(!material || !quantity || quantity <= 0) {
-            alert("Please select a material and enter a valid quantity.");
-            return;
-        }
-
-        btn.innerText = "Syncing...";
-        btn.disabled = true;
-
-        const now = new Date();
-        const fullTimestamp = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
+        const btn = document.getElementById(`btn-submit-${type.toLowerCase()}`);
+        btn.innerText = "Syncing..."; btn.disabled = true;
 
         const payload = new URLSearchParams();
         payload.append('action', type);
         payload.append('material', material);
         payload.append('quantity', quantity);
-        payload.append('timestamp', fullTimestamp);
-        payload.append('supplier', supplier);
+        payload.append('timestamp', new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString());
+        payload.append('supplier', payloadSupplier);
 
         try {
-            await fetch(API_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: payload.toString()
-            });
+            await fetch(API_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: payload.toString() });
 
-            document.getElementById('material-in').selectedIndex = 0;
-            document.getElementById('supplier-in').selectedIndex = 0;
-            document.getElementById('qty-in').value = '';
-            document.getElementById('material-out').selectedIndex = 0;
-            document.getElementById('qty-out').value = '';
+            // Reset Forms
+            if (type === 'IN') {
+                document.getElementById('supplier-in').selectedIndex = 0;
+                document.getElementById('material-in').innerHTML = '<option value="" disabled selected>-- Select Supplier First --</option>';
+                document.getElementById('material-in').disabled = true;
+            } else {
+                document.getElementById('material-out').selectedIndex = 0;
+            }
+            document.getElementById(`qty-${type.toLowerCase()}`).value = '';
 
             setTimeout(() => {
                 fetchLiveLogs();
@@ -535,14 +447,17 @@
             }, 1500);
 
         } catch (error) {
-            alert("Network error. Please try again.");
-            console.error(error);
+            alert("Network error.");
             btn.innerText = type === 'IN' ? "Log Stock IN" : "Log Stock OUT";
             btn.disabled = false;
         }
     }
 
-    window.onload = fetchLiveLogs;
+    // Boot up
+    window.onload = () => {
+        loadInitialData();
+        fetchLiveLogs();
+    };
 </script>
 
 </body>
