@@ -249,19 +249,21 @@
         function processData(logs) {
             inventoryMap = {};
 
-            // Calculate totals from transaction history
+            // Calculate totals from transaction history with sanitization
             logs.forEach(row => {
-                let mat = row.material;
-                let qty = parseInt(row.quantity) || 0;
+                // Strip invisible spaces and fix casing just in case the spreadsheet is dirty
+                let mat = row.material ? row.material.toString().trim() : "Unknown";
+                let action = row.action ? row.action.toString().trim().toUpperCase() : "";
+                let qty = parseFloat(row.quantity) || 0;
 
                 if (!inventoryMap[mat]) {
                     inventoryMap[mat] = { in: 0, out: 0, balance: 0 };
                 }
 
-                if (row.action === 'IN') {
+                if (action === 'IN') {
                     inventoryMap[mat].in += qty;
                     inventoryMap[mat].balance += qty;
-                } else if (row.action === 'OUT') {
+                } else if (action === 'OUT') {
                     inventoryMap[mat].out += qty;
                     inventoryMap[mat].balance -= qty;
                 }
