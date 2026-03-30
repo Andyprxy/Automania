@@ -132,10 +132,16 @@
             overflow-x: auto;
             border-radius: 8px;
             border: 1px solid var(--border-color);
+            max-height: 600px;
         }
+        
+        /* Custom Scrollbar */
+        .table-wrapper::-webkit-scrollbar { width: 8px; height: 8px; }
+        .table-wrapper::-webkit-scrollbar-track { background: var(--bg-dark); }
+        .table-wrapper::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
 
         table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
-        thead { background: var(--bg-dark); }
+        thead { background: var(--bg-dark); position: sticky; top: 0; z-index: 10; }
         th { padding: 15px; border-bottom: 2px solid var(--border-color); color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
         td { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
         tr:hover { background: rgba(255,255,255,0.02); }
@@ -195,7 +201,7 @@
             </div>
             <div class="kpi-card orange">
                 <div class="kpi-value" id="kpi-low-stock">0</div>
-                <div class="kpi-label">Items Low on Stock (< 50)</div>
+                <div class="kpi-label">Items Low on Stock (< 20)</div>
             </div>
             <div class="kpi-card red">
                 <div class="kpi-value" id="kpi-out-stock">0</div>
@@ -229,6 +235,83 @@
     <script>
         const API_URL = 'https://script.google.com/macros/s/AKfycbx7rsialRRxeUm82hS9NcWiZ1SB_ujYArdp-zmhelaJtevdCsRV04609sQBlAq7qjfV0w/exec';
         
+        // Master List to force all 151 items to appear, even if they have 0 transactions
+        const inventoryDataList = {
+            "AERONTEC": [
+                "Bleather Cloth", "163gsm Twill Weave Glass", "Peelply", "Sealant Tape Grey",
+                "Sealant Tape Yellow", "Sicomin SD 4771 Laminating ultra slow hardener",
+                "Sicomin SD 4775 laminating medium hardener", "400gsm Glass Biax",
+                "200gsm Carbon Twill stabilized", "Paper cup 500ml", "Paper cup 250ml",
+                "My cell M080 Eco", "Skin protection cream", "Release Film High Temp",
+                "Sicomic SD 7820 Hardener high Temp", "Sicomin Epoxy Resin SR 1660 High Temp",
+                "MYCELL 80 GREEN"
+            ],
+            "AMT": [
+                "TONGUE DEPRESSORS (100 PER BOX)", "SEALANT TAPE (40 PER BOX)", "CARBON FAB 200GSM",
+                "GLASS FAB 163g/92110/100\\", "AIRBLEED 100 - 1520MM X 100M (Breather)",
+                "RELEASE FILM A2200 P3/1.45M/500/120C [I036]", "PRIME 37 RESIN (4.5KG)",
+                "AMPREG 3X SLOW HARDENER (1.3KG)", "PRIME 37 RESIN (16.15KG) - (Infusion) for Coil Sep",
+                "AMPREG 3X SLOW HARDENER (4.68KG) (Infusion) for Coil Sep", "GLASS ROVING 2400 TEX (DIRECT ROVING) for Coil Sep",
+                "PIGMENT EPOXY - BLACK (5KG)", "PEELPLY NYLON 078g/1616/150 ECC", "PEELPLY NYLON 085g/LTX/PS 1000MM",
+                "FASTCAST F160", "EP GC080/GC14", "CUPS 500ml (50 CUPS PER PACK)",
+                "TENSORGRIP TC49 INFUSION HI-TAC FINE", "VACFILM 450V 50MIC"
+            ],
+            "ATLIN / ATLAND": [
+                "COTTON FLOCKS 1*2KG", "AEROSIL 200 FUMED SILICA - 1*10KG",
+                "SEMI-RIGID ISO LAMINATING RESIN 1*25KG (Polyester)", "AKPEROX A50 CATALYST 1*500ML",
+                "RAMWAX RUN-IN 1*5LT", "PVA RED RELEASE AGENT 1*4.4KG", "ONE SIDE FEATHERED CSM450 1*45KG"
+            ],
+            "DURA PAINTS": [
+                "Enamel sunshine yellow 5L,10L and 20L", "QD Enamel Ford Tractor Blue 5L,10L and 20L",
+                "Anchorbond Aluminium 5L,10L and 20L"
+            ],
+            "MATRIXXX": [
+                "DCR30 - Epoxy Resin - 25 KG", "DCH10 - Epoxy Hardener - Slow - 25 KG",
+                "DCH20 - Epoxy Hardener - Medium - 25 KG"
+            ],
+            "MEGAPHASE": [
+                "LUGS 35mmx12mm", "LUGS 16mmx12mm", "LUGS 6mmx10mm", "LUGS 6mmx8mm", "LUGS 10mmx12mm",
+                "LUGS 25mmx8mm", "LUGS 25mmx12mm", "LUGS 35mmx10mm", "LUGS 16mmx10mm", "LUGS 10mmx8mm",
+                "LUGS 25mmx10mm", "LUGS16mmx8mm", "LUGS 50mmx12mm", "Heat Shrink_Red -19mm",
+                "Heat Shrink_Black - 9,5mm", "Heat Shrink_Black -19/20mm", "Heat Shrink_Black -6,4mm",
+                "Heat Shrink_Black -4,8mm", "Heat Shrink_Blue -9,5mm", "Heat Shrink_Red -9,5mm",
+                "Heat Shrink_White -12,7mm", "Heat Shrink_Red -12,7mm", "Heat Shrink_Green/Yellow -12,7mm",
+                "Heat Shrink_Blue -12,7mm", "Heat Shrink_Clear -12,7mm", "Heat Shrink_Yellow -12,7mm",
+                "Heat Shrink_Blue -19/20mm", "Heat Shrink_White -19/20mm", "Heat Shrink_Clear -20mm",
+                "Heat Shrink_Green/Yellow -20mm", "Heat Shrink_Clear -9,5mm"
+            ],
+            "MOOT BOLT & NUT": [
+                "Dust musk", "Markers", "Drill bit size-5mm ,6mm ,8mm ,10mm", "Cutting Disc",
+                "Hole Saw - 89mm", "Hole Saw - 46mm", "Gloves Ninja"
+            ],
+            "NIVITEX": [
+                "Wove Roving- 400gsm -Plain Weave Glass"
+            ],
+            "PLASTILON": [
+                "Tubing-Smokey", "Tis.Jumbo wipe", "Pallet wrap core", "Airothene",
+                "Cutter /Blade large", "Sheeting Black", "Zipper bag", "Plastic sleeves (Blue)",
+                "Disposable mop caps (white0", "Bucket 1Lt White"
+            ],
+            "REBEL PAINT & PANEL": [
+                "Masking tape 24mm", "Masking tape 48mm", "B/Fill 220 fine stopper 1kg",
+                "B/Fill Hardener past 100g", "P2000 water paper", "P1200 water paper",
+                "Soudal 40fc Black 310ml", "Paint strainer(190micron)", "Brush fibreglass 25mm",
+                "Brush fibreglass 50mm", "Scotch pad Eka very fine", "Rebel pre filter",
+                "Gerson half mask replaceable", "Waste rags white", "Solvent lacquer Thinners 200Lt And Solvent Acetone 200lt",
+                "Black etch primer 5lt", "QD ford tractor blue 5lt", "QD white Etch prime 5lt",
+                "QD Red oxide Etch primer 5lt", "2K Hardener 5lt", "2K Thinners (GDK) 5lt",
+                "2K MS primer white 5lt", "2K Black 5lt", "2K Clear coat Auto gold 5lt",
+                "2K Fast cure Additive 1lt", "2K HS primer Grey (Nurana)", "Plascon Acryline 2K Toner white"
+            ],
+            "TRANSTECHNICAL (TTS)": [
+                "Gland M40", "Gland M25", "Gland M32", "Gland M63", "Gland M50", "Connector M50",
+                "Connector M40", "Connector M25", "Connector M32", "Connector M63",
+                "Stopper plug M63", "Stopper plug M25", "Stopper plug M50", "Stopper plug M40",
+                "Stopper plug M32", "Reducer 40-25mm", "Reducer 32-25mm", "Reducer 50-40mm",
+                "Reducer 63-50mm", "Reducer 40-32mm", "Enlarger M50-M40", "Enlarger M32-M40", "Enlarger m25-m32"
+            ]
+        };
+
         let inventoryMap = {};
 
         async function calculateInventory() {
@@ -249,13 +332,20 @@
         function processData(logs) {
             inventoryMap = {};
 
+            // PRE-LOAD ALL 151 MATERIALS AT 0 BALANCE FIRST
+            for (const supplier in inventoryDataList) {
+                inventoryDataList[supplier].forEach(item => {
+                    inventoryMap[item] = { in: 0, out: 0, balance: 0 };
+                });
+            }
+
             // Calculate totals from transaction history with sanitization
             logs.forEach(row => {
-                // Strip invisible spaces and fix casing just in case the spreadsheet is dirty
                 let mat = row.material ? row.material.toString().trim() : "Unknown";
                 let action = row.action ? row.action.toString().trim().toUpperCase() : "";
                 let qty = parseFloat(row.quantity) || 0;
 
+                // Ensure it exists just in case there's old historical data not on the new list
                 if (!inventoryMap[mat]) {
                     inventoryMap[mat] = { in: 0, out: 0, balance: 0 };
                 }
@@ -285,15 +375,15 @@
             sortedMaterials.forEach(mat => {
                 let data = inventoryMap[mat];
                 
-                // Prevent negative balances in visual display (in case of log errors)
+                // Prevent negative balances in visual display
                 let visualBalance = data.balance < 0 ? 0 : data.balance;
 
-                // Status Logic
+                // Status Logic (Threshold set to < 20)
                 let statusHtml = '';
                 if (visualBalance === 0) {
                     statusHtml = `<span class="status-badge status-out">Out of Stock</span>`;
                     outOfStockCount++;
-                } else if (visualBalance < 50) { // Set warning threshold to 50
+                } else if (visualBalance < 20) { 
                     statusHtml = `<span class="status-badge status-low">Low Stock</span>`;
                     lowStockCount++;
                 } else {
