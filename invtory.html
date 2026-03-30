@@ -107,14 +107,14 @@
         /* Controls */
         .controls-bar {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
             align-items: center;
+            gap: 15px;
             margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
-        .search-bar {
-            width: 100%;
-            max-width: 400px;
+        .search-bar, .filter-dropdown {
             padding: 12px 15px;
             border-radius: 8px;
             border: 1px solid var(--border-color);
@@ -124,7 +124,10 @@
             outline: none;
             transition: 0.3s;
         }
-        .search-bar:focus { border-color: var(--dinaledi-orange); }
+        .search-bar { width: 100%; max-width: 400px; }
+        .filter-dropdown { min-width: 200px; cursor: pointer; color-scheme: dark; }
+        
+        .search-bar:focus, .filter-dropdown:focus { border-color: var(--dinaledi-orange); }
 
         /* Table Styling */
         .table-wrapper {
@@ -170,7 +173,7 @@
             .nav-container { flex-direction: column; width: 100%; }
             .nav-btn { text-align: center; }
             .kpi-grid { grid-template-columns: 1fr; }
-            .search-bar { max-width: 100%; }
+            .search-bar, .filter-dropdown { max-width: 100%; width: 100%; }
         }
     </style>
 </head>
@@ -212,6 +215,12 @@
         <div class="card">
             <div class="controls-bar">
                 <input type="text" id="searchInput" class="search-bar" placeholder="Search for a material..." onkeyup="filterTable()">
+                <select id="statusFilter" class="filter-dropdown" onchange="filterTable()">
+                    <option value="ALL">All Statuses</option>
+                    <option value="IN STOCK">✅ In Stock</option>
+                    <option value="LOW STOCK">⚠️ Low Stock</option>
+                    <option value="OUT OF STOCK">🚨 Out of Stock</option>
+                </select>
             </div>
 
             <div class="table-wrapper">
@@ -235,7 +244,7 @@
     <script>
         const API_URL = 'https://script.google.com/macros/s/AKfycbx7rsialRRxeUm82hS9NcWiZ1SB_ujYArdp-zmhelaJtevdCsRV04609sQBlAq7qjfV0w/exec';
         
-        // Master List to force all 151 items to appear, even if they have 0 transactions
+        // Master List to force all 151 items to appear
         const inventoryDataList = {
             "AERONTEC": [
                 "Bleather Cloth", "163gsm Twill Weave Glass", "Peelply", "Sealant Tape Grey",
@@ -345,7 +354,6 @@
                 let action = row.action ? row.action.toString().trim().toUpperCase() : "";
                 let qty = parseFloat(row.quantity) || 0;
 
-                // Ensure it exists just in case there's old historical data not on the new list
                 if (!inventoryMap[mat]) {
                     inventoryMap[mat] = { in: 0, out: 0, balance: 0 };
                 }
@@ -368,41 +376,67 @@
             
             let lowStockCount = 0;
             let outOfStockCount = 0;
+            let sortableArray = [];
 
-            // Sort alphabetically by material name
-            let sortedMaterials = Object.keys(inventoryMap).sort();
-
-            sortedMaterials.forEach(mat => {
+            // Step 1: Assign categories and weight to each material
+            for (let mat in inventoryMap) {
                 let data = inventoryMap[mat];
-                
-                // Prevent negative balances in visual display
                 let visualBalance = data.balance < 0 ? 0 : data.balance;
-
-                // Status Logic (Threshold set to < 20)
+                
+                let statusName = '';
                 let statusHtml = '';
+                let sortWeight = 0;
+
                 if (visualBalance === 0) {
+                    statusName = 'OUT OF STOCK';
                     statusHtml = `<span class="status-badge status-out">Out of Stock</span>`;
+                    sortWeight = 3; // Pushes to the bottom
                     outOfStockCount++;
                 } else if (visualBalance < 20) { 
+                    statusName = 'LOW STOCK';
                     statusHtml = `<span class="status-badge status-low">Low Stock</span>`;
+                    sortWeight = 2; // Pushes to the middle
                     lowStockCount++;
                 } else {
+                    statusName = 'IN STOCK';
                     statusHtml = `<span class="status-badge status-ok">In Stock</span>`;
+                    sortWeight = 1; // Pushes to the top
                 }
 
+                sortableArray.push({
+                    mat: mat,
+                    data: data,
+                    visualBalance: visualBalance,
+                    statusName: statusName,
+                    statusHtml: statusHtml,
+                    sortWeight: sortWeight
+                });
+            }
+
+            // Step 2: Multi-Tier Sort (Sort by Weight first, then alphabetically by Material Name)
+            sortableArray.sort((a, b) => {
+                if (a.sortWeight !== b.sortWeight) {
+                    return a.sortWeight - b.sortWeight;
+                }
+                return a.mat.localeCompare(b.mat);
+            });
+
+            // Step 3: Render to Table
+            sortableArray.forEach(item => {
                 const tr = document.createElement('tr');
+                tr.setAttribute('data-status', item.statusName); // Used for filtering
                 tr.innerHTML = `
-                    <td style="font-weight: 600; color: white;">${mat}</td>
-                    <td style="color: var(--text-muted);">${data.in.toLocaleString()} units</td>
-                    <td style="color: var(--text-muted);">${data.out.toLocaleString()} units</td>
-                    <td class="current-balance">${visualBalance.toLocaleString()}</td>
-                    <td>${statusHtml}</td>
+                    <td style="font-weight: 600; color: white;">${item.mat}</td>
+                    <td style="color: var(--text-muted);">${item.data.in.toLocaleString()} units</td>
+                    <td style="color: var(--text-muted);">${item.data.out.toLocaleString()} units</td>
+                    <td class="current-balance">${item.visualBalance.toLocaleString()}</td>
+                    <td>${item.statusHtml}</td>
                 `;
                 tbody.appendChild(tr);
             });
 
             // Update KPIs
-            document.getElementById('kpi-unique-items').innerText = sortedMaterials.length;
+            document.getElementById('kpi-unique-items').innerText = sortableArray.length;
             document.getElementById('kpi-low-stock').innerText = lowStockCount;
             document.getElementById('kpi-out-stock').innerText = outOfStockCount;
 
@@ -410,16 +444,27 @@
             document.getElementById('dashboard-content').style.display = 'block';
         }
 
+        // Dual Filter Logic
         function filterTable() {
-            let input = document.getElementById('searchInput').value.toUpperCase();
+            let searchInput = document.getElementById('searchInput').value.toUpperCase();
+            let statusFilter = document.getElementById('statusFilter').value;
             let table = document.getElementById('inventoryTable');
             let tr = table.getElementsByTagName('tr');
 
-            for (let i = 1; i < tr.length; i++) {
-                let td = tr[i].getElementsByTagName('td')[0]; // Filter by Material Name (Column 1)
-                if (td) {
-                    let txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(input) > -1) {
+            for (let i = 1; i < tr.length; i++) { // Skip header row
+                let tdMaterial = tr[i].getElementsByTagName('td')[0];
+                let rowStatus = tr[i].getAttribute('data-status');
+
+                if (tdMaterial) {
+                    let textValue = tdMaterial.textContent || tdMaterial.innerText;
+                    
+                    // Check Search Bar
+                    let matchesSearch = textValue.toUpperCase().indexOf(searchInput) > -1;
+                    
+                    // Check Dropdown Filter
+                    let matchesStatus = (statusFilter === "ALL" || rowStatus === statusFilter);
+
+                    if (matchesSearch && matchesStatus) {
                         tr[i].style.display = "";
                     } else {
                         tr[i].style.display = "none";
