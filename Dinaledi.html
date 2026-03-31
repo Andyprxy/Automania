@@ -233,6 +233,7 @@
     const API_URL = 'https://script.google.com/macros/s/AKfycbx7rsialRRxeUm82hS9NcWiZ1SB_ujYArdp-zmhelaJtevdCsRV04609sQBlAq7qjfV0w/exec';
 
     // MASTER INVENTORY DATA STRUCTURE 
+    // Contains original 151 items plus new additions from the requested update
     const inventoryData = {
         "AERONTEC": [
             "Bleather Cloth", "163gsm Twill Weave Glass", "Peelply", "Sealant Tape Grey",
@@ -241,7 +242,8 @@
             "200gsm Carbon Twill stabilized", "Paper cup 500ml", "Paper cup 250ml",
             "My cell M080 Eco", "Skin protection cream", "Release Film High Temp",
             "Sicomic SD 7820 Hardener high Temp", "Sicomin Epoxy Resin SR 1660 High Temp",
-            "MYCELL 80 GREEN"
+            "MYCELL 80 GREEN",
+            "4775 Hardner 3,5kg", "4771 Hardner  3,5kg", "280gsm Twin weave glass"
         ],
         "AMT": [
             "TONGUE DEPRESSORS (100 PER BOX)", "SEALANT TAPE (40 PER BOX)", "CARBON FAB 200GSM",
@@ -251,12 +253,17 @@
             "AMPREG 3X SLOW HARDENER (4.68KG) (Infusion) for Coil Sep", "GLASS ROVING 2400 TEX (DIRECT ROVING) for Coil Sep",
             "PIGMENT EPOXY - BLACK (5KG)", "PEELPLY NYLON 078g/1616/150 ECC", "PEELPLY NYLON 085g/LTX/PS 1000MM",
             "FASTCAST F160", "EP GC080/GC14", "CUPS 500ml (50 CUPS PER PACK)",
-            "TENSORGRIP TC49 INFUSION HI-TAC FINE", "VACFILM 450V 50MIC"
+            "TENSORGRIP TC49 INFUSION HI-TAC FINE", "VACFILM 450V 50MIC",
+            "Filler 1kg", "Filler 3kg", "Miracle gloss"
         ],
         "ATLIN / ATLAND": [
             "COTTON FLOCKS 1*2KG", "AEROSIL 200 FUMED SILICA - 1*10KG",
             "SEMI-RIGID ISO LAMINATING RESIN 1*25KG (Polyester)", "AKPEROX A50 CATALYST 1*500ML",
-            "RAMWAX RUN-IN 1*5LT", "PVA RED RELEASE AGENT 1*4.4KG", "ONE SIDE FEATHERED CSM450 1*45KG"
+            "RAMWAX RUN-IN 1*5LT", "PVA RED RELEASE AGENT 1*4.4KG", "ONE SIDE FEATHERED CSM450 1*45KG",
+            "Q cell", "Chopped string"
+        ],
+        "COAT LAND": [
+            "P180", "P80", "P320", "P600", "P40", "Sanding disk", "Sanding drum"
         ],
         "DURA PAINTS": [
             "Enamel sunshine yellow 5L,10L and 20L", "QD Enamel Ford Tractor Blue 5L,10L and 20L",
@@ -264,7 +271,8 @@
         ],
         "MATRIXXX": [
             "DCR30 - Epoxy Resin - 25 KG", "DCH10 - Epoxy Hardener - Slow - 25 KG",
-            "DCH20 - Epoxy Hardener - Medium - 25 KG"
+            "DCH20 - Epoxy Hardener - Medium - 25 KG",
+            "Foam Bond A 10 kg", "Foam Bond B 2kg"
         ],
         "MEGAPHASE": [
             "LUGS 35mmx12mm", "LUGS 16mmx12mm", "LUGS 6mmx10mm", "LUGS 6mmx8mm", "LUGS 10mmx12mm",
@@ -279,15 +287,20 @@
         ],
         "MOOT BOLT & NUT": [
             "Dust musk", "Markers", "Drill bit size-5mm ,6mm ,8mm ,10mm", "Cutting Disc",
-            "Hole Saw - 89mm", "Hole Saw - 46mm", "Gloves Ninja"
+            "Hole Saw - 89mm", "Hole Saw - 46mm", "Gloves Ninja",
+            "Combi disk"
         ],
         "NIVITEX": [
             "Wove Roving- 400gsm -Plain Weave Glass"
         ],
+        "OMNISURGE": [
+            "Nitrile Gloves"
+        ],
         "PLASTILON": [
             "Tubing-Smokey", "Tis.Jumbo wipe", "Pallet wrap core", "Airothene",
             "Cutter /Blade large", "Sheeting Black", "Zipper bag", "Plastic sleeves (Blue)",
-            "Disposable mop caps (white0", "Bucket 1Lt White"
+            "Disposable mop caps (white0", "Bucket 1Lt White",
+            "Blades"
         ],
         "REBEL PAINT & PANEL": [
             "Masking tape 24mm", "Masking tape 48mm", "B/Fill 220 fine stopper 1kg",
