@@ -20,7 +20,7 @@
         }
 
         * {
-            box-sizing: border-box; /* Crucial for preventing horizontal scroll on mobile */
+            box-sizing: border-box; 
         }
 
         body {
@@ -160,7 +160,7 @@
             box-shadow: 0 8px 24px rgba(0,0,0,0.2);
             display: flex;
             flex-direction: column;
-            overflow: hidden; /* Contains the custom scrollbar */
+            overflow: hidden; 
         }
 
         .chart-header-row {
@@ -207,7 +207,7 @@
             width: 100%;
             overflow-x: auto;
             overflow-y: hidden;
-            padding-bottom: 10px; /* Space for scrollbar */
+            padding-bottom: 10px; 
         }
 
         /* Sleek scrollbar styling */
@@ -223,7 +223,6 @@
             flex-grow: 1;
         }
 
-        /* Forces the trendline to spread out and become scrollable */
         .scrollable-chart {
             min-width: 1000px; 
         }
@@ -237,53 +236,18 @@
             letter-spacing: 1px;
         }
 
-        /* --- MOBILE RESPONSIVE OPTIMIZATIONS --- */
         @media (max-width: 900px) {
-            body {
-                padding: 15px;
-            }
-            .header {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-                gap: 20px;
-            }
-            .header-branding {
-                flex-direction: column;
-                gap: 10px;
-            }
-            .nav-btn {
-                width: 100%;
-                text-align: center;
-                padding: 15px;
-            }
-            .kpi-grid {
-                grid-template-columns: repeat(2, 1fr); /* 2x2 Grid for KPIs */
-                gap: 15px;
-            }
-            .kpi-value {
-                font-size: 24px;
-            }
-            .chart-grid, .chart-grid-bottom {
-                grid-template-columns: 1fr; /* Stack all charts vertically */
-                gap: 15px;
-            }
-            .chart-header-row {
-                flex-direction: column;
-                gap: 15px;
-            }
-            .bi-filter {
-                max-width: 100%;
-                width: 100%;
-                font-size: 14px; /* Prevent iOS zoom */
-                padding: 12px;
-            }
-            .chart-container {
-                padding: 15px;
-            }
-            .canvas-wrapper {
-                height: 200px; /* Slightly shorter charts to fit mobile screens better */
-            }
+            body { padding: 15px; }
+            .header { flex-direction: column; align-items: center; text-align: center; gap: 20px; }
+            .header-branding { flex-direction: column; gap: 10px; }
+            .nav-btn { width: 100%; text-align: center; padding: 15px; }
+            .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+            .kpi-value { font-size: 24px; }
+            .chart-grid, .chart-grid-bottom { grid-template-columns: 1fr; gap: 15px; }
+            .chart-header-row { flex-direction: column; gap: 15px; }
+            .bi-filter { max-width: 100%; width: 100%; font-size: 14px; padding: 12px; }
+            .chart-container { padding: 15px; }
+            .canvas-wrapper { height: 200px; }
         }
     </style>
 </head>
@@ -331,29 +295,7 @@
                     </div>
                     <select id="trendFilter" class="bi-filter" onchange="updateTrendline()">
                         <option value="ALL">Aggregate Overview (All Items)</option>
-                        <option value="163gsm Twill Weave Glass">163gsm Twill Weave Glass</option>
-                        <option value="25L Thinners">25L Thinners</option>
-                        <option value="Acetone Pure 19.74kg">Acetone Pure 19.74kg</option>
-                        <option value="Brown/Buff tape 48mm">Brown/Buff tape 48mm</option>
-                        <option value="Buckets 1L">Buckets 1L</option>
-                        <option value="Clear tape 48mm">Clear tape 48mm</option>
-                        <option value="Cutter -18mm- Blade Larger/Tube">Cutter -18mm- Blade Larger/Tube</option>
-                        <option value="Fibre Disc Powermax 9T-R P80">Fibre Disc Powermax 9T-R P80</option>
-                        <option value="Fibreglass Brush 25mm">Fibreglass Brush 25mm</option>
-                        <option value="Filler - Fumed Silica">Filler - Fumed Silica</option>
-                        <option value="Hardener - Sicomin SD4771">Hardener - Sicomin SD4771</option>
-                        <option value="Masking Tape 48mm">Masking Tape 48mm</option>
-                        <option value="Masking paper-Brown 50gsm">Masking paper-Brown 50gsm</option>
-                        <option value="MEKP - Catalyst Clear">MEKP - Catalyst Clear</option>
-                        <option value="Pallet Wrap">Pallet Wrap</option>
-                        <option value="Peel ply">Peel ply</option>
-                        <option value="Primer - Self Etch Primer Red">Primer - Self Etch Primer Red</option>
-                        <option value="Ramwax Run In 1L">Ramwax Run In 1L</option>
-                        <option value="Resin - DCR30 - Epoxy Resin">Resin - DCR30 - Epoxy Resin</option>
-                        <option value="Smokey">Smokey</option>
-                        <option value="Vac Film 450V 50Mic (1153)">Vac Film 450V 50Mic (1153)</option>
-                        <option value="Velcro Disc 6S Plain P180">Velcro Disc 6S Plain P180</option>
-                    </select>
+                        </select>
                 </div>
                 <div class="canvas-scroll-container">
                     <div class="canvas-wrapper scrollable-chart">
@@ -450,6 +392,7 @@
             let matOutCounts = {}, supInCounts = {};
             let actionRatio = { IN: 0, OUT: 0 };
             let rawDates = new Set();
+            let uniqueMats = new Set(); // Dynamic tracking for the filter dropdown
 
             globalLogData.forEach(row => {
                 let qty = parseInt(row.quantity) || 0;
@@ -464,6 +407,9 @@
                 let matName = row.material || "Unknown";
                 let supName = row.supplier || "Unknown";
 
+                // Add material to dropdown array if it exists
+                if (matName !== "Unknown") uniqueMats.add(matName);
+
                 if (row.action === 'OUT') {
                     totalOut += qty;
                     actionRatio.OUT += qty; 
@@ -476,6 +422,16 @@
             });
 
             globalDateList = Array.from(rawDates).sort((a, b) => new Date(a) - new Date(b));
+
+            // Dynamically generate Dropdown Options based on the live database
+            let filterSelect = document.getElementById('trendFilter');
+            filterSelect.innerHTML = '<option value="ALL">Aggregate Overview (All Items)</option>';
+            Array.from(uniqueMats).sort().forEach(mat => {
+                let opt = document.createElement('option');
+                opt.value = mat;
+                opt.innerText = mat;
+                filterSelect.appendChild(opt);
+            });
 
             document.getElementById('kpi-total-out').innerText = totalOut.toLocaleString();
             document.getElementById('kpi-total-in').innerText = totalIn.toLocaleString();
