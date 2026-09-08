@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<!-- saved from url=(0030)https://automania.cloud/#tiers -->
+<html lang="en" class="scroll-smooth" data-qb-installed="true">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
-    <title>Automania | Premium AI & Automation Agency</title>
+    <title>Automania | Premium AI &amp; Automation Agency</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
     <script>
@@ -28,6 +28,7 @@
                     },
                     animation: {
                         'heartbeat': 'heartbeat 3s ease-in-out infinite',
+                        'float': 'float 6s ease-in-out infinite',
                     },
                     keyframes: {
                         heartbeat: {
@@ -36,6 +37,10 @@
                             '30%': { transform: 'scale(1)' },
                             '45%': { transform: 'scale(1.05)' },
                             '60%': { transform: 'scale(1)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
                         }
                     }
                 }
@@ -61,15 +66,14 @@
             z-index: -3;
         }
 
-        /* Explicit placement: Blue Top Right, Purple Bottom Left */
         .color-wash-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
-                radial-gradient(circle at 100% 0%, rgba(0, 113, 227, 0.6) 0%, transparent 60%),   /* Blue (Top Right) */
-                radial-gradient(circle at 0% 100%, rgba(91, 33, 182, 0.6) 0%, transparent 60%),    /* Purple (Bottom Left) */
-                radial-gradient(circle at 100% 100%, rgba(16, 185, 129, 0.3) 0%, transparent 50%),  /* Green (Bottom Right) */
-                radial-gradient(circle at 0% 0%, rgba(0, 174, 239, 0.3) 0%, transparent 50%);   /* Cyan (Top Left) */
+                radial-gradient(circle at 100% 0%, rgba(0, 113, 227, 0.6) 0%, transparent 60%),
+                radial-gradient(circle at 0% 100%, rgba(91, 33, 182, 0.6) 0%, transparent 60%),
+                radial-gradient(circle at 100% 100%, rgba(16, 185, 129, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 0% 0%, rgba(0, 174, 239, 0.3) 0%, transparent 50%);
             z-index: -2;
             mix-blend-mode: overlay;
         }
@@ -117,7 +121,6 @@
             box-shadow: 0 8px 25px rgba(0, 113, 227, 0.4);
         }
 
-        /* Form Inputs */
         .glass-input {
             background: rgba(255, 255, 255, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.8);
@@ -131,10 +134,8 @@
             box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
         }
 
-        /* Accordion transition */
         .expand-content { transition: max-height 0.6s ease-in-out, opacity 0.4s ease-in-out; }
 
-        /* Hardware Accelerated Heartbeat Glow */
         @keyframes heartbeatGlow {
             0%, 100% { 
                 transform: scale(1); 
@@ -187,7 +188,6 @@
         }
         .chat-window.active { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
 
-        /* Subtle Chat Wallpaper Gradient */
         .chat-wallpaper {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
             background-image: 
@@ -198,7 +198,6 @@
             pointer-events: none;
         }
 
-        /* Mobile specific chat scaling */
         @media (max-width: 768px) {
             .chat-window { width: calc(100% - 40px); right: 20px; bottom: 85px; height: 65vh; }
             .chat-trigger { bottom: 20px; right: 20px; padding: 12px 20px; }
@@ -209,7 +208,7 @@
 
     <nav class="fixed top-4 md:top-6 left-1/2 transform -translate-x-1/2 w-[95%] md:w-[92%] max-w-6xl nav-glass rounded-full px-4 md:px-6 py-3 md:py-4 flex justify-between items-center z-50">
         <div class="flex items-center gap-3 cursor-pointer">
-            <img src="favicon-removebg-preview.png" alt="Automania Logo" class="h-8 md:h-10 w-auto object-contain">
+            <img src="./Automania _ Premium AI &amp; Automation Agency_files/favicon-removebg-preview.png" alt="Automania Logo" class="h-8 md:h-10 w-auto object-contain">
             <div class="flex flex-col leading-tight">
                 <span class="font-bold text-lg md:text-xl tracking-tight text-appleBlack">Automania</span>
             </div>
@@ -219,7 +218,7 @@
             <a href="#tiers" class="text-appleGrey text-sm font-medium hover:text-appleBlack transition">Systems</a>
             <a href="#architecture" class="text-appleGrey text-sm font-medium hover:text-appleBlack transition">Architecture</a>
             <a href="#partners" class="text-appleGrey text-sm font-medium hover:text-appleBlack transition">Network</a>
-            <a href="#team" class="text-appleGrey text-sm font-medium hover:text-appleBlack transition">Team</a>
+            <a href="#flagship" class="text-appleGrey text-sm font-medium hover:text-appleBlack transition">RezFlow</a>
         </div>
         <a href="#contact" class="btn-primary px-5 md:px-6 py-2 rounded-full text-xs md:text-sm font-bold tracking-wide">Initiate</a>
     </nav>
@@ -252,6 +251,7 @@
         </div>
     </section>
 
+    <!-- CORE CAPABILITIES WITH BASELINE ACCORDIONS RESTORED -->
     <section id="tiers" class="py-20 md:py-24 px-4 md:px-6 max-w-7xl mx-auto relative z-10 border-t border-gray-200">
         <div class="text-center mb-12 md:mb-16">
             <span class="text-appleBlue text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase">Core Capabilities</span>
@@ -262,7 +262,7 @@
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
             <div class="group flex flex-col rounded-[2rem] overflow-hidden glass-card h-max">
                 <div class="h-56 md:h-64 overflow-hidden relative shrink-0">
-                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" alt="AI Interface Node">
+                    <img src="./Automania _ Premium AI &amp; Automation Agency_files/photo-1551288049-bebda4e38f71" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" alt="AI Interface Node">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                     <div class="absolute bottom-4 left-6 text-white flex items-center gap-2">
                         <span class="bg-appleBlue/80 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">Tier I</span>
@@ -290,7 +290,7 @@
 
             <div class="group flex flex-col rounded-[2rem] overflow-hidden glass-card h-max">
                 <div class="h-56 md:h-64 overflow-hidden relative shrink-0">
-                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" alt="Live Data Dashboard">
+                    <img src="./Automania _ Premium AI &amp; Automation Agency_files/photo-1460925895917-afdab827c52f" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" alt="Live Data Dashboard">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                     <div class="absolute bottom-4 left-6 text-white flex items-center gap-2">
                         <span class="bg-skyBlue/80 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">Tier II</span>
@@ -318,7 +318,7 @@
 
             <div class="group flex flex-col rounded-[2rem] overflow-hidden glass-card h-max">
                 <div class="h-56 md:h-64 overflow-hidden relative shrink-0">
-                    <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2034&auto=format&fit=crop" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" alt="Secure Server Logging">
+                    <img src="./Automania _ Premium AI &amp; Automation Agency_files/photo-1558494949-ef010cbdcc31" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" alt="Secure Server Logging">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                     <div class="absolute bottom-4 left-6 text-white flex items-center gap-2">
                         <span class="bg-gray-800/80 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">Tier III</span>
@@ -346,6 +346,7 @@
         </div>
     </section>
 
+    <!-- ARCHITECTURE / VALUE SECTION -->
     <section id="architecture" class="py-20 md:py-24 relative overflow-hidden z-10 border-t border-gray-200">
         <div class="absolute inset-0 w-full h-full bg-cover bg-center z-[-3]" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop');"></div>
         <div class="absolute inset-0 w-full h-full z-[-2] mix-blend-overlay" style="background-image: radial-gradient(circle at 100% 0%, rgba(0, 113, 227, 0.6) 0%, transparent 60%), radial-gradient(circle at 0% 100%, rgba(91, 33, 182, 0.6) 0%, transparent 60%), radial-gradient(circle at 100% 100%, rgba(16, 185, 129, 0.3) 0%, transparent 50%), radial-gradient(circle at 0% 0%, rgba(0, 174, 239, 0.3) 0%, transparent 50%);"></div>
@@ -381,6 +382,7 @@
         </div>
     </section>
 
+    <!-- TRUSTED NETWORK -->
     <section id="partners" class="py-20 md:py-24 px-4 md:px-6 max-w-7xl mx-auto relative z-10">
         <div class="text-center mb-12 md:mb-16">
             <h2 class="text-3xl font-bold tracking-tight text-appleBlack">Trusted Network</h2>
@@ -390,25 +392,25 @@
         <div class="flex flex-wrap justify-center gap-8 md:gap-16">
             <div class="flex flex-col items-center group">
                 <div class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white border border-gray-200 shadow-lg flex items-center justify-center animate-heartbeat mb-4 group-hover:border-appleBlue transition duration-300 overflow-hidden">
-                    <img src="automania_cloud.jpg" alt="Automania Cloud" class="w-full h-full object-cover">
+                    <img src="./Automania _ Premium AI &amp; Automation Agency_files/automania_cloud.jpg" alt="Automania Cloud" class="w-full h-full object-cover">
                 </div>
                 <span class="text-xs md:text-sm font-bold text-appleBlack tracking-wide">Automania Cloud</span>
             </div>
             <div class="flex flex-col items-center group">
                 <div class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white border border-gray-200 shadow-lg flex items-center justify-center animate-heartbeat mb-4 group-hover:border-deepPurple transition duration-300 overflow-hidden" style="animation-delay: 0.5s;">
-                    <img src="sh_consulting.jpg" alt="SH Consulting" class="w-full h-full object-cover">
+                    <img src="./Automania _ Premium AI &amp; Automation Agency_files/sh_consulting.jpg" alt="SH Consulting" class="w-full h-full object-cover">
                 </div>
                 <span class="text-xs md:text-sm font-bold text-appleBlack tracking-wide">SH Consulting</span>
             </div>
             <div class="flex flex-col items-center group">
                 <div class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white border border-gray-200 shadow-lg flex items-center justify-center animate-heartbeat mb-4 group-hover:border-skyBlue transition duration-300 overflow-hidden" style="animation-delay: 1s;">
-                    <img src="arise_operations.jpg" alt="Arise Operations and Projects" class="w-full h-full object-cover">
+                    <img src="./Automania _ Premium AI &amp; Automation Agency_files/arise_operations.jpg" alt="Arise Operations and Projects" class="w-full h-full object-cover">
                 </div>
-                <span class="text-xs md:text-sm font-bold text-appleBlack tracking-wide text-center">Arise Operations<br>& Projects</span>
+                <span class="text-xs md:text-sm font-bold text-appleBlack tracking-wide text-center">Arise Operations<br>&amp; Projects</span>
             </div>
             <div class="flex flex-col items-center group">
                 <div class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white border border-gray-200 shadow-lg flex items-center justify-center animate-heartbeat mb-4 group-hover:border-neonGreen transition duration-300 overflow-hidden" style="animation-delay: 1.5s;">
-                    <img src="kr_celebrations.jpg" alt="KR Celebrations" class="w-full h-full object-cover">
+                    <img src="./Automania _ Premium AI &amp; Automation Agency_files/kr_celebrations.jpg" alt="KR Celebrations" class="w-full h-full object-cover">
                 </div>
                 <span class="text-xs md:text-sm font-bold text-appleBlack tracking-wide">KR Celebrations</span>
             </div>
@@ -419,38 +421,44 @@
         <div class="w-1/2 h-[3px] bg-appleBlack/80 rounded-l-full shadow-sm"></div>
     </div>
 
-    <section id="team" class="py-8 px-4 md:px-6 max-w-7xl mx-auto relative z-10">
-        <div class="grid md:grid-cols-2 gap-8 md:gap-10 max-w-6xl mx-auto">
+    <!-- NEW FLAGSHIP CASE STUDY (Symmetrical & One-Line Header) -->
+    <section id="flagship" class="py-12 px-4 md:px-6 max-w-7xl mx-auto relative z-10">
+        <div class="grid lg:grid-cols-2 gap-8 md:gap-12 max-w-6xl mx-auto items-stretch">
             
-            <div class="glass-card rounded-[2rem] md:rounded-[3rem] p-6 md:p-8 flex flex-col xl:flex-row items-center gap-6 md:gap-8 shadow-sm">
-                <div class="w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 rounded-full bg-gradient-to-br from-appleBlue via-neonGreen to-deepPurple p-1 shrink-0">
-                    <div class="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden border-4 border-white">
-                        <img src="brian.jpg" alt="Brian" class="w-full h-full object-cover">
-                    </div>
-                </div>
-                <div class="text-center xl:text-left">
-                    <div class="inline-block px-3 py-1 rounded-full bg-appleBlue/10 text-appleBlue text-[10px] font-bold uppercase tracking-widest mb-3">Leadership</div>
-                    <h3 class="text-xl md:text-2xl font-bold text-appleBlack mb-1">Brian</h3>
-                    <p class="text-deepPurple font-bold text-[10px] md:text-xs tracking-widest uppercase mb-4">Founder & Operations Lead</p>
-                    <p class="text-appleGrey text-xs md:text-sm leading-relaxed">
-                        As an Industrial Engineer, I view businesses strictly through the lens of process optimization. My approach at Automania focuses on leveraging systems like n8n and VBA to eliminate bottlenecks, ensuring your digital infrastructure works as hard as you do.
-                    </p>
-                </div>
+            <!-- Left: Hero Image (Rounded & Matching Height) -->
+            <div class="glass-card flex items-center justify-center p-6 md:p-10 rounded-[2rem] md:rounded-[3rem] shadow-xl relative overflow-hidden h-full">
+                <!-- Subtle internal glow -->
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full bg-appleBlue/5 blur-3xl z-0"></div>
+                <!-- The Image -->
+                <img src="automaniahero.png" alt="Automania AI Hero" class="relative z-10 w-full max-w-[450px] object-contain animate-float drop-shadow-2xl rounded-2xl md:rounded-[2rem]">
             </div>
 
-            <div class="glass-card rounded-[2rem] md:rounded-[3rem] p-6 md:p-8 flex flex-col xl:flex-row items-center gap-6 md:gap-8 shadow-sm">
-                <div class="w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 rounded-full bg-gradient-to-br from-skyBlue via-appleBlue to-deepPurple p-1 shrink-0">
-                    <div class="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden border-4 border-white">
-                        <img src="t_sithole.jpg" alt="T Sithole" class="w-full h-full object-cover">
-                    </div>
+            <!-- Right: The RezFlow & Value Proposition -->
+            <div class="glass-card rounded-[2rem] md:rounded-[3rem] p-8 md:p-12 flex flex-col justify-center shadow-xl relative overflow-hidden h-full">
+                <!-- Subtle internal glass decoration -->
+                <div class="absolute top-0 right-0 w-32 h-32 bg-skyBlue/10 rounded-full blur-2xl transform translate-x-1/2 -translate-y-1/2"></div>
+                
+                <!-- Title strictly on one line using whitespace-nowrap and responsive sizing -->
+                <h3 class="text-[1.75rem] sm:text-4xl lg:text-[2.6rem] xl:text-5xl font-bold tracking-tight mb-2 text-transparent bg-clip-text bg-gradient-to-r from-appleBlue to-deepPurple whitespace-nowrap">
+                    Connect. Scale. Grow.
+                </h3>
+                
+                <div class="w-12 h-1 bg-appleBlack rounded-full my-6"></div>
+
+                <div class="inline-block px-3 py-1 self-start rounded-full bg-appleBlue/10 text-appleBlue text-[10px] font-bold uppercase tracking-widest mb-3">
+                    Flagship Architecture: RezFlow
                 </div>
-                <div class="text-center xl:text-left">
-                    <div class="inline-block px-3 py-1 rounded-full bg-appleBlue/10 text-appleBlue text-[10px] font-bold uppercase tracking-widest mb-3">Engineering</div>
-                    <h3 class="text-xl md:text-2xl font-bold text-appleBlack mb-1">T Sithole</h3>
-                    <p class="text-appleBlue font-bold text-[10px] md:text-xs tracking-widest uppercase mb-4">Systems Engineer</p>
-                    <p class="text-appleGrey text-xs md:text-sm leading-relaxed">
-                        With a strong foundation in Industrial Engineering and hands-on industry experience, T Sithole applies a rigorous systems-thinking approach to solve complex real-world problems. He architects robust technical frameworks that seamlessly connect physical operations to automated digital workflows.
-                    </p>
+                
+                <p class="text-appleBlack font-medium text-base md:text-lg leading-relaxed mb-4">
+                    To understand our capacity for massive-scale execution layers, look at RezFlow. 
+                </p>
+                <p class="text-appleGrey text-sm md:text-base leading-relaxed mb-6">
+                    Engineered entirely by Automania, it is a centralized orchestration platform designed to manage Purpose-Built Student Accommodation (PBSA). Built with the structural capacity to host, onboard, and manage <span class="font-bold text-appleBlack">over 10,000 active users</span> across multi-tiered mobile and web portals simultaneously.
+                </p>
+                
+                <div class="flex flex-wrap gap-2 mt-auto">
+                    <span class="px-3 py-1 bg-white border border-gray-200 rounded-full text-[10px] font-bold text-gray-600 uppercase shadow-sm">Industry 4.0 Ready</span>
+                    <span class="px-3 py-1 bg-white border border-gray-200 rounded-full text-[10px] font-bold text-gray-600 uppercase shadow-sm">Lean Six Sigma Anchored</span>
                 </div>
             </div>
 
@@ -461,6 +469,7 @@
         <div class="w-1/2 h-[3px] bg-appleBlack/80 rounded-r-full shadow-sm"></div>
     </div>
 
+    <!-- CONTACT SECTION -->
     <section id="contact" class="py-20 md:py-24 px-4 md:px-6 relative z-10 overflow-hidden">
         <div class="absolute inset-0 w-full h-full z-[-1]" style="background-image: radial-gradient(circle at 100% 0%, rgba(0, 113, 227, 0.08) 0%, transparent 60%), radial-gradient(circle at 0% 100%, rgba(91, 33, 182, 0.08) 0%, transparent 60%), radial-gradient(circle at 100% 100%, rgba(16, 185, 129, 0.05) 0%, transparent 50%), radial-gradient(circle at 0% 0%, rgba(0, 174, 239, 0.05) 0%, transparent 50%);"></div>
         
@@ -481,7 +490,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
                         <div class="flex flex-col">
                             <label class="text-[10px] md:text-xs font-bold text-appleBlack uppercase tracking-widest mb-1.5 md:mb-2 ml-1">Your Name</label>
-                            <input type="text" name="subject" placeholder="John Doe" class="glass-input w-full rounded-xl p-3 md:p-4 text-sm text-appleBlack" required>
+                            <input type="text" name="subject" placeholder="John Doe" class="glass-input w-full rounded-xl p-3 md:p-4 text-sm text-appleBlack" required="">
                         </div>
                         <div class="flex flex-col">
                             <label class="text-[10px] md:text-xs font-bold text-appleBlack uppercase tracking-widest mb-1.5 md:mb-2 ml-1">Company</label>
@@ -490,7 +499,7 @@
                     </div>
                     <div class="flex flex-col">
                         <label class="text-[10px] md:text-xs font-bold text-appleBlack uppercase tracking-widest mb-1.5 md:mb-2 ml-1">Operational Challenge</label>
-                        <textarea name="body" rows="4" placeholder="Briefly describe the processes you want to automate or improve..." class="glass-input w-full rounded-xl p-3 md:p-4 text-sm text-appleBlack resize-none" required></textarea>
+                        <textarea name="body" rows="4" placeholder="Briefly describe the processes you want to automate or improve..." class="glass-input w-full rounded-xl p-3 md:p-4 text-sm text-appleBlack resize-none" required=""></textarea>
                     </div>
                     <button type="submit" class="w-full btn-primary py-3 md:py-4 rounded-xl text-xs md:text-sm font-bold tracking-widest uppercase shadow-lg flex justify-center items-center gap-2">
                         Submit Request <i class="fas fa-paper-plane"></i>
@@ -500,6 +509,7 @@
         </div>
     </section>
 
+    <!-- FOOTER -->
     <footer class="bg-appleBlack text-white py-12 md:py-16 border-t border-gray-800 relative z-20">
         <div class="max-w-7xl mx-auto px-4 md:px-6">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10 md:mb-12">
@@ -513,10 +523,10 @@
                 <div class="text-center md:text-left">
                     <h4 class="text-appleBlue font-bold uppercase text-[10px] md:text-xs tracking-widest mb-5 md:mb-6">Navigation</h4>
                     <ul class="text-gray-400 text-xs md:text-sm space-y-3">
-                        <li><a href="#tiers" class="hover:text-white transition">Service Tiers</a></li>
-                        <li><a href="#architecture" class="hover:text-white transition">Value Architecture</a></li>
-                        <li><a href="#partners" class="hover:text-white transition">Trusted Network</a></li>
-                        <li><a href="#team" class="hover:text-white transition">Leadership Team</a></li>
+                        <li><a href="https://automania.cloud/#tiers" class="hover:text-white transition">Service Tiers</a></li>
+                        <li><a href="https://automania.cloud/#architecture" class="hover:text-white transition">Value Architecture</a></li>
+                        <li><a href="https://automania.cloud/#partners" class="hover:text-white transition">Trusted Network</a></li>
+                        <li><a href="https://automania.cloud/#flagship" class="hover:text-white transition">RezFlow Architecture</a></li>
                     </ul>
                 </div>
 
@@ -542,12 +552,13 @@
             </div>
 
             <div class="pt-6 md:pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-[9px] md:text-[10px] text-gray-500 uppercase tracking-[0.2em] text-center md:text-left">
-                <p>&copy; 2026 Automania Digital Agency.</p>
+                <p>© 2026 Automania Digital Agency.</p>
                 <p>Engineered for <span class="text-white font-bold">ROI.</span></p>
             </div>
         </div>
     </footer>
 
+    <!-- FLOATING CHAT WIDGET & SCRIPT -->
     <div class="chat-trigger animate-heartbeat" onclick="toggleChat()">
         <i class="fas fa-comment-dots text-white text-lg"></i>
         <span class="main-text">Chat Live</span>
