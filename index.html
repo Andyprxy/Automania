@@ -50,9 +50,9 @@
             box-shadow: 0 20px 50px rgba(0, 113, 227, 0.08), inset 0 0 0 1px rgba(255,255,255,0.8);
         }
 
-        /* Ultra-Premium Liquid Glass Boxes (For the "Why Choose" section) */
+        /* Ultra-Premium Liquid Glass Boxes */
         .liquid-glass-box {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.1) 100%);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.2) 100%);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
             border: 1px solid rgba(255, 255, 255, 0.8);
@@ -67,7 +67,7 @@
             content: '';
             position: absolute;
             top: 0; left: -150%; width: 50%; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.6), transparent);
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.7), transparent);
             transform: skewX(-25deg);
             transition: 0.6s ease;
         }
@@ -128,181 +128,181 @@
 <body class="relative overflow-x-hidden">
 
     <!-- Top Navigation -->
-    <nav class="fixed top-6 left-1/2 transform -translate-x-1/2 w-[92%] max-w-6xl glass-panel oval-pill px-6 py-4 flex justify-between items-center z-50">
+    <nav class="fixed top-4 md:top-6 left-1/2 transform -translate-x-1/2 w-[95%] md:w-[92%] max-w-6xl glass-panel oval-pill px-5 md:px-6 py-3 md:py-4 flex justify-between items-center z-50">
         <div class="flex items-center gap-3 cursor-pointer">
-            <span class="font-bold text-xl tracking-tight text-appleBlack">Automania</span>
+            <span class="font-bold text-lg md:text-xl tracking-tight text-appleBlack">Automania</span>
         </div>
-        <div class="hidden md:flex gap-8 items-center">
-            <a href="#what-is-automania" class="text-appleGrey text-sm font-medium hover:text-appleBlack transition">What is Automania?</a>
-            <a href="#who-uses" class="text-appleGrey text-sm font-medium hover:text-appleBlack transition">Who Uses Us</a>
-            <a href="#why-choose" class="text-appleGrey text-sm font-medium hover:text-appleBlack transition">Why Automania</a>
-            <a href="#network" class="text-appleGrey text-sm font-medium hover:text-appleBlack transition">Trusted Network</a>
+        <!-- Hidden on Mobile, Flex on Tablet (md) and Desktop -->
+        <div class="hidden md:flex gap-6 lg:gap-8 items-center">
+            <a href="#what-is-automania" class="text-appleGrey text-xs lg:text-sm font-medium hover:text-appleBlack transition">What is Automania?</a>
+            <a href="#who-uses" class="text-appleGrey text-xs lg:text-sm font-medium hover:text-appleBlack transition">Who Uses Us</a>
+            <a href="#why-choose" class="text-appleGrey text-xs lg:text-sm font-medium hover:text-appleBlack transition">Why Automania</a>
+            <a href="#network" class="text-appleGrey text-xs lg:text-sm font-medium hover:text-appleBlack transition">Trusted Network</a>
         </div>
-        <a href="#contact" class="btn-primary px-6 py-2 oval-pill text-sm font-bold tracking-wide">Initiate Audit</a>
+        <a href="#contact" class="btn-primary px-4 md:px-6 py-2 oval-pill text-xs md:text-sm font-bold tracking-wide">Initiate Audit</a>
     </nav>
 
-    <!-- Hero Section (Blended Image Background) -->
-    <section class="relative min-h-[95vh] flex flex-col items-center justify-center text-center px-6 overflow-hidden">
+    <!-- Hero Section -->
+    <section class="relative min-h-[95vh] flex flex-col items-center justify-center text-center px-4 sm:px-6 overflow-hidden">
         
         <!-- High-End Background Image & Overlay -->
         <div class="absolute inset-0 w-full h-full z-[-2]">
             <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop" alt="Premium Abstract Tech" class="w-full h-full object-cover">
         </div>
-        <!-- Gradient Fade to smoothly transition into the next white section -->
+        <!-- Gradient Fade -->
         <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-white/50 to-[#fbfbfd] z-[-1]"></div>
         
         <!-- Hero Content -->
-        <div class="relative z-10 max-w-5xl mx-auto flex flex-col items-center pt-20">
+        <div class="relative z-10 max-w-5xl mx-auto flex flex-col items-center pt-24 md:pt-20">
             
-            <!-- Text blending with the image utilizing mix-blend-overlay for a stunning, high-end effect -->
-            <h1 class="text-6xl md:text-8xl lg:text-[6rem] font-bold tracking-tighter leading-[1.05] mb-8 text-black mix-blend-overlay opacity-90 drop-shadow-sm">
+            <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-[6rem] font-bold tracking-tighter leading-[1.05] mb-6 md:mb-8 text-black mix-blend-overlay opacity-90 drop-shadow-sm px-2">
                 Where operations <br>achieve flow.
             </h1>
             
-            <p class="text-lg md:text-xl text-appleBlack max-w-3xl leading-relaxed mb-10 font-medium bg-white/30 backdrop-blur-md p-6 rounded-3xl border border-white/50 shadow-lg">
+            <p class="text-base sm:text-lg md:text-xl text-appleBlack max-w-3xl leading-relaxed mb-8 md:mb-10 font-medium bg-white/40 md:bg-white/30 backdrop-blur-md p-6 md:p-8 rounded-3xl border border-white/50 shadow-lg mx-4 md:mx-0">
                 Founded by industrial and systems engineers, Automania builds premium digital environments engineered strictly for measurable ROI. We merge modern automation with legacy infrastructure to drive unprecedented operational efficiency.
             </p>
             
-            <div class="flex gap-4 mt-4">
-                <a href="#what-is-automania" class="btn-primary px-10 py-4 oval-pill text-base md:text-lg font-semibold">Explore the Ecosystem</a>
+            <div class="flex gap-4 mt-2 md:mt-4">
+                <a href="#what-is-automania" class="btn-primary px-8 md:px-10 py-3 md:py-4 oval-pill text-sm md:text-lg font-semibold">Explore the Ecosystem</a>
             </div>
         </div>
     </section>
 
     <!-- What is Automania? (Solid White Background Break) -->
-    <section id="what-is-automania" class="py-24 px-6 bg-white relative z-10">
-        <div class="max-w-7xl mx-auto glass-panel oval-card p-10 md:p-16 flex flex-col lg:flex-row gap-16 items-center">
-            <div class="flex-1">
-                <h2 class="text-4xl font-bold tracking-tight text-appleBlack mb-4">What is Automania?</h2>
-                <h4 class="text-xl font-semibold text-appleBlue mb-6">One Ecosystem. Every Operational Step.</h4>
-                <div class="text-appleGrey space-y-5 leading-relaxed mb-8 text-sm md:text-base">
+    <section id="what-is-automania" class="py-20 md:py-24 px-4 sm:px-6 bg-white relative z-10">
+        <!-- Tablet (md) triggers flex-row for a PC-like clean UI -->
+        <div class="max-w-7xl mx-auto glass-panel oval-card p-6 sm:p-10 md:p-12 lg:p-16 flex flex-col md:flex-row gap-10 md:gap-12 lg:gap-16 items-center w-[95%] md:w-full mx-auto">
+            <div class="flex-1 text-center md:text-left">
+                <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-appleBlack mb-3 md:mb-4">What is Automania?</h2>
+                <h4 class="text-lg md:text-xl font-semibold text-appleBlue mb-4 md:mb-6">One Ecosystem. Every Operational Step.</h4>
+                <div class="text-appleGrey space-y-4 md:space-y-5 leading-relaxed mb-6 md:mb-8 text-sm md:text-base text-left">
                     <p>Automania is an end-to-end automation and digital architecture agency designed specifically for forward-thinking enterprises, civil laboratories, and manufacturing facilities.</p>
                     <p>From live inventory telemetry and data verification through to legacy VBA bridging and secure n8n workflows, Automania connects every stakeholder through one seamless, liquid-glass cloud environment.</p>
                     <p>Instead of managing multiple fragmented tools, businesses gain complete visibility and Lean Six Sigma efficiency across their entire operational lifecycle.</p>
                 </div>
-                <div class="flex gap-4 flex-wrap">
-                    <a href="#who-uses" class="btn-primary px-6 py-3 oval-pill text-sm font-bold">Find out more</a>
-                    <a href="#contact" class="btn-secondary px-6 py-3 oval-pill text-sm font-bold flex items-center gap-2">
+                <div class="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center md:justify-start">
+                    <a href="#who-uses" class="btn-primary px-6 py-3 oval-pill text-sm font-bold text-center">Find out more</a>
+                    <a href="#contact" class="btn-secondary px-6 py-3 oval-pill text-sm font-bold flex items-center justify-center gap-2">
                         <i class="fas fa-question-circle text-appleGrey"></i> FAQs
                     </a>
                 </div>
             </div>
-            <div class="flex-1 w-full flex justify-center">
-                <!-- Automania Hero Image integration -->
-                <div class="relative w-full rounded-3xl p-2 bg-gradient-to-tr from-appleBlue/20 to-transparent shadow-2xl">
-                    <img src="automaniahero.png" alt="Automania Dashboard Interface" class="w-full h-auto rounded-[1.5rem] object-cover border border-white">
+            <div class="flex-1 w-full flex justify-center mt-6 md:mt-0">
+                <div class="relative w-full rounded-3xl p-1.5 md:p-2 bg-gradient-to-tr from-appleBlue/20 to-transparent shadow-2xl">
+                    <img src="automaniahero.png" alt="Automania Dashboard Interface" class="w-full h-auto rounded-[1.25rem] md:rounded-[1.5rem] object-cover border border-white">
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Who uses Automania? (Soft Grey Background Break) -->
-    <section id="who-uses" class="py-24 px-6 bg-appleGreyBg relative z-10">
+    <section id="who-uses" class="py-20 md:py-24 px-4 sm:px-6 bg-appleGreyBg relative z-10">
         <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold tracking-tight text-appleBlack">Who uses Automania?</h2>
-                <p class="text-appleGrey mt-4 text-lg">Engineered for diverse, high-stakes operational sectors.</p>
+            <div class="text-center mb-12 md:mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-appleBlack">Who uses Automania?</h2>
+                <p class="text-appleGrey mt-3 md:mt-4 text-base md:text-lg">Engineered for diverse, high-stakes operational sectors.</p>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+            <!-- Mobile: 1 col (constrained width), Tablet (md): 3 col, Desktop (lg): 5 col -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
                 
-                <!-- Startups Box -->
-                <div class="glass-panel oval-card p-8 text-center flex flex-col items-center hover:-translate-y-2 transition duration-300 bg-white/60">
-                    <div class="w-16 h-16 rounded-full glossy-icon flex items-center justify-center mb-6 text-appleBlue text-2xl">
+                <!-- Cards have max-w-[340px] on mobile so they don't stretch fully edge-to-edge, looking elegant -->
+                <div class="w-[90%] sm:w-full max-w-[340px] sm:max-w-none mx-auto glass-panel oval-card p-6 md:p-8 text-center flex flex-col items-center hover:-translate-y-2 transition duration-300 bg-white/60">
+                    <div class="w-14 h-14 md:w-16 md:h-16 rounded-full glossy-icon flex items-center justify-center mb-4 md:mb-6 text-appleBlue text-xl md:text-2xl">
                         <i class="fas fa-rocket"></i>
                     </div>
-                    <h4 class="text-lg font-bold text-appleBlack mb-3">Startups</h4>
-                    <p class="text-sm text-appleGrey leading-relaxed">Establish a premium digital presence, scale custom websites rapidly, and architect core operational systems from day one.</p>
+                    <h4 class="text-base md:text-lg font-bold text-appleBlack mb-2 md:mb-3">Startups</h4>
+                    <p class="text-xs md:text-sm text-appleGrey leading-relaxed">Establish a premium digital presence, scale custom websites rapidly, and architect core operational systems from day one.</p>
                 </div>
 
-                <!-- User Type 1 -->
-                <div class="glass-panel oval-card p-8 text-center flex flex-col items-center hover:-translate-y-2 transition duration-300 bg-white/60">
-                    <div class="w-16 h-16 rounded-full glossy-icon flex items-center justify-center mb-6 text-appleBlue text-2xl">
+                <div class="w-[90%] sm:w-full max-w-[340px] sm:max-w-none mx-auto glass-panel oval-card p-6 md:p-8 text-center flex flex-col items-center hover:-translate-y-2 transition duration-300 bg-white/60">
+                    <div class="w-14 h-14 md:w-16 md:h-16 rounded-full glossy-icon flex items-center justify-center mb-4 md:mb-6 text-appleBlue text-xl md:text-2xl">
                         <i class="fas fa-microchip"></i>
                     </div>
-                    <h4 class="text-lg font-bold text-appleBlack mb-3">Manufacturing</h4>
-                    <p class="text-sm text-appleGrey leading-relaxed">Implement live tracking telemetry, inventory optimization, and automated task sequencing on the factory floor.</p>
+                    <h4 class="text-base md:text-lg font-bold text-appleBlack mb-2 md:mb-3">Manufacturing</h4>
+                    <p class="text-xs md:text-sm text-appleGrey leading-relaxed">Implement live tracking telemetry, inventory optimization, and automated task sequencing on the factory floor.</p>
                 </div>
                 
-                <!-- User Type 2 -->
-                <div class="glass-panel oval-card p-8 text-center flex flex-col items-center hover:-translate-y-2 transition duration-300 bg-white/60">
-                    <div class="w-16 h-16 rounded-full glossy-icon flex items-center justify-center mb-6 text-appleBlue text-2xl">
+                <div class="w-[90%] sm:w-full max-w-[340px] sm:max-w-none mx-auto glass-panel oval-card p-6 md:p-8 text-center flex flex-col items-center hover:-translate-y-2 transition duration-300 bg-white/60">
+                    <div class="w-14 h-14 md:w-16 md:h-16 rounded-full glossy-icon flex items-center justify-center mb-4 md:mb-6 text-appleBlue text-xl md:text-2xl">
                         <i class="fas fa-city"></i>
                     </div>
-                    <h4 class="text-lg font-bold text-appleBlack mb-3">Property Tech</h4>
-                    <p class="text-sm text-appleGrey leading-relaxed">Automate student accommodation onboarding, digital lease signing, and real-time maintenance snag tracking.</p>
+                    <h4 class="text-base md:text-lg font-bold text-appleBlack mb-2 md:mb-3">Property Tech</h4>
+                    <p class="text-xs md:text-sm text-appleGrey leading-relaxed">Automate student accommodation onboarding, digital lease signing, and real-time maintenance snag tracking.</p>
                 </div>
                 
-                <!-- User Type 3 -->
-                <div class="glass-panel oval-card p-8 text-center flex flex-col items-center hover:-translate-y-2 transition duration-300 bg-white/60">
-                    <div class="w-16 h-16 rounded-full glossy-icon flex items-center justify-center mb-6 text-appleBlue text-2xl">
+                <div class="w-[90%] sm:w-full max-w-[340px] sm:max-w-none mx-auto glass-panel oval-card p-6 md:p-8 text-center flex flex-col items-center hover:-translate-y-2 transition duration-300 bg-white/60">
+                    <div class="w-14 h-14 md:w-16 md:h-16 rounded-full glossy-icon flex items-center justify-center mb-4 md:mb-6 text-appleBlue text-xl md:text-2xl">
                         <i class="fas fa-flask-vial"></i>
                     </div>
-                    <h4 class="text-lg font-bold text-appleBlack mb-3">Civil Labs</h4>
-                    <p class="text-sm text-appleGrey leading-relaxed">Ensure total data compliance with immutable legacy VBA bridging and secured digital testing logs.</p>
+                    <h4 class="text-base md:text-lg font-bold text-appleBlack mb-2 md:mb-3">Civil Labs</h4>
+                    <p class="text-xs md:text-sm text-appleGrey leading-relaxed">Ensure total data compliance with immutable legacy VBA bridging and secured digital testing logs.</p>
                 </div>
                 
-                <!-- User Type 4 -->
-                <div class="glass-panel oval-card p-8 text-center flex flex-col items-center hover:-translate-y-2 transition duration-300 bg-white/60">
-                    <div class="w-16 h-16 rounded-full glossy-icon flex items-center justify-center mb-6 text-appleBlue text-2xl">
+                <div class="w-[90%] sm:w-full max-w-[340px] sm:max-w-none mx-auto glass-panel oval-card p-6 md:p-8 text-center flex flex-col items-center hover:-translate-y-2 transition duration-300 bg-white/60">
+                    <div class="w-14 h-14 md:w-16 md:h-16 rounded-full glossy-icon flex items-center justify-center mb-4 md:mb-6 text-appleBlue text-xl md:text-2xl">
                         <i class="fas fa-layer-group"></i>
                     </div>
-                    <h4 class="text-lg font-bold text-appleBlack mb-3">Operations</h4>
-                    <p class="text-sm text-appleGrey leading-relaxed">Monitor complex triage workflows and governance through pristine, real-time glassmorphic UI dashboards.</p>
+                    <h4 class="text-base md:text-lg font-bold text-appleBlack mb-2 md:mb-3">Operations</h4>
+                    <p class="text-xs md:text-sm text-appleGrey leading-relaxed">Monitor complex triage workflows and governance through pristine, real-time glassmorphic UI dashboards.</p>
                 </div>
 
             </div>
         </div>
     </section>
 
-    <!-- Why Institutions Choose Automania? (Solid White Background with Abstract Underlays) -->
-    <section id="why-choose" class="py-24 px-6 bg-white relative z-10 overflow-hidden">
+    <!-- Why Institutions Choose Automania? -->
+    <section id="why-choose" class="py-20 md:py-24 px-4 sm:px-6 bg-white relative z-10 overflow-hidden">
         
-        <!-- Abstract gradient blobs behind the liquid glass boxes to create severe contrast -->
-        <div class="absolute right-0 top-1/2 -translate-y-1/2 w-[30rem] h-[30rem] bg-appleBlue/10 rounded-full blur-[80px] -z-10 pointer-events-none"></div>
-        <div class="absolute right-[20%] bottom-0 w-80 h-80 bg-deepPurple/10 rounded-full blur-[60px] -z-10 pointer-events-none"></div>
+        <div class="absolute right-0 top-1/2 -translate-y-1/2 w-[20rem] md:w-[30rem] h-[20rem] md:h-[30rem] bg-appleBlue/10 rounded-full blur-[60px] md:blur-[80px] -z-10 pointer-events-none"></div>
+        <div class="absolute right-10 md:right-[20%] bottom-0 w-60 md:w-80 h-60 md:h-80 bg-deepPurple/10 rounded-full blur-[50px] md:blur-[60px] -z-10 pointer-events-none"></div>
 
-        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16 items-center">
+        <!-- Tablet (md) triggers flex-row to ensure PC-like look -->
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-12 md:gap-16 items-center">
             
-            <!-- ALIGNED LEFT: Text -->
-            <div class="flex-1 order-1 relative z-10">
-                <h2 class="text-4xl md:text-5xl font-bold tracking-tight text-appleBlack mb-6">Why Enterprises Choose Automania?</h2>
-                <p class="text-lg text-appleGrey leading-relaxed mb-8">
+            <div class="flex-1 order-1 relative z-10 text-center md:text-left w-full px-2 md:px-0">
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-appleBlack mb-4 md:mb-6">Why Enterprises Choose Automania?</h2>
+                <p class="text-base md:text-lg text-appleGrey leading-relaxed mb-6 md:mb-8">
                     We do not charge hourly; we charge for the permanent ROI we engineer into your business. By applying rigorous industrial engineering methodologies to bespoke web development, we completely replace operational friction with seamless, automated systems.
                 </p>
-                <a href="#contact" class="btn-primary px-8 py-3 oval-pill text-sm font-bold inline-block">Initiate an Audit</a>
+                <a href="#contact" class="btn-primary px-6 md:px-8 py-3 oval-pill text-sm font-bold inline-block">Initiate an Audit</a>
             </div>
 
-            <!-- ALIGNED RIGHT: High-End Liquid Glass Boxes -->
             <div class="flex-1 w-full order-2 relative z-10">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div class="liquid-glass-box p-8 flex flex-col gap-4">
-                        <div class="w-12 h-12 rounded-full glossy-icon flex items-center justify-center text-appleBlue">
-                            <i class="fas fa-eye text-xl"></i>
+                <!-- Mobile: 1 col (constrained width), Tablet (md): 2 col -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                    
+                    <div class="w-[90%] md:w-full max-w-[340px] md:max-w-none mx-auto liquid-glass-box p-6 md:p-8 flex flex-col gap-3 md:gap-4 text-center md:text-left items-center md:items-start">
+                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-full glossy-icon flex items-center justify-center text-appleBlue shrink-0">
+                            <i class="fas fa-eye text-lg md:text-xl"></i>
                         </div>
-                        <h4 class="font-bold text-appleBlack text-lg">Complete Visibility</h4>
-                        <p class="text-sm text-appleGrey leading-relaxed">Know exactly where every asset, process, and bottleneck stands with live visual KPIs.</p>
+                        <h4 class="font-bold text-appleBlack text-base md:text-lg">Complete Visibility</h4>
+                        <p class="text-xs md:text-sm text-appleGrey leading-relaxed">Know exactly where every asset, process, and bottleneck stands with live visual KPIs.</p>
                     </div>
-                    <div class="liquid-glass-box p-8 flex flex-col gap-4">
-                        <div class="w-12 h-12 rounded-full glossy-icon flex items-center justify-center text-appleBlue">
-                            <i class="fas fa-shield-alt text-xl"></i>
+
+                    <div class="w-[90%] md:w-full max-w-[340px] md:max-w-none mx-auto liquid-glass-box p-6 md:p-8 flex flex-col gap-3 md:gap-4 text-center md:text-left items-center md:items-start">
+                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-full glossy-icon flex items-center justify-center text-appleBlue shrink-0">
+                            <i class="fas fa-shield-alt text-lg md:text-xl"></i>
                         </div>
-                        <h4 class="font-bold text-appleBlack text-lg">Lean Governance</h4>
-                        <p class="text-sm text-appleGrey leading-relaxed">Rooted in Lean Six Sigma to improve compliance via automated workflows and digital approvals.</p>
+                        <h4 class="font-bold text-appleBlack text-base md:text-lg">Lean Governance</h4>
+                        <p class="text-xs md:text-sm text-appleGrey leading-relaxed">Rooted in Lean Six Sigma to improve compliance via automated workflows and digital approvals.</p>
                     </div>
-                    <div class="liquid-glass-box p-8 flex flex-col gap-4">
-                        <div class="w-12 h-12 rounded-full glossy-icon flex items-center justify-center text-appleBlue">
-                            <i class="fas fa-bolt text-xl"></i>
+
+                    <div class="w-[90%] md:w-full max-w-[340px] md:max-w-none mx-auto liquid-glass-box p-6 md:p-8 flex flex-col gap-3 md:gap-4 text-center md:text-left items-center md:items-start">
+                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-full glossy-icon flex items-center justify-center text-appleBlue shrink-0">
+                            <i class="fas fa-bolt text-lg md:text-xl"></i>
                         </div>
-                        <h4 class="font-bold text-appleBlack text-lg">Systemic Efficiency</h4>
-                        <p class="text-sm text-appleGrey leading-relaxed">Drastically reduce manual data entry and turnaround times with custom n8n webhooks.</p>
+                        <h4 class="font-bold text-appleBlack text-base md:text-lg">Systemic Efficiency</h4>
+                        <p class="text-xs md:text-sm text-appleGrey leading-relaxed">Drastically reduce manual data entry and turnaround times with custom n8n webhooks.</p>
                     </div>
-                    <div class="liquid-glass-box p-8 flex flex-col gap-4">
-                        <div class="w-12 h-12 rounded-full glossy-icon flex items-center justify-center text-appleBlue">
-                            <i class="fas fa-magic text-xl"></i>
+
+                    <div class="w-[90%] md:w-full max-w-[340px] md:max-w-none mx-auto liquid-glass-box p-6 md:p-8 flex flex-col gap-3 md:gap-4 text-center md:text-left items-center md:items-start">
+                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-full glossy-icon flex items-center justify-center text-appleBlue shrink-0">
+                            <i class="fas fa-magic text-lg md:text-xl"></i>
                         </div>
-                        <h4 class="font-bold text-appleBlack text-lg">Frictionless UX</h4>
-                        <p class="text-sm text-appleGrey leading-relaxed">Drive internal adoption faster through highly polished, Apple-inspired frontend environments.</p>
+                        <h4 class="font-bold text-appleBlack text-base md:text-lg">Frictionless UX</h4>
+                        <p class="text-xs md:text-sm text-appleGrey leading-relaxed">Drive internal adoption faster through highly polished, Apple-inspired frontend environments.</p>
                     </div>
                 </div>
             </div>
@@ -310,87 +310,87 @@
         </div>
     </section>
 
-    <!-- Trusted Network (Soft Grey Wash) -->
-    <section id="network" class="py-24 px-6 bg-appleGreyBg relative z-10 border-t border-gray-200/50">
+    <!-- Trusted Network -->
+    <section id="network" class="py-20 md:py-24 px-4 sm:px-6 bg-appleGreyBg relative z-10 border-t border-gray-200/50">
         <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-16">
+            <div class="text-center mb-12 md:mb-16">
                 <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-appleBlack">Trusted Network</h2>
-                <p class="text-appleGrey mt-3 text-lg">Integrating systems across diverse operational sectors.</p>
+                <p class="text-appleGrey mt-2 md:mt-3 text-base md:text-lg">Integrating systems across diverse operational sectors.</p>
             </div>
             
             <div class="flex flex-wrap justify-center gap-8 md:gap-14 items-center">
                 <!-- Circular Image Frames -->
-                <div class="flex flex-col items-center group">
-                    <div class="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-4 border-white shadow-[0_10px_25px_rgba(0,0,0,0.1)] mb-4 transform group-hover:-translate-y-2 group-hover:shadow-[0_15px_35px_rgba(0,113,227,0.2)] transition duration-300">
+                <div class="flex flex-col items-center group w-1/3 sm:w-auto">
+                    <div class="w-20 h-20 md:w-28 md:h-28 rounded-full overflow-hidden border-4 border-white shadow-[0_10px_25px_rgba(0,0,0,0.1)] mb-3 md:mb-4 transform group-hover:-translate-y-2 group-hover:shadow-[0_15px_35px_rgba(0,113,227,0.2)] transition duration-300">
                         <img src="automania_cloud.jpg" alt="Automania Cloud" class="w-full h-full object-cover">
                     </div>
-                    <span class="text-sm font-bold text-appleBlack tracking-wide">Automania Cloud</span>
+                    <span class="text-xs md:text-sm font-bold text-appleBlack tracking-wide text-center">Automania Cloud</span>
                 </div>
-                <div class="flex flex-col items-center group">
-                    <div class="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-4 border-white shadow-[0_10px_25px_rgba(0,0,0,0.1)] mb-4 transform group-hover:-translate-y-2 group-hover:shadow-[0_15px_35px_rgba(0,113,227,0.2)] transition duration-300">
+                <div class="flex flex-col items-center group w-1/3 sm:w-auto">
+                    <div class="w-20 h-20 md:w-28 md:h-28 rounded-full overflow-hidden border-4 border-white shadow-[0_10px_25px_rgba(0,0,0,0.1)] mb-3 md:mb-4 transform group-hover:-translate-y-2 group-hover:shadow-[0_15px_35px_rgba(0,113,227,0.2)] transition duration-300">
                         <img src="sh_consulting.jpg" alt="SH Consulting" class="w-full h-full object-cover">
                     </div>
-                    <span class="text-sm font-bold text-appleBlack tracking-wide">SH Consulting</span>
+                    <span class="text-xs md:text-sm font-bold text-appleBlack tracking-wide text-center">SH Consulting</span>
                 </div>
-                <div class="flex flex-col items-center group">
-                    <div class="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-4 border-white shadow-[0_10px_25px_rgba(0,0,0,0.1)] mb-4 transform group-hover:-translate-y-2 group-hover:shadow-[0_15px_35px_rgba(0,113,227,0.2)] transition duration-300">
+                <div class="flex flex-col items-center group w-1/3 sm:w-auto">
+                    <div class="w-20 h-20 md:w-28 md:h-28 rounded-full overflow-hidden border-4 border-white shadow-[0_10px_25px_rgba(0,0,0,0.1)] mb-3 md:mb-4 transform group-hover:-translate-y-2 group-hover:shadow-[0_15px_35px_rgba(0,113,227,0.2)] transition duration-300">
                         <img src="arise_operations.jpg" alt="Arise Operations" class="w-full h-full object-cover">
                     </div>
-                    <span class="text-sm font-bold text-appleBlack tracking-wide text-center">Arise Operations</span>
+                    <span class="text-xs md:text-sm font-bold text-appleBlack tracking-wide text-center">Arise Operations</span>
                 </div>
-                <div class="flex flex-col items-center group">
-                    <div class="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-4 border-white shadow-[0_10px_25px_rgba(0,0,0,0.1)] mb-4 transform group-hover:-translate-y-2 group-hover:shadow-[0_15px_35px_rgba(0,113,227,0.2)] transition duration-300">
+                <div class="flex flex-col items-center group w-1/3 sm:w-auto">
+                    <div class="w-20 h-20 md:w-28 md:h-28 rounded-full overflow-hidden border-4 border-white shadow-[0_10px_25px_rgba(0,0,0,0.1)] mb-3 md:mb-4 transform group-hover:-translate-y-2 group-hover:shadow-[0_15px_35px_rgba(0,113,227,0.2)] transition duration-300">
                         <img src="rezflow.jpg" alt="RezFlow" class="w-full h-full object-cover">
                     </div>
-                    <span class="text-sm font-bold text-appleBlack tracking-wide">RezFlow</span>
+                    <span class="text-xs md:text-sm font-bold text-appleBlack tracking-wide text-center">RezFlow</span>
                 </div>
-                <div class="flex flex-col items-center group">
-                    <div class="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-4 border-white shadow-[0_10px_25px_rgba(0,0,0,0.1)] mb-4 transform group-hover:-translate-y-2 group-hover:shadow-[0_15px_35px_rgba(0,113,227,0.2)] transition duration-300">
+                <div class="flex flex-col items-center group w-1/3 sm:w-auto">
+                    <div class="w-20 h-20 md:w-28 md:h-28 rounded-full overflow-hidden border-4 border-white shadow-[0_10px_25px_rgba(0,0,0,0.1)] mb-3 md:mb-4 transform group-hover:-translate-y-2 group-hover:shadow-[0_15px_35px_rgba(0,113,227,0.2)] transition duration-300">
                         <img src="makarapa_day.jpg" alt="Makarapa Day" class="w-full h-full object-cover">
                     </div>
-                    <span class="text-sm font-bold text-appleBlack tracking-wide">Makarapa Day</span>
+                    <span class="text-xs md:text-sm font-bold text-appleBlack tracking-wide text-center">Makarapa Day</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Ready to Transform / Contact Section (Soft Blue/Grey Gradient) -->
-    <section id="contact" class="py-24 px-6 relative z-10 bg-gradient-to-b from-[#fbfbfd] to-[#eef2f6]">
+    <!-- Ready to Transform / Contact Section -->
+    <section id="contact" class="py-20 md:py-24 px-4 sm:px-6 relative z-10 bg-gradient-to-b from-[#fbfbfd] to-[#eef2f6]">
         <div class="max-w-4xl mx-auto flex flex-col items-center">
             
-            <div class="text-center mb-12">
-                <h2 class="text-4xl md:text-5xl font-bold tracking-tight text-appleBlack mb-6">Ready to transform your operational workflows?</h2>
-                <p class="text-lg text-appleGrey leading-relaxed max-w-2xl mx-auto">
+            <div class="text-center mb-10 md:mb-12 px-2 md:px-0">
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-appleBlack mb-4 md:mb-6">Ready to transform your operational workflows?</h2>
+                <p class="text-base md:text-lg text-appleGrey leading-relaxed max-w-2xl mx-auto">
                     See how Automania simplifies custom automation, legacy integration, and secure data logging from one intelligent platform. Contact us to initiate your system audit.
                 </p>
             </div>
 
             <!-- WhatsApp Chat Pill Button -->
-            <a href="https://wa.me/27616520417?text=Hello%20Automania!%20I'd%20like%20to%20discuss%20automating%20my%20operations." target="_blank" class="mb-8 inline-flex items-center gap-2 px-6 py-3 bg-white rounded-full shadow-md hover:shadow-xl transition transform hover:-translate-y-1 border border-gray-100 text-appleBlack font-bold text-sm">
-                <i class="fab fa-whatsapp text-neonGreen text-xl"></i> Chat on WhatsApp
+            <a href="https://wa.me/27616520417?text=Hello%20Automania!%20I'd%20like%20to%20discuss%20automating%20my%20operations." target="_blank" class="mb-6 md:mb-8 inline-flex items-center gap-2 px-6 py-3 bg-white rounded-full shadow-md hover:shadow-xl transition transform hover:-translate-y-1 border border-gray-100 text-appleBlack font-bold text-xs md:text-sm">
+                <i class="fab fa-whatsapp text-neonGreen text-lg md:text-xl"></i> Chat on WhatsApp
             </a>
 
-            <!-- Contact Form Card Matching Screenshot -->
-            <div class="w-full bg-white/90 backdrop-blur-2xl rounded-[2rem] p-8 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.06)] border border-white">
-                <form action="mailto:info@automania.cloud" method="POST" enctype="text/plain" class="space-y-6">
+            <!-- Form Card with constraints for mobile to not fill the screen completely -->
+            <div class="w-[92%] sm:w-full max-w-4xl bg-white/90 backdrop-blur-2xl rounded-[1.5rem] md:rounded-[2rem] p-6 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.06)] border border-white mx-auto">
+                <form action="mailto:info@automania.cloud" method="POST" enctype="text/plain" class="space-y-5 md:space-y-6">
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
                         <div class="flex flex-col">
-                            <label class="text-[11px] font-bold text-appleBlack uppercase tracking-widest mb-2 ml-1">Your Name</label>
-                            <input type="text" name="Name" placeholder="John Doe" class="form-input w-full rounded-2xl p-4 text-sm text-appleBlack" required>
+                            <label class="text-[10px] md:text-[11px] font-bold text-appleBlack uppercase tracking-widest mb-1.5 md:mb-2 ml-1">Your Name</label>
+                            <input type="text" name="Name" placeholder="John Doe" class="form-input w-full rounded-xl md:rounded-2xl p-3 md:p-4 text-sm text-appleBlack" required>
                         </div>
                         <div class="flex flex-col">
-                            <label class="text-[11px] font-bold text-appleBlack uppercase tracking-widest mb-2 ml-1">Company</label>
-                            <input type="text" name="Company" placeholder="Organization Name" class="form-input w-full rounded-2xl p-4 text-sm text-appleBlack" required>
+                            <label class="text-[10px] md:text-[11px] font-bold text-appleBlack uppercase tracking-widest mb-1.5 md:mb-2 ml-1">Company</label>
+                            <input type="text" name="Company" placeholder="Organization Name" class="form-input w-full rounded-xl md:rounded-2xl p-3 md:p-4 text-sm text-appleBlack" required>
                         </div>
                     </div>
                     
                     <div class="flex flex-col">
-                        <label class="text-[11px] font-bold text-appleBlack uppercase tracking-widest mb-2 ml-1">Operational Challenge</label>
-                        <textarea name="Challenge" rows="4" placeholder="Briefly describe the processes you want to automate or improve..." class="form-input w-full rounded-2xl p-4 text-sm text-appleBlack resize-none" required></textarea>
+                        <label class="text-[10px] md:text-[11px] font-bold text-appleBlack uppercase tracking-widest mb-1.5 md:mb-2 ml-1">Operational Challenge</label>
+                        <textarea name="Challenge" rows="4" placeholder="Briefly describe the processes you want to automate or improve..." class="form-input w-full rounded-xl md:rounded-2xl p-3 md:p-4 text-sm text-appleBlack resize-none" required></textarea>
                     </div>
                     
-                    <button type="submit" class="w-full bg-[#1e40af] hover:bg-[#1e3a8a] text-white py-4 rounded-2xl text-sm font-bold tracking-widest uppercase shadow-lg transition duration-300 flex justify-center items-center gap-2">
+                    <button type="submit" class="w-full bg-[#1e40af] hover:bg-[#1e3a8a] text-white py-3 md:py-4 rounded-xl md:rounded-2xl text-xs md:text-sm font-bold tracking-widest uppercase shadow-lg transition duration-300 flex justify-center items-center gap-2">
                         Submit Request <i class="fas fa-paper-plane"></i>
                     </button>
                     
@@ -400,55 +400,52 @@
         </div>
     </section>
 
-    <!-- Dark Footer Full of Info -->
-    <footer class="bg-[#111111] text-white py-16 px-6 relative z-20 border-t border-gray-900">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-sm">
+    <!-- Dark Footer -->
+    <footer class="bg-[#111111] text-white py-12 md:py-16 px-6 relative z-20 border-t border-gray-900">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12 text-sm text-center md:text-left">
             
-            <!-- Column 1: Brand & Bio -->
-            <div class="flex flex-col gap-4">
-                <span class="font-bold text-2xl tracking-tight text-white mb-2">Automania</span>
+            <div class="flex flex-col items-center md:items-start gap-3 md:gap-4">
+                <span class="font-bold text-xl md:text-2xl tracking-tight text-white mb-1 md:mb-2">Automania</span>
                 <p class="text-gray-400 leading-relaxed max-w-xs">
                     Premium AI & Automation Agency. Engineered for ROI. Seamlessly bridging physical operations and automated digital workflows.
                 </p>
             </div>
 
-            <!-- Column 2: Contact Details -->
-            <div class="flex flex-col gap-4">
-                <h4 class="font-bold text-gray-200 uppercase tracking-widest text-xs mb-2">Contact</h4>
+            <div class="flex flex-col items-center md:items-start gap-3 md:gap-4">
+                <h4 class="font-bold text-gray-200 uppercase tracking-widest text-xs mb-1 md:mb-2">Contact</h4>
                 <a href="mailto:info@automania.cloud" class="text-gray-400 hover:text-white transition flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center"><i class="fas fa-envelope text-appleBlue"></i></div> 
+                    <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shrink-0"><i class="fas fa-envelope text-appleBlue"></i></div> 
                     info@automania.cloud
                 </a>
                 <a href="tel:+27616520417" class="text-gray-400 hover:text-white transition flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center"><i class="fas fa-phone-alt text-appleBlue"></i></div> 
+                    <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shrink-0"><i class="fas fa-phone-alt text-appleBlue"></i></div> 
                     +27 61 652 0417
                 </a>
                 <a href="https://wa.me/27616520417?text=Hello%20Automania!%20I'd%20like%20to%20discuss%20automating%20my%20operations." target="_blank" class="text-gray-400 hover:text-neonGreen transition flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center"><i class="fab fa-whatsapp text-neonGreen"></i></div> 
+                    <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shrink-0"><i class="fab fa-whatsapp text-neonGreen"></i></div> 
                     WhatsApp Us
                 </a>
             </div>
 
-            <!-- Column 3: Location -->
-            <div class="flex flex-col gap-4">
-                <h4 class="font-bold text-gray-200 uppercase tracking-widest text-xs mb-2">Location</h4>
-                <p class="text-gray-400 flex items-start gap-3">
+            <div class="flex flex-col items-center md:items-start gap-3 md:gap-4">
+                <h4 class="font-bold text-gray-200 uppercase tracking-widest text-xs mb-1 md:mb-2">Location</h4>
+                <div class="text-gray-400 flex items-start gap-3 text-left">
                     <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shrink-0 mt-0.5"><i class="fas fa-map-marker-alt text-appleBlue"></i></div>
-                    <span class="pt-1.5">
+                    <span class="pt-1.5 leading-relaxed">
                         Pretoria<br>
                         Gauteng<br>
                         South Africa
                     </span>
-                </p>
+                </div>
             </div>
             
         </div>
         
-        <div class="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/10 text-xs text-gray-500 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="max-w-7xl mx-auto mt-12 md:mt-16 pt-6 md:pt-8 border-t border-white/10 text-[10px] md:text-xs text-gray-500 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
             <span class="uppercase tracking-widest">© 2026 Automania Digital Agency. Value engineered.</span>
             <div class="flex gap-4 text-gray-400">
-                <a href="#" class="hover:text-white transition"><i class="fab fa-linkedin text-lg"></i></a>
-                <a href="#" class="hover:text-white transition"><i class="fab fa-github text-lg"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fab fa-linkedin text-base md:text-lg"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fab fa-github text-base md:text-lg"></i></a>
             </div>
         </div>
     </footer>
