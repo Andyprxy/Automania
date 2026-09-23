@@ -3,39 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Automania | Premium AI &amp; Automation Agency</title>
+    <title>Automania | Premium AI & Automation Agency</title>
     
-    <link rel="preconnect" href="https://images.unsplash.com">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
-    <script defer>
+    <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
+                        appleGreyBg: '#f5f5f7',
                         appleGrey: '#86868b',
                         appleBlack: '#1d1d1f',
                         appleBlue: '#0071e3',
                         skyBlue: '#00AEEF',
                         deepPurple: '#5b21b6', 
                         neonGreen: '#10b981',
-                        surfaceLight: '#fbfbfd',
                     },
                     fontFamily: {
                         sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', 'sans-serif'],
-                    },
-                    animation: {
-                        'heartbeat': 'heartbeat 3s ease-in-out infinite',
-                    },
-                    keyframes: {
-                        heartbeat: {
-                            '0%, 100%': { transform: 'scale(1)' },
-                            '15%': { transform: 'scale(1.05)' },
-                            '30%': { transform: 'scale(1)' },
-                            '45%': { transform: 'scale(1.05)' },
-                            '60%': { transform: 'scale(1)' },
-                        }
                     }
                 }
             }
@@ -44,45 +31,81 @@
 
     <style>
         body { 
-            background-color: #f0f2f5; 
+            background-color: #fbfbfd; 
             color: #1d1d1f; 
-            overflow-x: hidden; 
             -webkit-font-smoothing: antialiased;
         }
-        .hero-bg {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop');
-            background-size: cover; background-position: center; z-index: -3;
-        }
-        .color-wash-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                radial-gradient(circle at 100% 0%, rgba(0, 113, 227, 0.4) 0%, transparent 60%),
-                radial-gradient(circle at 0% 100%, rgba(91, 33, 182, 0.4) 0%, transparent 60%),
-                radial-gradient(circle at 100% 100%, rgba(16, 185, 129, 0.2) 0%, transparent 50%),
-                radial-gradient(circle at 0% 0%, rgba(0, 174, 239, 0.2) 0%, transparent 50%);
-            z-index: -2; mix-blend-mode: overlay;
-        }
-        /* Dark Banner Overlay blending into the light background */
-        .hero-glass-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, rgba(15, 15, 15, 0.8), rgba(240, 242, 245, 1));
-            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: -1;
-        }
-        .nav-glass {
-            background: rgba(255, 255, 255, 0.7); backdrop-filter: saturate(180%) blur(20px);
-            -webkit-backdrop-filter: saturate(180%) blur(20px); border: 1px solid rgba(255, 255, 255, 0.9);
-            box-shadow: 0 4px 20px rgba(0, 113, 227, 0.05);
-        }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.65); backdrop-filter: saturate(200%) blur(30px);
-            -webkit-backdrop-filter: saturate(200%) blur(30px); border: 1px solid rgba(255, 255, 255, 1);
+
+        /* Glassmorphism Navigation & General Panels */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.65); 
+            backdrop-filter: saturate(180%) blur(25px);
+            -webkit-backdrop-filter: saturate(180%) blur(25px); 
+            border: 1px solid rgba(255, 255, 255, 0.9);
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04), inset 0 0 0 1px rgba(255,255,255,0.5);
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .glass-card:hover {
-            transform: translateY(-5px); box-shadow: 0 20px 50px rgba(0, 113, 227, 0.1), inset 0 0 0 1px rgba(255,255,255,0.8);
+        
+        .glass-panel:hover {
+            box-shadow: 0 20px 50px rgba(0, 113, 227, 0.08), inset 0 0 0 1px rgba(255,255,255,0.8);
         }
+
+        /* Ultra-Premium Liquid Glass Boxes (For the "Why Choose" section) */
+        .liquid-glass-box {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.1) 100%);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+            border-radius: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+        
+        .liquid-glass-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -150%; width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.6), transparent);
+            transform: skewX(-25deg);
+            transition: 0.6s ease;
+        }
+        
+        .liquid-glass-box:hover::before {
+            left: 200%;
+        }
+
+        .liquid-glass-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px 0 rgba(0, 113, 227, 0.15);
+            border-color: rgba(255, 255, 255, 1);
+        }
+
+        /* Glossy Icon Wrappers */
+        .glossy-icon {
+            background: linear-gradient(135deg, rgba(0, 113, 227, 0.1) 0%, rgba(0, 113, 227, 0.02) 100%);
+            border: 1px solid rgba(0, 113, 227, 0.2);
+            box-shadow: inset 0 0 10px rgba(255,255,255,0.5), 0 4px 10px rgba(0, 113, 227, 0.1);
+        }
+
+        /* Form Inputs */
+        .form-input {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #0071e3;
+            box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
+        }
+
+        /* Oval Aesthetics */
+        .oval-card { border-radius: 2.5rem; }
+        .oval-pill { border-radius: 9999px; }
+
+        /* Apple Touch Buttons */
         .btn-primary {
             background: linear-gradient(135deg, #0071e3, #4338ca); color: white;
             box-shadow: 0 4px 15px rgba(0, 113, 227, 0.3); transition: all 0.3s ease;
@@ -90,439 +113,345 @@
         .btn-primary:hover {
             transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0, 113, 227, 0.4);
         }
-        .glass-input {
-            background: rgba(255, 255, 255, 0.5); border: 1px solid rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px); transition: all 0.3s ease;
+        
+        .btn-secondary {
+            background: rgba(255,255,255,0.8); color: #1d1d1f;
+            border: 1px solid rgba(0,0,0,0.1); backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
         }
-        .glass-input:focus {
-            outline: none; border-color: #0071e3; background: rgba(255, 255, 255, 0.8);
-            box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
-        }
-        .expand-content { transition: max-height 0.6s ease-in-out, opacity 0.4s ease-in-out; }
-        @keyframes heartbeatGlow {
-            0%, 100% { transform: scale(1); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); border-color: rgba(255,255,255,0.2); }
-            15% { transform: scale(1.02); box-shadow: 0 0 30px rgba(255,255,255,0.3), 0 25px 50px -12px rgba(0,0,0,0.25); border-color: rgba(255,255,255,0.5); }
-            30% { transform: scale(1); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); border-color: rgba(255,255,255,0.2); }
-            45% { transform: scale(1.02); box-shadow: 0 0 30px rgba(255,255,255,0.3), 0 25px 50px -12px rgba(0,0,0,0.25); border-color: rgba(255,255,255,0.5); }
-            60% { transform: scale(1); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); border-color: rgba(255,255,255,0.2); }
-        }
-        .animate-heartbeat-glow {
-            animation: heartbeatGlow 3s ease-in-out infinite; will-change: transform, box-shadow, border-color;
-        }
-        .chat-trigger {
-            position: fixed; bottom: 30px; right: 30px; padding: 14px 24px;
-            background: linear-gradient(135deg, #0071e3, #5b21b6); border-radius: 100px; 
-            cursor: pointer; box-shadow: 0 10px 25px rgba(0, 113, 227, 0.4); 
-            z-index: 999; display: flex; align-items: center; gap: 10px; transition: transform 0.3s ease;
-        }
-        .chat-trigger:hover { transform: translateY(-3px) scale(1.02); }
-        .chat-trigger .main-text { color: white; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
-        .chat-window {
-            position: fixed; bottom: 90px; right: 30px; width: 360px; height: 500px;
-            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
-            border: 1px solid rgba(255,255,255,0.9); border-radius: 28px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.15); display: flex; flex-direction: column;
-            transform: translateY(20px) scale(0.95); opacity: 0; pointer-events: none; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); z-index: 1000;
-            overflow: hidden;
-        }
-        .chat-window.active { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
-        .chat-wallpaper {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            background-image: 
-                radial-gradient(circle at 100% 0%, rgba(0, 113, 227, 0.15) 0%, transparent 60%),
-                radial-gradient(circle at 0% 100%, rgba(91, 33, 182, 0.15) 0%, transparent 60%),
-                radial-gradient(circle at 100% 100%, rgba(16, 185, 129, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 0% 0%, rgba(0, 174, 239, 0.08) 0%, transparent 50%);
-            pointer-events: none;
-        }
-        @media (max-width: 768px) {
-            .chat-window { width: calc(100% - 40px); right: 20px; bottom: 85px; height: 65vh; }
-            .chat-trigger { bottom: 20px; right: 20px; padding: 12px 20px; }
+        .btn-secondary:hover {
+            background: rgba(255,255,255,1); transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
         }
     </style>
 </head>
-<body class="selection:bg-appleBlue selection:text-white relative">
+<body class="relative overflow-x-hidden">
 
-    <nav class="fixed top-4 md:top-6 left-1/2 transform -translate-x-1/2 w-[95%] md:w-[92%] max-w-6xl nav-glass rounded-full px-4 md:px-6 py-3 md:py-4 flex justify-between items-center z-50">
+    <!-- Top Navigation -->
+    <nav class="fixed top-6 left-1/2 transform -translate-x-1/2 w-[92%] max-w-6xl glass-panel oval-pill px-6 py-4 flex justify-between items-center z-50">
         <div class="flex items-center gap-3 cursor-pointer">
-            <img src="favicon-removebg-preview.png" alt="Automania Logo" class="h-8 md:h-10 w-auto object-contain">
-            <div class="flex flex-col leading-tight">
-                <span class="font-bold text-lg md:text-xl tracking-tight text-appleBlack">Automania</span>
-            </div>
+            <span class="font-bold text-xl tracking-tight text-appleBlack">Automania</span>
         </div>
-        <div class="hidden lg:flex gap-8 items-center">
-            <a href="#home" class="text-appleBlack text-sm font-semibold">Overview</a> 
-            <a href="#tiers" class="text-appleGrey text-sm font-medium hover:text-appleBlack transition">Systems</a>
-            <a href="#architecture" class="text-appleGrey text-sm font-medium hover:text-appleBlack transition">Architecture</a>
-            <a href="#partners" class="text-appleGrey text-sm font-medium hover:text-appleBlack transition">Network</a>
-            <a href="#growth" class="text-appleGrey text-sm font-medium hover:text-appleBlack transition">Growth</a>
+        <div class="hidden md:flex gap-8 items-center">
+            <a href="#what-is-automania" class="text-appleGrey text-sm font-medium hover:text-appleBlack transition">What is Automania?</a>
+            <a href="#who-uses" class="text-appleGrey text-sm font-medium hover:text-appleBlack transition">Who Uses Us</a>
+            <a href="#why-choose" class="text-appleGrey text-sm font-medium hover:text-appleBlack transition">Why Automania</a>
+            <a href="#network" class="text-appleGrey text-sm font-medium hover:text-appleBlack transition">Trusted Network</a>
         </div>
-        <a href="#contact" class="btn-primary px-5 md:px-6 py-2 rounded-full text-xs md:text-sm font-bold tracking-wide">Initiate</a>
+        <a href="#contact" class="btn-primary px-6 py-2 oval-pill text-sm font-bold tracking-wide">Initiate Audit</a>
     </nav>
 
-    <!-- Dark Banner Hero Section -->
-    <section id="home" class="relative min-h-[90vh] flex items-center justify-center pt-24 pb-20 px-4 md:px-6 overflow-hidden">
-        <div class="hero-bg"></div>
-        <div class="color-wash-overlay"></div>
-        <div class="hero-glass-overlay"></div>
+    <!-- Hero Section (Blended Image Background) -->
+    <section class="relative min-h-[95vh] flex flex-col items-center justify-center text-center px-6 overflow-hidden">
         
-        <div class="max-w-4xl mx-auto text-center z-10 w-full flex flex-col items-center">
-            <div class="inline-flex items-center px-4 py-1.5 rounded-full bg-black/40 border border-white/20 text-skyBlue text-[10px] md:text-xs font-bold tracking-widest uppercase mb-8 shadow-sm backdrop-blur-md">
-                <span class="w-2 h-2 rounded-full bg-skyBlue mr-2 animate-pulse"></span>
-                Premium Digital Agency
-            </div>
+        <!-- High-End Background Image & Overlay -->
+        <div class="absolute inset-0 w-full h-full z-[-2]">
+            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop" alt="Premium Abstract Tech" class="w-full h-full object-cover">
+        </div>
+        <!-- Gradient Fade to smoothly transition into the next white section -->
+        <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-white/50 to-[#fbfbfd] z-[-1]"></div>
+        
+        <!-- Hero Content -->
+        <div class="relative z-10 max-w-5xl mx-auto flex flex-col items-center pt-20">
             
-            <h1 class="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] md:leading-[1.05] mb-8 text-white drop-shadow-md px-2">
-                Architecting flow. <br>
-                <span class="bg-clip-text text-transparent bg-gradient-to-r from-[#00AEEF] to-[#a78bfa]">Automating growth.</span>
+            <!-- Text blending with the image utilizing mix-blend-overlay for a stunning, high-end effect -->
+            <h1 class="text-6xl md:text-8xl lg:text-[6rem] font-bold tracking-tighter leading-[1.05] mb-8 text-black mix-blend-overlay opacity-90 drop-shadow-sm">
+                Where operations <br>achieve flow.
             </h1>
             
-            <div class="p-5 md:p-8 rounded-[2rem] md:rounded-[2.5rem] max-w-2xl mx-auto border border-white/10 bg-black/30 backdrop-blur-3xl relative z-10 w-[95%] md:w-full animate-heartbeat-glow">
-                <p class="text-base md:text-xl text-gray-200 font-medium leading-relaxed drop-shadow-sm">
-                    We view organizations as integrated systems. By merging modern n8n workflows with your infrastructure, we build digital environments engineered strictly for measurable ROI.
-                </p>
-            </div>
+            <p class="text-lg md:text-xl text-appleBlack max-w-3xl leading-relaxed mb-10 font-medium bg-white/30 backdrop-blur-md p-6 rounded-3xl border border-white/50 shadow-lg">
+                Founded by industrial and systems engineers, Automania builds premium digital environments engineered strictly for measurable ROI. We merge modern automation with legacy infrastructure to drive unprecedented operational efficiency.
+            </p>
             
-            <div class="flex justify-center gap-4 mt-8 transform translate-y-6">
-                <a href="#tiers" class="btn-primary px-8 md:px-10 py-3 md:py-4 rounded-full text-base md:text-lg font-semibold shadow-xl">Explore Systems</a>
+            <div class="flex gap-4 mt-4">
+                <a href="#what-is-automania" class="btn-primary px-10 py-4 oval-pill text-base md:text-lg font-semibold">Explore the Ecosystem</a>
             </div>
         </div>
     </section>
 
-    <section id="tiers" class="py-20 md:py-24 px-4 md:px-6 max-w-7xl mx-auto relative z-10 border-t border-gray-200">
-        <div class="text-center mb-12 md:mb-16">
-            <span class="text-appleBlue text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase">Core Capabilities</span>
-            <h2 class="text-3xl md:text-5xl font-bold tracking-tight mt-2 mb-4 text-appleBlack">Our Service Tiers</h2>
-            <p class="text-appleGrey text-base md:text-lg max-w-2xl mx-auto">Scalable digital solutions designed to replace friction with seamless, Apple-grade operational environments.</p>
-        </div>
-        
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
-            <div class="group flex flex-col rounded-[2rem] overflow-hidden glass-card h-max">
-                <div class="h-56 md:h-64 overflow-hidden relative shrink-0">
-                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" alt="AI Interface Node" loading="lazy">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                    <div class="absolute bottom-4 left-6 text-white flex items-center gap-2">
-                        <span class="bg-appleBlue/80 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">Tier I</span>
-                    </div>
+    <!-- What is Automania? (Solid White Background Break) -->
+    <section id="what-is-automania" class="py-24 px-6 bg-white relative z-10">
+        <div class="max-w-7xl mx-auto glass-panel oval-card p-10 md:p-16 flex flex-col lg:flex-row gap-16 items-center">
+            <div class="flex-1">
+                <h2 class="text-4xl font-bold tracking-tight text-appleBlack mb-4">What is Automania?</h2>
+                <h4 class="text-xl font-semibold text-appleBlue mb-6">One Ecosystem. Every Operational Step.</h4>
+                <div class="text-appleGrey space-y-5 leading-relaxed mb-8 text-sm md:text-base">
+                    <p>Automania is an end-to-end automation and digital architecture agency designed specifically for forward-thinking enterprises, civil laboratories, and manufacturing facilities.</p>
+                    <p>From live inventory telemetry and data verification through to legacy VBA bridging and secure n8n workflows, Automania connects every stakeholder through one seamless, liquid-glass cloud environment.</p>
+                    <p>Instead of managing multiple fragmented tools, businesses gain complete visibility and Lean Six Sigma efficiency across their entire operational lifecycle.</p>
                 </div>
-                <div class="p-6 md:p-8 flex-1 flex flex-col bg-white/40 backdrop-blur-xl">
-                    <div class="mb-6">
-                        <h3 class="text-xl md:text-2xl font-bold text-appleBlack mb-3">Dynamic Chatbots</h3>
-                        <p class="text-appleGrey text-sm leading-relaxed">Intelligent AI interfaces powered by advanced n8n workflows. Designed to automate client interactions, trigger backend processes, and route complex inquiries instantly.</p>
-                    </div>
-                    <button onclick="toggleAccordion('bot-details', this)" class="text-xs font-bold text-appleBlue uppercase border-b-2 border-appleBlue pb-1 self-start hover:text-skyBlue transition flex items-center gap-2">
-                        System Details <i class="fas fa-chevron-down transition-transform duration-300"></i>
-                    </button>
-                    <div id="bot-details" class="expand-content max-h-0 opacity-0 overflow-hidden flex flex-col gap-4">
-                        <div class="mt-6 bg-white/70 border border-white shadow-sm p-4 md:p-5 rounded-2xl">
-                            <ul class="text-xs md:text-sm text-appleBlack space-y-3 font-medium">
-                                <li><i class="fas fa-check-circle text-appleBlue mr-2"></i> 24/7 Autonomous Support</li>
-                                <li><i class="fas fa-project-diagram text-appleBlue mr-2"></i> Custom Workflow Routing</li>
-                                <li><i class="fas fa-code-branch text-appleBlue mr-2"></i> Web Front-end Integration</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="group flex flex-col rounded-[2rem] overflow-hidden glass-card h-max">
-                <div class="h-56 md:h-64 overflow-hidden relative shrink-0">
-                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" alt="Live Data Dashboard" loading="lazy">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                    <div class="absolute bottom-4 left-6 text-white flex items-center gap-2">
-                        <span class="bg-skyBlue/80 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">Tier II</span>
-                    </div>
-                </div>
-                <div class="p-6 md:p-8 flex-1 flex flex-col bg-white/40 backdrop-blur-xl">
-                    <div class="mb-6">
-                        <h3 class="text-xl md:text-2xl font-bold text-appleBlack mb-3">Live Tracking Systems</h3>
-                        <p class="text-appleGrey text-sm leading-relaxed">Real-time visualization and operational oversight. Monitor assets, resources, and live metrics through precision-engineered, scalable web dashboards.</p>
-                    </div>
-                    <button onclick="toggleAccordion('track-details', this)" class="text-xs font-bold text-skyBlue uppercase border-b-2 border-skyBlue pb-1 self-start hover:text-appleBlue transition flex items-center gap-2">
-                        Operational View <i class="fas fa-chevron-down transition-transform duration-300"></i>
-                    </button>
-                    <div id="track-details" class="expand-content max-h-0 opacity-0 overflow-hidden flex flex-col gap-4">
-                        <div class="mt-6 bg-white/70 border border-white shadow-sm p-4 md:p-5 rounded-2xl">
-                            <ul class="text-xs md:text-sm text-appleBlack space-y-3 font-medium">
-                                <li><i class="fas fa-chart-line text-skyBlue mr-2"></i> Live Visual KPIs</li>
-                                <li><i class="fas fa-boxes text-skyBlue mr-2"></i> Scalable Inventory Tracking</li>
-                                <li><i class="fas fa-desktop text-skyBlue mr-2"></i> Premium UI/UX Architecture</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="group flex flex-col rounded-[2rem] overflow-hidden glass-card h-max">
-                <div class="h-56 md:h-64 overflow-hidden relative shrink-0">
-                    <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2034&auto=format&fit=crop" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" alt="Secure Server Logging" loading="lazy">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                    <div class="absolute bottom-4 left-6 text-white flex items-center gap-2">
-                        <span class="bg-gray-800/80 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">Tier III</span>
-                    </div>
-                </div>
-                <div class="p-6 md:p-8 flex-1 flex flex-col bg-white/40 backdrop-blur-xl">
-                    <div class="mb-6">
-                        <h3 class="text-xl md:text-2xl font-bold text-appleBlack mb-3">Secured Logging</h3>
-                        <p class="text-appleGrey text-sm leading-relaxed">Military-grade data structuring merging legacy systems with modern cloud infrastructure. Keep your most critical operational data compliant, immutable, and safe.</p>
-                    </div>
-                    <button onclick="toggleAccordion('log-details', this)" class="text-xs font-bold text-appleBlack uppercase border-b-2 border-appleBlack pb-1 self-start hover:text-appleGrey transition flex items-center gap-2">
-                        Integration Details <i class="fas fa-chevron-down transition-transform duration-300"></i>
-                    </button>
-                    <div id="log-details" class="expand-content max-h-0 opacity-0 overflow-hidden flex flex-col gap-4">
-                        <div class="mt-6 bg-white/70 border border-white shadow-sm p-4 md:p-5 rounded-2xl">
-                            <ul class="text-xs md:text-sm text-appleBlack space-y-3 font-medium">
-                                <li><i class="fas fa-database text-appleBlack mr-2"></i> Legacy VBA Integration</li>
-                                <li><i class="fas fa-lock text-appleBlack mr-2"></i> Immutable Record Keeping</li>
-                                <li><i class="fas fa-bolt text-appleBlack mr-2"></i> Eliminate Manual Entry</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="architecture" class="py-20 md:py-24 relative overflow-hidden z-10 border-t border-gray-200">
-        <div class="absolute inset-0 w-full h-full bg-cover bg-center z-[-3]" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop');"></div>
-        <div class="absolute inset-0 w-full h-full z-[-2] mix-blend-overlay" style="background-image: radial-gradient(circle at 100% 0%, rgba(0, 113, 227, 0.6) 0%, transparent 60%), radial-gradient(circle at 0% 100%, rgba(91, 33, 182, 0.6) 0%, transparent 60%), radial-gradient(circle at 100% 100%, rgba(16, 185, 129, 0.3) 0%, transparent 50%), radial-gradient(circle at 0% 0%, rgba(0, 174, 239, 0.3) 0%, transparent 50%);"></div>
-        <div class="absolute inset-0 w-full h-full z-[-1]" style="background: linear-gradient(to bottom, rgba(255,255,255,0.4), rgba(240,242,245,1)); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);"></div>
-        
-        <div class="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
-            <div class="glass-card rounded-[2rem] md:rounded-[3rem] p-6 md:p-16 flex flex-col lg:flex-row items-center gap-10 md:gap-16 shadow-2xl">
-                <div class="flex-1 z-10">
-                    <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4 md:mb-6 text-appleBlack">Value. Never Hourly.</h2>
-                    <p class="text-appleGrey text-base md:text-xl leading-relaxed mb-6 md:mb-8">
-                        Anchored in Lean Six Sigma methodologies, Automania operates exclusively on a value-driven pricing model. We don't charge for the hours spent coding; we charge for the ROI, the drastic reduction in manual data entry, and the systemic efficiency we deliver to your business.
-                    </p>
-                    <div class="flex flex-wrap gap-3 md:gap-4 mt-6 md:mt-8">
-                        <span class="px-4 md:px-5 py-2 bg-white/80 backdrop-blur-md rounded-full text-xs md:text-sm font-bold uppercase tracking-widest text-deepPurple border border-white shadow-sm">n8n Engine</span>
-                        <span class="px-4 md:px-5 py-2 bg-white/80 backdrop-blur-md rounded-full text-xs md:text-sm font-bold uppercase tracking-widest text-appleBlue border border-white shadow-sm">Web Frontends</span>
-                        <span class="px-4 md:px-5 py-2 bg-white/80 backdrop-blur-md rounded-full text-xs md:text-sm font-bold uppercase tracking-widest text-appleBlack border border-white shadow-sm">Legacy VBA</span>
-                    </div>
-                </div>
-                
-                <div class="flex-1 w-full z-10">
-                    <div class="grid grid-cols-2 gap-3 md:gap-4">
-                        <div class="bg-white/80 border border-white p-4 md:p-6 rounded-2xl md:rounded-3xl shadow-sm text-center transform hover:-translate-y-1 transition duration-300">
-                            <div class="text-3xl md:text-4xl font-bold text-appleBlue mb-1 md:mb-2">-40%</div>
-                            <div class="text-[8px] md:text-[10px] font-bold text-appleGrey uppercase tracking-widest">Data Entry Time</div>
-                        </div>
-                        <div class="bg-white/80 border border-white p-4 md:p-6 rounded-2xl md:rounded-3xl shadow-sm text-center transform hover:-translate-y-1 transition duration-300">
-                            <div class="text-3xl md:text-4xl font-bold text-deepPurple mb-1 md:mb-2">24/7</div>
-                            <div class="text-[8px] md:text-[10px] font-bold text-appleGrey uppercase tracking-widest">Autonomous Systems</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="partners" class="py-20 md:py-24 px-4 md:px-6 max-w-7xl mx-auto relative z-10">
-        <div class="text-center mb-12 md:mb-16">
-            <h2 class="text-3xl font-bold tracking-tight text-appleBlack">Trusted Network</h2>
-            <p class="text-appleGrey mt-2 text-sm md:text-base">Integrating systems across diverse operational sectors.</p>
-        </div>
-
-        <div class="flex flex-wrap justify-center gap-8 md:gap-16">
-            <div class="flex flex-col items-center group">
-                <div class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white border border-gray-200 shadow-lg flex items-center justify-center animate-heartbeat mb-4 group-hover:border-appleBlue transition duration-300 overflow-hidden">
-                    <img src="automania_cloud.jpg" alt="Automania Cloud" class="w-full h-full object-cover" loading="lazy">
-                </div>
-                <span class="text-xs md:text-sm font-bold text-appleBlack tracking-wide">Automania Cloud</span>
-            </div>
-            <div class="flex flex-col items-center group">
-                <div class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white border border-gray-200 shadow-lg flex items-center justify-center animate-heartbeat mb-4 group-hover:border-deepPurple transition duration-300 overflow-hidden" style="animation-delay: 0.5s;">
-                    <img src="sh_consulting.jpg" alt="SH Consulting" class="w-full h-full object-cover" loading="lazy">
-                </div>
-                <span class="text-xs md:text-sm font-bold text-appleBlack tracking-wide">SH Consulting</span>
-            </div>
-            <div class="flex flex-col items-center group">
-                <div class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white border border-gray-200 shadow-lg flex items-center justify-center animate-heartbeat mb-4 group-hover:border-skyBlue transition duration-300 overflow-hidden" style="animation-delay: 1s;">
-                    <img src="arise_operations.jpg" alt="Arise Operations and Projects" class="w-full h-full object-cover" loading="lazy">
-                </div>
-                <span class="text-xs md:text-sm font-bold text-appleBlack tracking-wide text-center">Arise Operations<br>&amp; Projects</span>
-            </div>
-            <div class="flex flex-col items-center group">
-                <div class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white border border-gray-200 shadow-lg flex items-center justify-center animate-heartbeat mb-4 group-hover:border-neonGreen transition duration-300 overflow-hidden" style="animation-delay: 1.5s;">
-                    <img src="kr_celebrations.jpg" alt="KR Celebrations" class="w-full h-full object-cover" loading="lazy">
-                </div>
-                <span class="text-xs md:text-sm font-bold text-appleBlack tracking-wide">KR Celebrations</span>
-            </div>
-        </div>
-    </section>
-
-    <div class="w-full flex justify-end mb-8 md:mb-12 relative z-10">
-        <div class="w-1/2 h-[3px] bg-appleBlack/80 rounded-l-full shadow-sm"></div>
-    </div>
-
-    <!-- Clean Image & Text Growth Section -->
-    <section id="growth" class="py-12 px-4 md:px-6 max-w-7xl mx-auto relative z-10">
-        <div class="glass-card rounded-[2rem] md:rounded-[3rem] p-6 md:p-10 flex flex-col xl:flex-row items-center gap-10 shadow-sm">
-            <div class="w-full xl:w-1/2 shrink-0">
-                <img src="automaniahero.png" width="1672" height="941" alt="Connect. Scale. Grow." class="w-full h-auto rounded-2xl shadow-lg object-cover" loading="lazy">
-            </div>
-            <div class="w-full xl:w-1/2 text-center xl:text-left flex items-center justify-center xl:justify-start">
-                <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-appleBlack">Connect. Scale. Grow.</h2>
-            </div>
-        </div>
-    </section>
-
-    <div class="w-full flex justify-start mt-8 md:mt-12 mb-8 relative z-10">
-        <div class="w-1/2 h-[3px] bg-appleBlack/80 rounded-r-full shadow-sm"></div>
-    </div>
-
-    <section id="contact" class="py-20 md:py-24 px-4 md:px-6 relative z-10 overflow-hidden">
-        <div class="absolute inset-0 w-full h-full z-[-1]" style="background-image: radial-gradient(circle at 100% 0%, rgba(0, 113, 227, 0.08) 0%, transparent 60%), radial-gradient(circle at 0% 100%, rgba(91, 33, 182, 0.08) 0%, transparent 60%), radial-gradient(circle at 100% 100%, rgba(16, 185, 129, 0.05) 0%, transparent 50%), radial-gradient(circle at 0% 0%, rgba(0, 174, 239, 0.05) 0%, transparent 50%);"></div>
-        
-        <div class="max-w-2xl mx-auto">
-            <div class="text-center mb-8 md:mb-10">
-                <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-appleBlack mb-3 md:mb-4">Initiate a System Audit</h2>
-                <p class="text-appleGrey text-base md:text-lg">Send us a request to evaluate and automate your current operations.</p>
-                
-                <div class="mt-6 inline-flex items-center justify-center bg-white/50 backdrop-blur-md border border-white shadow-sm rounded-full px-6 py-2 hover:bg-white/80 transition duration-300">
-                    <a href="https://wa.me/27616520417" target="_blank" class="flex items-center gap-3 text-appleBlack font-bold text-sm">
-                        <i class="fab fa-whatsapp text-neonGreen text-xl"></i> Chat on WhatsApp
+                <div class="flex gap-4 flex-wrap">
+                    <a href="#who-uses" class="btn-primary px-6 py-3 oval-pill text-sm font-bold">Find out more</a>
+                    <a href="#contact" class="btn-secondary px-6 py-3 oval-pill text-sm font-bold flex items-center gap-2">
+                        <i class="fas fa-question-circle text-appleGrey"></i> FAQs
                     </a>
                 </div>
             </div>
-            
-            <div class="glass-card rounded-[2rem] md:rounded-3xl p-6 md:p-8 shadow-xl">
-                <form action="mailto:info@automania.cloud" method="GET" enctype="text/plain" class="space-y-5 md:space-y-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
-                        <div class="flex flex-col">
-                            <label class="text-[10px] md:text-xs font-bold text-appleBlack uppercase tracking-widest mb-1.5 md:mb-2 ml-1">Your Name</label>
-                            <input type="text" name="subject" placeholder="John Doe" class="glass-input w-full rounded-xl p-3 md:p-4 text-sm text-appleBlack" required>
-                        </div>
-                        <div class="flex flex-col">
-                            <label class="text-[10px] md:text-xs font-bold text-appleBlack uppercase tracking-widest mb-1.5 md:mb-2 ml-1">Company</label>
-                            <input type="text" placeholder="Organization Name" class="glass-input w-full rounded-xl p-3 md:p-4 text-sm text-appleBlack">
-                        </div>
-                    </div>
-                    <div class="flex flex-col">
-                        <label class="text-[10px] md:text-xs font-bold text-appleBlack uppercase tracking-widest mb-1.5 md:mb-2 ml-1">Operational Challenge</label>
-                        <textarea name="body" rows="4" placeholder="Briefly describe the processes you want to automate or improve..." class="glass-input w-full rounded-xl p-3 md:p-4 text-sm text-appleBlack resize-none" required></textarea>
-                    </div>
-                    <button type="submit" class="w-full btn-primary py-3 md:py-4 rounded-xl text-xs md:text-sm font-bold tracking-widest uppercase shadow-lg flex justify-center items-center gap-2">
-                        Submit Request <i class="fas fa-paper-plane"></i>
-                    </button>
-                </form>
+            <div class="flex-1 w-full flex justify-center">
+                <!-- Automania Hero Image integration -->
+                <div class="relative w-full rounded-3xl p-2 bg-gradient-to-tr from-appleBlue/20 to-transparent shadow-2xl">
+                    <img src="automaniahero.png" alt="Automania Dashboard Interface" class="w-full h-auto rounded-[1.5rem] object-cover border border-white">
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Simplified Footer -->
-    <footer class="bg-appleBlack text-white py-12 border-t border-gray-800 relative z-20">
-        <div class="max-w-4xl mx-auto px-4 md:px-6 text-center flex flex-col items-center gap-6">
-            <span class="font-bold text-2xl tracking-tight text-white">Automania</span>
-            <p class="text-gray-400 text-sm leading-relaxed max-w-md">
-                Engineered for ROI. Seamlessly bridging physical operations and automated digital workflows.
-            </p>
-            <div class="flex gap-6 mt-2">
-                <a href="mailto:info@automania.cloud" class="text-gray-400 hover:text-white transition"><i class="fas fa-envelope text-lg"></i></a>
-                <a href="https://wa.me/27616520417" target="_blank" class="text-gray-400 hover:text-neonGreen transition"><i class="fab fa-whatsapp text-lg"></i></a>
+    <!-- Who uses Automania? (Soft Grey Background Break) -->
+    <section id="who-uses" class="py-24 px-6 bg-appleGreyBg relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold tracking-tight text-appleBlack">Who uses Automania?</h2>
+                <p class="text-appleGrey mt-4 text-lg">Engineered for diverse, high-stakes operational sectors.</p>
             </div>
-            <div class="pt-8 w-full border-t border-white/10 text-[10px] text-gray-500 uppercase tracking-[0.2em]">
-                © 2026 Automania Digital Agency. Value engineered.
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                
+                <!-- Startups Box -->
+                <div class="glass-panel oval-card p-8 text-center flex flex-col items-center hover:-translate-y-2 transition duration-300 bg-white/60">
+                    <div class="w-16 h-16 rounded-full glossy-icon flex items-center justify-center mb-6 text-appleBlue text-2xl">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h4 class="text-lg font-bold text-appleBlack mb-3">Startups</h4>
+                    <p class="text-sm text-appleGrey leading-relaxed">Establish a premium digital presence, scale custom websites rapidly, and architect core operational systems from day one.</p>
+                </div>
+
+                <!-- User Type 1 -->
+                <div class="glass-panel oval-card p-8 text-center flex flex-col items-center hover:-translate-y-2 transition duration-300 bg-white/60">
+                    <div class="w-16 h-16 rounded-full glossy-icon flex items-center justify-center mb-6 text-appleBlue text-2xl">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <h4 class="text-lg font-bold text-appleBlack mb-3">Manufacturing</h4>
+                    <p class="text-sm text-appleGrey leading-relaxed">Implement live tracking telemetry, inventory optimization, and automated task sequencing on the factory floor.</p>
+                </div>
+                
+                <!-- User Type 2 -->
+                <div class="glass-panel oval-card p-8 text-center flex flex-col items-center hover:-translate-y-2 transition duration-300 bg-white/60">
+                    <div class="w-16 h-16 rounded-full glossy-icon flex items-center justify-center mb-6 text-appleBlue text-2xl">
+                        <i class="fas fa-city"></i>
+                    </div>
+                    <h4 class="text-lg font-bold text-appleBlack mb-3">Property Tech</h4>
+                    <p class="text-sm text-appleGrey leading-relaxed">Automate student accommodation onboarding, digital lease signing, and real-time maintenance snag tracking.</p>
+                </div>
+                
+                <!-- User Type 3 -->
+                <div class="glass-panel oval-card p-8 text-center flex flex-col items-center hover:-translate-y-2 transition duration-300 bg-white/60">
+                    <div class="w-16 h-16 rounded-full glossy-icon flex items-center justify-center mb-6 text-appleBlue text-2xl">
+                        <i class="fas fa-flask-vial"></i>
+                    </div>
+                    <h4 class="text-lg font-bold text-appleBlack mb-3">Civil Labs</h4>
+                    <p class="text-sm text-appleGrey leading-relaxed">Ensure total data compliance with immutable legacy VBA bridging and secured digital testing logs.</p>
+                </div>
+                
+                <!-- User Type 4 -->
+                <div class="glass-panel oval-card p-8 text-center flex flex-col items-center hover:-translate-y-2 transition duration-300 bg-white/60">
+                    <div class="w-16 h-16 rounded-full glossy-icon flex items-center justify-center mb-6 text-appleBlue text-2xl">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <h4 class="text-lg font-bold text-appleBlack mb-3">Operations</h4>
+                    <p class="text-sm text-appleGrey leading-relaxed">Monitor complex triage workflows and governance through pristine, real-time glassmorphic UI dashboards.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Institutions Choose Automania? (Solid White Background with Abstract Underlays) -->
+    <section id="why-choose" class="py-24 px-6 bg-white relative z-10 overflow-hidden">
+        
+        <!-- Abstract gradient blobs behind the liquid glass boxes to create severe contrast -->
+        <div class="absolute right-0 top-1/2 -translate-y-1/2 w-[30rem] h-[30rem] bg-appleBlue/10 rounded-full blur-[80px] -z-10 pointer-events-none"></div>
+        <div class="absolute right-[20%] bottom-0 w-80 h-80 bg-deepPurple/10 rounded-full blur-[60px] -z-10 pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16 items-center">
+            
+            <!-- ALIGNED LEFT: Text -->
+            <div class="flex-1 order-1 relative z-10">
+                <h2 class="text-4xl md:text-5xl font-bold tracking-tight text-appleBlack mb-6">Why Enterprises Choose Automania?</h2>
+                <p class="text-lg text-appleGrey leading-relaxed mb-8">
+                    We do not charge hourly; we charge for the permanent ROI we engineer into your business. By applying rigorous industrial engineering methodologies to bespoke web development, we completely replace operational friction with seamless, automated systems.
+                </p>
+                <a href="#contact" class="btn-primary px-8 py-3 oval-pill text-sm font-bold inline-block">Initiate an Audit</a>
+            </div>
+
+            <!-- ALIGNED RIGHT: High-End Liquid Glass Boxes -->
+            <div class="flex-1 w-full order-2 relative z-10">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div class="liquid-glass-box p-8 flex flex-col gap-4">
+                        <div class="w-12 h-12 rounded-full glossy-icon flex items-center justify-center text-appleBlue">
+                            <i class="fas fa-eye text-xl"></i>
+                        </div>
+                        <h4 class="font-bold text-appleBlack text-lg">Complete Visibility</h4>
+                        <p class="text-sm text-appleGrey leading-relaxed">Know exactly where every asset, process, and bottleneck stands with live visual KPIs.</p>
+                    </div>
+                    <div class="liquid-glass-box p-8 flex flex-col gap-4">
+                        <div class="w-12 h-12 rounded-full glossy-icon flex items-center justify-center text-appleBlue">
+                            <i class="fas fa-shield-alt text-xl"></i>
+                        </div>
+                        <h4 class="font-bold text-appleBlack text-lg">Lean Governance</h4>
+                        <p class="text-sm text-appleGrey leading-relaxed">Rooted in Lean Six Sigma to improve compliance via automated workflows and digital approvals.</p>
+                    </div>
+                    <div class="liquid-glass-box p-8 flex flex-col gap-4">
+                        <div class="w-12 h-12 rounded-full glossy-icon flex items-center justify-center text-appleBlue">
+                            <i class="fas fa-bolt text-xl"></i>
+                        </div>
+                        <h4 class="font-bold text-appleBlack text-lg">Systemic Efficiency</h4>
+                        <p class="text-sm text-appleGrey leading-relaxed">Drastically reduce manual data entry and turnaround times with custom n8n webhooks.</p>
+                    </div>
+                    <div class="liquid-glass-box p-8 flex flex-col gap-4">
+                        <div class="w-12 h-12 rounded-full glossy-icon flex items-center justify-center text-appleBlue">
+                            <i class="fas fa-magic text-xl"></i>
+                        </div>
+                        <h4 class="font-bold text-appleBlack text-lg">Frictionless UX</h4>
+                        <p class="text-sm text-appleGrey leading-relaxed">Drive internal adoption faster through highly polished, Apple-inspired frontend environments.</p>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Trusted Network (Soft Grey Wash) -->
+    <section id="network" class="py-24 px-6 bg-appleGreyBg relative z-10 border-t border-gray-200/50">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-appleBlack">Trusted Network</h2>
+                <p class="text-appleGrey mt-3 text-lg">Integrating systems across diverse operational sectors.</p>
+            </div>
+            
+            <div class="flex flex-wrap justify-center gap-8 md:gap-14 items-center">
+                <!-- Circular Image Frames -->
+                <div class="flex flex-col items-center group">
+                    <div class="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-4 border-white shadow-[0_10px_25px_rgba(0,0,0,0.1)] mb-4 transform group-hover:-translate-y-2 group-hover:shadow-[0_15px_35px_rgba(0,113,227,0.2)] transition duration-300">
+                        <img src="automania_cloud.jpg" alt="Automania Cloud" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-sm font-bold text-appleBlack tracking-wide">Automania Cloud</span>
+                </div>
+                <div class="flex flex-col items-center group">
+                    <div class="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-4 border-white shadow-[0_10px_25px_rgba(0,0,0,0.1)] mb-4 transform group-hover:-translate-y-2 group-hover:shadow-[0_15px_35px_rgba(0,113,227,0.2)] transition duration-300">
+                        <img src="sh_consulting.jpg" alt="SH Consulting" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-sm font-bold text-appleBlack tracking-wide">SH Consulting</span>
+                </div>
+                <div class="flex flex-col items-center group">
+                    <div class="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-4 border-white shadow-[0_10px_25px_rgba(0,0,0,0.1)] mb-4 transform group-hover:-translate-y-2 group-hover:shadow-[0_15px_35px_rgba(0,113,227,0.2)] transition duration-300">
+                        <img src="arise_operations.jpg" alt="Arise Operations" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-sm font-bold text-appleBlack tracking-wide text-center">Arise Operations</span>
+                </div>
+                <div class="flex flex-col items-center group">
+                    <div class="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-4 border-white shadow-[0_10px_25px_rgba(0,0,0,0.1)] mb-4 transform group-hover:-translate-y-2 group-hover:shadow-[0_15px_35px_rgba(0,113,227,0.2)] transition duration-300">
+                        <img src="rezflow.jpg" alt="RezFlow" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-sm font-bold text-appleBlack tracking-wide">RezFlow</span>
+                </div>
+                <div class="flex flex-col items-center group">
+                    <div class="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-4 border-white shadow-[0_10px_25px_rgba(0,0,0,0.1)] mb-4 transform group-hover:-translate-y-2 group-hover:shadow-[0_15px_35px_rgba(0,113,227,0.2)] transition duration-300">
+                        <img src="makarapa_day.jpg" alt="Makarapa Day" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-sm font-bold text-appleBlack tracking-wide">Makarapa Day</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ready to Transform / Contact Section (Soft Blue/Grey Gradient) -->
+    <section id="contact" class="py-24 px-6 relative z-10 bg-gradient-to-b from-[#fbfbfd] to-[#eef2f6]">
+        <div class="max-w-4xl mx-auto flex flex-col items-center">
+            
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-5xl font-bold tracking-tight text-appleBlack mb-6">Ready to transform your operational workflows?</h2>
+                <p class="text-lg text-appleGrey leading-relaxed max-w-2xl mx-auto">
+                    See how Automania simplifies custom automation, legacy integration, and secure data logging from one intelligent platform. Contact us to initiate your system audit.
+                </p>
+            </div>
+
+            <!-- WhatsApp Chat Pill Button -->
+            <a href="https://wa.me/27616520417?text=Hello%20Automania!%20I'd%20like%20to%20discuss%20automating%20my%20operations." target="_blank" class="mb-8 inline-flex items-center gap-2 px-6 py-3 bg-white rounded-full shadow-md hover:shadow-xl transition transform hover:-translate-y-1 border border-gray-100 text-appleBlack font-bold text-sm">
+                <i class="fab fa-whatsapp text-neonGreen text-xl"></i> Chat on WhatsApp
+            </a>
+
+            <!-- Contact Form Card Matching Screenshot -->
+            <div class="w-full bg-white/90 backdrop-blur-2xl rounded-[2rem] p-8 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.06)] border border-white">
+                <form action="mailto:info@automania.cloud" method="POST" enctype="text/plain" class="space-y-6">
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="flex flex-col">
+                            <label class="text-[11px] font-bold text-appleBlack uppercase tracking-widest mb-2 ml-1">Your Name</label>
+                            <input type="text" name="Name" placeholder="John Doe" class="form-input w-full rounded-2xl p-4 text-sm text-appleBlack" required>
+                        </div>
+                        <div class="flex flex-col">
+                            <label class="text-[11px] font-bold text-appleBlack uppercase tracking-widest mb-2 ml-1">Company</label>
+                            <input type="text" name="Company" placeholder="Organization Name" class="form-input w-full rounded-2xl p-4 text-sm text-appleBlack" required>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col">
+                        <label class="text-[11px] font-bold text-appleBlack uppercase tracking-widest mb-2 ml-1">Operational Challenge</label>
+                        <textarea name="Challenge" rows="4" placeholder="Briefly describe the processes you want to automate or improve..." class="form-input w-full rounded-2xl p-4 text-sm text-appleBlack resize-none" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-[#1e40af] hover:bg-[#1e3a8a] text-white py-4 rounded-2xl text-sm font-bold tracking-widest uppercase shadow-lg transition duration-300 flex justify-center items-center gap-2">
+                        Submit Request <i class="fas fa-paper-plane"></i>
+                    </button>
+                    
+                </form>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Dark Footer Full of Info -->
+    <footer class="bg-[#111111] text-white py-16 px-6 relative z-20 border-t border-gray-900">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-sm">
+            
+            <!-- Column 1: Brand & Bio -->
+            <div class="flex flex-col gap-4">
+                <span class="font-bold text-2xl tracking-tight text-white mb-2">Automania</span>
+                <p class="text-gray-400 leading-relaxed max-w-xs">
+                    Premium AI & Automation Agency. Engineered for ROI. Seamlessly bridging physical operations and automated digital workflows.
+                </p>
+            </div>
+
+            <!-- Column 2: Contact Details -->
+            <div class="flex flex-col gap-4">
+                <h4 class="font-bold text-gray-200 uppercase tracking-widest text-xs mb-2">Contact</h4>
+                <a href="mailto:info@automania.cloud" class="text-gray-400 hover:text-white transition flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center"><i class="fas fa-envelope text-appleBlue"></i></div> 
+                    info@automania.cloud
+                </a>
+                <a href="tel:+27616520417" class="text-gray-400 hover:text-white transition flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center"><i class="fas fa-phone-alt text-appleBlue"></i></div> 
+                    +27 61 652 0417
+                </a>
+                <a href="https://wa.me/27616520417?text=Hello%20Automania!%20I'd%20like%20to%20discuss%20automating%20my%20operations." target="_blank" class="text-gray-400 hover:text-neonGreen transition flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center"><i class="fab fa-whatsapp text-neonGreen"></i></div> 
+                    WhatsApp Us
+                </a>
+            </div>
+
+            <!-- Column 3: Location -->
+            <div class="flex flex-col gap-4">
+                <h4 class="font-bold text-gray-200 uppercase tracking-widest text-xs mb-2">Location</h4>
+                <p class="text-gray-400 flex items-start gap-3">
+                    <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shrink-0 mt-0.5"><i class="fas fa-map-marker-alt text-appleBlue"></i></div>
+                    <span class="pt-1.5">
+                        Pretoria<br>
+                        Gauteng<br>
+                        South Africa
+                    </span>
+                </p>
+            </div>
+            
+        </div>
+        
+        <div class="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/10 text-xs text-gray-500 flex flex-col md:flex-row justify-between items-center gap-4">
+            <span class="uppercase tracking-widest">© 2026 Automania Digital Agency. Value engineered.</span>
+            <div class="flex gap-4 text-gray-400">
+                <a href="#" class="hover:text-white transition"><i class="fab fa-linkedin text-lg"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fab fa-github text-lg"></i></a>
             </div>
         </div>
     </footer>
 
-    <div class="chat-trigger animate-heartbeat" onclick="toggleChat()">
-        <i class="fas fa-comment-dots text-white text-lg"></i>
-        <span class="main-text">Chat Live</span>
-    </div>
-
-    <div class="chat-window" id="chatWindow">
-        <div class="chat-wallpaper"></div>
-        <div style="padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.05); background: rgba(255,255,255,0.5);">
-            <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-full bg-appleBlue flex items-center justify-center text-white"><i class="fas fa-robot text-xs"></i></div>
-                <span style="font-weight: 700; color: var(--apple-black); font-size: 0.95rem;">Automania AI</span>
-            </div>
-            <div onclick="toggleChat()" style="cursor: pointer; color: var(--apple-grey); padding: 5px;" class="hover:text-appleBlack transition">
-                <i class="fas fa-times"></i>
-            </div>
-        </div>
-        <div id="chatMsgs" style="flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; scrollbar-width: none;">
-            <div class="msg bot" style="background:rgba(255,255,255,0.8); border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 2px 10px rgba(0,0,0,0.02); align-self:flex-start; padding:12px 16px; border-radius: 20px 20px 20px 4px; font-size: 0.85rem; color: var(--apple-black); max-width: 85%; font-weight: 500;">
-                Welcome. I am the Automania AI. How can I assist your business today?
-            </div>
-        </div>
-        <div style="padding: 15px 20px; background: rgba(255,255,255,0.7); border-top: 1px solid rgba(0,0,0,0.05); display: flex; gap: 10px; align-items: center;">
-            <input type="text" id="chatInput" placeholder="Ask anything..." onkeypress="if(event.key === 'Enter') sendMessage()" style="flex: 1; border-radius: 100px; padding: 12px 20px; border: 1px solid rgba(0,0,0,0.1); outline: none; background: rgba(255,255,255,0.9); font-size: 0.85rem; color: var(--apple-black); box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);">
-            <button onclick="sendMessage()" class="w-10 h-10 rounded-full bg-appleBlue text-white flex items-center justify-center hover:bg-deepPurple transition duration-300 shadow-md">
-                <i class="fas fa-paper-plane text-xs ml-[-2px] mt-[2px]"></i>
-            </button>
-        </div>
-    </div>
-
-    <script>
-        function toggleAccordion(id, btnElement) {
-            const content = document.getElementById(id);
-            const icon = btnElement.querySelector('i.fa-chevron-down');
-
-            if (content.classList.contains('max-h-0')) {
-                content.classList.remove('max-h-0', 'opacity-0');
-                content.classList.add('max-h-[500px]', 'opacity-100');
-                if(icon) icon.classList.add('rotate-180');
-            } else {
-                content.classList.add('max-h-0', 'opacity-0');
-                content.classList.remove('max-h-[500px]', 'opacity-100');
-                if(icon) icon.classList.remove('rotate-180');
-            }
-        }
-
-        function toggleChat() { 
-            document.getElementById('chatWindow').classList.toggle('active'); 
-        }
-
-        async function sendMessage() {
-            const input = document.getElementById('chatInput');
-            const container = document.getElementById('chatMsgs');
-            const message = input.value.trim();
-            if (!message) return;
-
-            const userDiv = document.createElement('div');
-            userDiv.style = "background:linear-gradient(135deg, var(--apple-blue), var(--sky-blue)); color:white; align-self:flex-end; padding:12px 16px; border-radius:20px 20px 4px 20px; font-size: 0.85rem; max-width: 85%; font-weight: 500; box-shadow: 0 4px 15px rgba(0, 113, 227, 0.2);";
-            userDiv.innerText = message;
-            container.appendChild(userDiv); 
-            input.value = '';
-            container.scrollTop = container.scrollHeight;
-
-            const loadingId = 'loading-' + Date.now();
-            const loadingDiv = document.createElement('div');
-            loadingDiv.id = loadingId;
-            loadingDiv.style = "background:rgba(255,255,255,0.8); border: 1px solid rgba(0,0,0,0.05); align-self:flex-start; padding:12px 16px; border-radius: 20px 20px 20px 4px; font-size: 0.85rem; color: var(--apple-grey); max-width: 85%; font-weight: 500; font-style: italic;";
-            loadingDiv.innerText = "Processing...";
-            container.appendChild(loadingDiv);
-            container.scrollTop = container.scrollHeight;
-
-            try {
-                const response = await fetch('https://my-n8n-server-npma.onrender.com/webhook/edd91e75-933c-457d-a8c3-6d4598d9d1c9', {
-                    method: 'POST', 
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message, sessionId: 'prod_user' })
-                });
-                const data = await response.json();
-                
-                document.getElementById(loadingId).remove();
-
-                const botDiv = document.createElement('div');
-                botDiv.style = "background:rgba(255,255,255,0.8); border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 2px 10px rgba(0,0,0,0.02); align-self:flex-start; padding:12px 16px; border-radius: 20px 20px 20px 4px; font-size: 0.85rem; color: var(--apple-black); max-width: 85%; font-weight: 500;";
-                botDiv.innerText = data.output || data.message || "Message received.";
-                container.appendChild(botDiv); 
-                container.scrollTop = container.scrollHeight;
-            } catch (err) { 
-                console.error("Chat Error:", err); 
-                document.getElementById(loadingId).remove();
-                const errDiv = document.createElement('div');
-                errDiv.style = "background:#fef2f2; border: 1px solid #f87171; align-self:flex-start; padding:12px 16px; border-radius: 20px 20px 20px 4px; font-size: 0.85rem; color: #ef4444; max-width: 85%; font-weight: 500;";
-                errDiv.innerText = "Connection error. Please try again.";
-                container.appendChild(errDiv);
-                container.scrollTop = container.scrollHeight;
-            }
-        }
-    </script>
 </body>
 </html>
